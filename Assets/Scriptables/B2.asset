@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7999c2d43aea1174c80db7c1e5e3bc1b, type: 3}
-  m_Name: PlainTile
+  m_Script: {fileID: 11500000, guid: c041d6c9b97176846a88e42b2ec3d02e, type: 3}
+  m_Name: B2
   m_EditorClassIdentifier: 
-  letter: P
-  tileSprite: {fileID: 21300000, guid: e9e02423c5a6306488434dd9cac67166, type: 3}
-  tileDesignerSprite: {fileID: 0}
-  isPassable: 1
-  tileName: Grass
+  unitSprite: {fileID: 21300000, guid: ea5bfca1a4ed89e428ad7dd25bfb422a, type: 3}
+  unitDesignerSprite: {fileID: 0}
+  unitName: "\u0141omotnik"
+  unitHealth: 5
+  moveRange: 4
+  playerId: 2

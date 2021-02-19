@@ -15,3 +15,4 @@ MonoBehaviour:
   letter: O
   tileSprite: {fileID: 21300000, guid: 6899eca2fb85f0b4aabc3b78feff9ef3, type: 3}
   isPassable: 0
+  tileName: Obstacle
