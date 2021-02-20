@@ -9,11 +9,11 @@ public class TileController : MonoBehaviour
     private ScriptableTile _tile;
     private SpriteRenderer _mySpriteRenderer;
     private GridPosition _gridPosition;
-    private Color _hoverColor, _previousColor, _rangeColor, _clearColor;
+    private Color _previousColor, _hoverColor;
 
     private void OnMouseEnter()
     {
-        if (_tile.isPassable)
+        if (_tile.isWalkable)
         {
             _previousColor = _overlaySpriteRenderer.color;
             _overlaySpriteRenderer.color = _hoverColor;
@@ -22,7 +22,7 @@ public class TileController : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (_tile.isPassable)
+        if (_tile.isWalkable)
         {
             _overlaySpriteRenderer.color = _previousColor;
         }
@@ -33,16 +33,6 @@ public class TileController : MonoBehaviour
         EventManager._instance.TileClicked();
     }
 
-    private void ClearTile()
-    {
-        _overlaySpriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f); ;
-    }
-
-    private int GetGridDistance(GridPosition startingPosition)
-    {
-        return Mathf.Abs(startingPosition.x - _gridPosition.x) + Mathf.Abs(startingPosition.y - _gridPosition.y);
-    }
-
     public void InitializeTile(ScriptableTile myScriptableTile, GridPosition position)
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,7 +41,6 @@ public class TileController : MonoBehaviour
         _gridPosition = position;
         gameObject.AddComponent<BoxCollider2D>();
         _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
-        _rangeColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
         _previousColor = _overlaySpriteRenderer.color;
     }
 
@@ -60,16 +49,19 @@ public class TileController : MonoBehaviour
         return _gridPosition;
     }
 
-    public void HighlightIfInRange(GridPosition unitPosition, int moveRange)
+    public bool isWalkable()
     {
-        if (_tile.isPassable)
-        {
-            if (GetGridDistance(unitPosition) <= moveRange)
-            {
-                _previousColor = _overlaySpriteRenderer.color;
-                _overlaySpriteRenderer.color = _rangeColor;
-            }
-            else _overlaySpriteRenderer.color = _previousColor;
-        }
+        return _tile.isWalkable;
+    }
+
+    public void ClearTile()
+    {
+        _overlaySpriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f); ;
+    }
+
+    public void Highlight(Color highlightColor)
+    {
+        _previousColor = _overlaySpriteRenderer.color;
+        _overlaySpriteRenderer.color = highlightColor;
     }
 }

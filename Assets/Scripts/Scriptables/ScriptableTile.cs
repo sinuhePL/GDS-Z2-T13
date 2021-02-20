@@ -8,6 +8,6 @@ public class ScriptableTile : ScriptableObject
     public string letter;
     public Sprite tileSprite;
     public Sprite tileDesignerSprite;
-    public bool isPassable;
+    public bool isWalkable;
     public string tileName;
 }

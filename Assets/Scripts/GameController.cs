@@ -47,6 +47,11 @@ public class GameController : MonoBehaviour
         _myGrid.ShowMoveRange(unitPosition, moveRange);
     }
 
+    private void OnTilClicked()
+    {
+        _myGrid.HideHighlight();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,12 +60,14 @@ public class GameController : MonoBehaviour
         _myGrid = new BoardGrid(gridFile, _tilesDictionary, _tilePrefab, _tileSize);
         _units = new List<UnitController>();
         _units.Add(Instantiate(_player1UnitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
-        _units[0].InitializeUnit(_myGrid.GetTile(1,1));
+        _units[0].InitializeUnit(_myGrid.GetTile(2,2));
         EventManager._instance.OnUnitClicked += OnUnitClicked;
+        EventManager._instance.OnTileClicked += OnTilClicked;
     }
 
     private void OnDestroy()
     {
         EventManager._instance.OnUnitClicked -= OnUnitClicked;
+        EventManager._instance.OnTileClicked -= OnTilClicked;
     }
 }

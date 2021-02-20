@@ -15,5 +15,5 @@ MonoBehaviour:
   letter: P
   tileSprite: {fileID: 21300000, guid: e9e02423c5a6306488434dd9cac67166, type: 3}
   tileDesignerSprite: {fileID: 0}
-  isPassable: 1
+  isWalkable: 1
   tileName: Grass
