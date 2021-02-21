@@ -17,17 +17,31 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event Action<GridPosition, int> OnUnitClicked;
+    public event Action<UnitController> OnUnitClicked;
 
-    public void UnitClicked(GridPosition unitPosition, int moveRange)
+    public void UnitClicked(UnitController clickedUnit)
     {
-        OnUnitClicked?.Invoke(unitPosition, moveRange);
+        OnUnitClicked?.Invoke(clickedUnit);
     }
 
-    public event Action OnTileClicked;
+    public event Action<TileController> OnTileClicked;
 
-    public void TileClicked()
+    public void TileClicked(TileController clickedTile)
     {
-        OnTileClicked?.Invoke();
+        OnTileClicked?.Invoke(clickedTile);
+    }
+
+    public event Action<TileController> OnTileHovered;
+
+    public void TileHovered(TileController hoveredTile)
+    {
+        OnTileHovered?.Invoke(hoveredTile);
+    }
+
+    public event Action OnExecutionEnd;
+
+    public void ExecutionEnded()
+    {
+        OnExecutionEnd?.Invoke();
     }
 }

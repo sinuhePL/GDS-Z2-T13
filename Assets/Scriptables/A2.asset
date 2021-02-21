@@ -17,4 +17,5 @@ MonoBehaviour:
   unitName: Zasysacz
   unitHealth: 8
   moveRange: 2
+  moveSpeed: 1
   playerId: 2

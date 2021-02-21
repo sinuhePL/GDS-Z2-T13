@@ -17,4 +17,5 @@ MonoBehaviour:
   unitName: Klepacz
   unitHealth: 6
   moveRange: 3
+  moveSpeed: 1
   playerId: 1

@@ -16,5 +16,6 @@ MonoBehaviour:
   unitDesignerSprite: {fileID: 0}
   unitName: "\u0141asuch"
   unitHealth: 5
-  moveRange: 1
+  moveRange: 2
+  moveSpeed: 1
   playerId: 1

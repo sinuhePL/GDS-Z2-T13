@@ -9,15 +9,11 @@ public class TileController : MonoBehaviour
     private ScriptableTile _tile;
     private SpriteRenderer _mySpriteRenderer;
     private GridPosition _gridPosition;
-    private Color _previousColor, _hoverColor;
+    private Color _previousColor;
 
     private void OnMouseEnter()
     {
-        if (_tile.isWalkable)
-        {
-            _previousColor = _overlaySpriteRenderer.color;
-            _overlaySpriteRenderer.color = _hoverColor;
-        }
+        EventManager._instance.TileHovered(this);
     }
 
     private void OnMouseExit()
@@ -30,7 +26,7 @@ public class TileController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        EventManager._instance.TileClicked();
+        EventManager._instance.TileClicked(this);
     }
 
     public void InitializeTile(ScriptableTile myScriptableTile, GridPosition position)
@@ -40,7 +36,6 @@ public class TileController : MonoBehaviour
         _mySpriteRenderer.sprite = _tile.tileSprite;
         _gridPosition = position;
         gameObject.AddComponent<BoxCollider2D>();
-        _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
         _previousColor = _overlaySpriteRenderer.color;
     }
 
@@ -56,7 +51,8 @@ public class TileController : MonoBehaviour
 
     public void ClearTile()
     {
-        _overlaySpriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f); ;
+        _overlaySpriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        _previousColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
     public void Highlight(Color highlightColor)

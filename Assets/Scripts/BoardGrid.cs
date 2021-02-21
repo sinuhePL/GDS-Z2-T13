@@ -7,7 +7,7 @@ public class BoardGrid
     private int _height, _width;
     private float _tileSize;
     private GridNode[,] _gridArray;
-    private Color _inRangeColor;
+    private Color _inRangeColor, _pathColor, _hoverColor;
 
     private Vector3 GetWorldPosition(GridPosition gp)
     {
@@ -18,6 +18,8 @@ public class BoardGrid
     {
         return Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
     }
+
+    #region Pathfinding
 
     private GridNode GetLowestFCostNode(List<GridNode> nodeList)
     {
@@ -57,7 +59,7 @@ public class BoardGrid
         return resultPath;
     }
 
-    private List<GridNode> FindPath(GridPosition startPosition, GridPosition endPosition)
+    public List<GridNode> FindPath(GridPosition startPosition, GridPosition endPosition)
     {
         List<GridNode> openList, closedList;
 
@@ -116,6 +118,8 @@ public class BoardGrid
         return null;
     }
 
+    #endregion
+
     public BoardGrid(string[] gridInfo, ScriptableTile[] tDict, GameObject tilePrefab, float tileSize)
     {
         _height = gridInfo.Length;
@@ -123,6 +127,8 @@ public class BoardGrid
         _gridArray = new GridNode[_width, _height];
         _tileSize = tileSize;
         _inRangeColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
+        _pathColor = new Color(1.0f, 0.0f, 0.0f, 0.25f);
+        _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             string[] gridLine = gridInfo[y].Split(',');
@@ -155,18 +161,50 @@ public class BoardGrid
 
     public void ShowMoveRange(GridPosition startingPosition, int range)
     {
-        List<GridNode> tempNodeList;
+        List<GridNode> pathNodeList;
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             for (int x = 0; x < _gridArray.GetLength(1); x++)
             {
                 if(_gridArray[x, y].GetGridDistance(startingPosition) <= range)
                 {
-                    tempNodeList = FindPath(startingPosition, _gridArray[x, y]._nodePosition);
-                    if (tempNodeList != null && tempNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inRangeColor);
+                    // skip unwalkable tiles
+                    if (!_gridArray[x, y].isWalkable()) continue;
+                    pathNodeList = FindPath(startingPosition, _gridArray[x, y]._nodePosition);
+                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inRangeColor);
                 }
             }
         }
+    }
+
+    public bool IsTileInMoveRange(UnitController myUnit, TileController myTile)
+    {
+        List<GridNode> pathNodeList;
+        pathNodeList = FindPath(myUnit.GetGridPosition(), myTile.GetGridPosition());
+        if (pathNodeList != null && pathNodeList.Count - 1 <= myUnit.GetMoveRange()) return true;
+        else return false;
+    }
+
+    public void ShowPath(UnitController myUnit, TileController myTile)
+    {
+        List<GridNode> pathNodeList;
+        //hide previous path
+        ShowMoveRange(myUnit.GetGridPosition(), myUnit.GetMoveRange());
+        if (IsTileInMoveRange(myUnit, myTile) && myTile.isWalkable())
+        {
+            //show new path
+            pathNodeList = FindPath(myUnit.GetGridPosition(), myTile.GetGridPosition());
+            foreach (GridNode myNode in pathNodeList)
+            {
+                myNode.Highlight(_pathColor);
+            }
+        }
+        else if (myTile.isWalkable()) myTile.Highlight(_hoverColor);
+    }
+
+    public void TileHovered(TileController hoveredTile)
+    {
+        if(hoveredTile.isWalkable()) hoveredTile.Highlight(_hoverColor);
     }
 
     public void HideHighlight()

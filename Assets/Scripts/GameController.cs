@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     [Tooltip("Every new player 2's army unit should be added here.")]
     [SerializeField] private GameObject[] _player2UnitPrefabs;
 
+    private IGameState _myGameState;
     private BoardGrid _myGrid;
     private List<UnitController> _units;
     public static GameController _instance;
@@ -42,14 +43,44 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void OnUnitClicked(GridPosition unitPosition, int moveRange)
+    private void OnUnitClicked(UnitController clickedUnit)
     {
-        _myGrid.ShowMoveRange(unitPosition, moveRange);
+        IGameState newState;
+        newState = _myGameState.UnitClicked(this, clickedUnit);
+        if(newState != null)
+        {
+            _myGameState = newState;
+        }
     }
 
-    private void OnTilClicked()
+    private void OnTileClicked(TileController clickedTile)
     {
-        _myGrid.HideHighlight();
+        IGameState newState;
+        newState = _myGameState.TileClicked(this, clickedTile);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
+    }
+
+    private void OnTileHovered(TileController hoveredTile)
+    {
+        IGameState newState;
+        newState = _myGameState.TileHovered(this, hoveredTile);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
+    }
+
+    private void OnExecutionEnded()
+    {
+        IGameState newState;
+        newState = _myGameState.ExecutionEnd(this);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
     }
 
     // Start is called before the first frame update
@@ -61,13 +92,35 @@ public class GameController : MonoBehaviour
         _units = new List<UnitController>();
         _units.Add(Instantiate(_player1UnitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
         _units[0].InitializeUnit(_myGrid.GetTile(2,2));
+        _units.Add(Instantiate(_player2UnitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
+        _units[1].InitializeUnit(_myGrid.GetTile(8, 8));
+        _myGameState = new BeginTurnState(GetNextUnit());
         EventManager._instance.OnUnitClicked += OnUnitClicked;
-        EventManager._instance.OnTileClicked += OnTilClicked;
+        EventManager._instance.OnTileClicked += OnTileClicked;
+        EventManager._instance.OnTileHovered += OnTileHovered;
+        EventManager._instance.OnExecutionEnd += OnExecutionEnded;
     }
 
     private void OnDestroy()
     {
         EventManager._instance.OnUnitClicked -= OnUnitClicked;
-        EventManager._instance.OnTileClicked -= OnTilClicked;
+        EventManager._instance.OnTileClicked -= OnTileClicked;
+        EventManager._instance.OnTileHovered -= OnTileHovered;
+        EventManager._instance.OnExecutionEnd -= OnExecutionEnded;
     }
+
+    public BoardGrid GetGrid()
+    {
+        return _myGrid;
+    }
+
+    public UnitController GetNextUnit()
+    {
+        UnitController nextUnit;
+        nextUnit = _units[0];
+        _units.Remove(nextUnit);
+        _units.Add(nextUnit);
+        return nextUnit;
+    }
+
 }

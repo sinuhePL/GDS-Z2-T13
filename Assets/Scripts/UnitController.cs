@@ -6,7 +6,7 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     [SerializeField] private ScriptableUnit _unit;
-    private TileController _actualTile;
+    public TileController _myTile { get; set; }
     private SpriteRenderer _mySpriteRenderer;
     private int _health;
 
@@ -21,12 +21,52 @@ public class UnitController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        EventManager._instance.UnitClicked(_actualTile.GetGridPosition(), _unit.moveRange);  
+        EventManager._instance.UnitClicked(this);  
+    }
+
+    private IEnumerator MakeMove(List<GridNode> movePath)
+    {
+        GridNode currentNode;
+        float step;
+
+        while (movePath.Count > 0)
+        {
+            currentNode = movePath[0];
+            while (Vector3.Distance(currentNode._nodeTile.transform.position, transform.position) > 0.001f)
+            {
+                step = _unit.moveSpeed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, currentNode._nodeTile.transform.position, step);
+                yield return 0;
+            }
+            _myTile = currentNode._nodeTile;
+            movePath.Remove(currentNode);
+        }
+        EventManager._instance.ExecutionEnded();
     }
 
     public void InitializeUnit(TileController initialTile)
     {
-        _actualTile = initialTile;
+        _myTile = initialTile;
         transform.position = initialTile.transform.position;
+    }
+
+    public GridPosition GetGridPosition()
+    {
+        return _myTile.GetGridPosition();
+    }
+
+    public int GetMoveRange()
+    {
+        return _unit.moveRange;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return _unit.moveSpeed;
+    }
+
+    public void MoveUnit(List<GridNode> movePath)
+    {
+        StartCoroutine(MakeMove(movePath));
     }
 }

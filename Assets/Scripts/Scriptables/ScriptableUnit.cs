@@ -10,5 +10,6 @@ public class ScriptableUnit : ScriptableObject
     public string unitName;
     public int unitHealth;
     public int moveRange;
+    public float moveSpeed;
     public int playerId;
 }
