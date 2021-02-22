@@ -17,5 +17,7 @@ MonoBehaviour:
   unitName: "\u0141omotnik"
   unitHealth: 5
   moveRange: 4
+  attackDamage: 1
+  attackRange: 3
   moveSpeed: 1
   playerId: 2

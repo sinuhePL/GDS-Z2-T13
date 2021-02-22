@@ -31,7 +31,16 @@ public class UnitSelectedState : IGameState
 
     public IGameState UnitClicked(GameController myGameController, UnitController clickedUnit)
     {
-        return null;
+        BoardGrid myGrid;
+
+        myGrid = myGameController.GetGrid();
+        if (_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId() && myGrid.CalculateDistance(_activeUnit.GetGridPosition(), clickedUnit.GetGridPosition()) <= _activeUnit.GetAttackRange())
+        {
+            if(clickedUnit.DamageUnit(_activeUnit.GetAttackDamage())) myGameController.KillUnit(clickedUnit);
+            myGrid.HideHighlight();
+            return new BeginTurnState(myGameController.GetNextUnit());
+        }
+        else return null;
     }
 
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)

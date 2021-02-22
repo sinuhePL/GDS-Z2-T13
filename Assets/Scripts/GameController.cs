@@ -123,4 +123,9 @@ public class GameController : MonoBehaviour
         return nextUnit;
     }
 
+    public void KillUnit(UnitController killedUnit)
+    {
+        _units.Remove(killedUnit);
+        Destroy(killedUnit.gameObject);
+    }
 }

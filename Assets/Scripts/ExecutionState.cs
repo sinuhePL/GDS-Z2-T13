@@ -26,9 +26,6 @@ public class ExecutionState : IGameState
 
     public IGameState ExecutionEnd(GameController myGameController)
     {
-        UnitController nextUnit;
-
-        nextUnit = myGameController.GetNextUnit();
-        return new BeginTurnState(nextUnit);
+        return new BeginTurnState(myGameController.GetNextUnit());
     }
 }

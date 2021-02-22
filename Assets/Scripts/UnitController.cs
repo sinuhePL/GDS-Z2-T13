@@ -6,16 +6,15 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     [SerializeField] private ScriptableUnit _unit;
+    [SerializeField] private HealthController _myHealth;
     public TileController _myTile { get; set; }
     private SpriteRenderer _mySpriteRenderer;
-    private int _health;
 
     // Start is called before the first frame update
     void Start()
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _mySpriteRenderer.sprite = _unit.unitSprite;
-        _health = _unit.unitHealth;
         gameObject.AddComponent<BoxCollider2D>();
     }
 
@@ -48,6 +47,7 @@ public class UnitController : MonoBehaviour
     {
         _myTile = initialTile;
         transform.position = initialTile.transform.position;
+        _myHealth.InitializeHealth(_unit.unitHealth);
     }
 
     public GridPosition GetGridPosition()
@@ -68,5 +68,25 @@ public class UnitController : MonoBehaviour
     public void MoveUnit(List<GridNode> movePath)
     {
         StartCoroutine(MakeMove(movePath));
+    }
+
+    public int GetPlayerId()
+    {
+        return _unit.playerId;
+    }
+
+    public int GetAttackDamage()
+    {
+        return _unit.attackDamage;
+    }
+
+    public int GetAttackRange()
+    {
+        return _unit.attackRange;
+    }
+
+    public bool DamageUnit(int damage)
+    {
+        return _myHealth.ChangeHealth(-damage);
     }
 }

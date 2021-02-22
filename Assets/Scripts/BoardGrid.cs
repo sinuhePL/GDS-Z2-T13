@@ -14,11 +14,6 @@ public class BoardGrid
         return new Vector3(gp.x * _tileSize, gp.y * -_tileSize, 0.0f);
     }
 
-    private int CalculateDistance(GridPosition start, GridPosition end)
-    {
-        return Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
-    }
-
     #region Pathfinding
 
     private GridNode GetLowestFCostNode(List<GridNode> nodeList)
@@ -147,6 +142,11 @@ public class BoardGrid
                 if (_gridArray[x, y] == null) Debug.Log("Error: Tile"+x.ToString()+", "+y.ToString()+" not initialized");
             }
         }
+    }
+
+    public int CalculateDistance(GridPosition start, GridPosition end)
+    {
+        return Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
     }
 
     public TileController GetTile(GridPosition tilePosition)
