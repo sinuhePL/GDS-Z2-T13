@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class TileController : MonoBehaviour
+public class TileController : MonoBehaviour, IClickable
 {
+    public UnitController _myUnit { get; set; }
+    public bool _isOccupied { get; set; }
     [SerializeField] private SpriteRenderer _overlaySpriteRenderer;
     private ScriptableTile _tile;
     private SpriteRenderer _mySpriteRenderer;
@@ -13,20 +15,15 @@ public class TileController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        EventManager._instance.TileHovered(this);
+        if(_tile.isWalkable && !_isOccupied) EventManager._instance.TileHovered(this);
     }
 
     private void OnMouseExit()
     {
-        if (_tile.isWalkable)
+        if (_tile.isWalkable && !_isOccupied)
         {
             _overlaySpriteRenderer.color = _previousColor;
         }
-    }
-
-    private void OnMouseDown()
-    {
-        EventManager._instance.TileClicked(this);
     }
 
     public void InitializeTile(ScriptableTile myScriptableTile, GridPosition position)
@@ -35,8 +32,15 @@ public class TileController : MonoBehaviour
         _tile = myScriptableTile;
         _mySpriteRenderer.sprite = _tile.tileSprite;
         _gridPosition = position;
-        gameObject.AddComponent<BoxCollider2D>();
         _previousColor = _overlaySpriteRenderer.color;
+        _myUnit = null;
+        _isOccupied = false;
+    }
+
+    public void Click()
+    {
+        Debug.Log("Kliknięto na tile");
+        if (!_isOccupied) EventManager._instance.TileClicked(this);
     }
 
     public GridPosition GetGridPosition()

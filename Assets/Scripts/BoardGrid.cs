@@ -7,7 +7,7 @@ public class BoardGrid
     private int _height, _width;
     private float _tileSize;
     private GridNode[,] _gridArray;
-    private Color _inRangeColor, _pathColor, _hoverColor;
+    private Color _inMoveRangeColor, _pathColor, _hoverColor, _inAttackRangeColor;
 
     private Vector3 GetWorldPosition(GridPosition gp)
     {
@@ -121,8 +121,9 @@ public class BoardGrid
         _width = (gridInfo[0].Length+1)/2;
         _gridArray = new GridNode[_width, _height];
         _tileSize = tileSize;
-        _inRangeColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
-        _pathColor = new Color(1.0f, 0.0f, 0.0f, 0.25f);
+        _inMoveRangeColor = new Color(0.0f, 1.0f, 1.0f, 0.25f);
+        _inAttackRangeColor = new Color(1.0f, 0.0f, 0.0f, 0.25f);
+        _pathColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
         _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
@@ -171,7 +172,7 @@ public class BoardGrid
                     // skip unwalkable tiles
                     if (!_gridArray[x, y].isWalkable()) continue;
                     pathNodeList = FindPath(startingPosition, _gridArray[x, y]._nodePosition);
-                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inRangeColor);
+                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inMoveRangeColor);
                 }
             }
         }
@@ -215,6 +216,68 @@ public class BoardGrid
             {
                 _gridArray[x, y].ClearHighlight();
             }
+        }
+    }
+
+    public int GetBoardWidth()
+    {
+        return _width;
+    }
+
+    public int GetBoardHeight()
+    {
+        return _height;
+    }
+
+    public void ShowAttackRange(GridPosition startingPosition, int range)
+    {
+        if(range == 1)  // highlight melee attack range
+        {
+            if (startingPosition.x > 0)
+            {
+                _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(_inAttackRangeColor);
+                if(startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y-1].Highlight(_inAttackRangeColor);
+                if(startingPosition.y < _height-1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(_inAttackRangeColor);
+            }
+            if(startingPosition.x < _width - 1)
+            {
+                _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_inAttackRangeColor);
+                if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(_inAttackRangeColor);
+                if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(_inAttackRangeColor);
+            }
+            if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_inAttackRangeColor);
+            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_inAttackRangeColor);
+        }
+        else
+        {
+            // highlight range attack range
+        }
+        {
+            for(int i=1; i<_width; i++)
+            {
+                if(startingPosition.x + i < _width && i <= range) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(_inAttackRangeColor);
+                if (startingPosition.x - i >= 0 && i <= range) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(_inAttackRangeColor);
+            }
+            for (int i = 1; i < _height; i++)
+            {
+                if (startingPosition.y + i < _height && i <= range) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(_inAttackRangeColor);
+                if (startingPosition.y - i >= 0 && i <= range) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(_inAttackRangeColor);
+            }
+        }
+    }
+
+    public bool IsTileInAttackRange(UnitController myUnit, TileController targetTile)
+    {
+        if(myUnit.GetAttackRange() == 1)
+        {
+            if (Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= 1 && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= 1) return true;
+            else return false;
+        }
+        else
+        {
+            if (myUnit.GetGridPosition().x == targetTile.GetGridPosition().x && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= myUnit.GetAttackRange()
+                || myUnit.GetGridPosition().y == targetTile.GetGridPosition().y && Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= myUnit.GetAttackRange()) return true;
+            else return false;
         }
     }
 }

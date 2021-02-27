@@ -4,32 +4,35 @@ using UnityEngine;
 
 public class BeginTurnState : IGameState
 {
-    private UnitController _activeUnit;
+    private int _activePlayerId;
 
-    public BeginTurnState(UnitController uc)
+    public BeginTurnState(int playerId)
     {
-        _activeUnit = uc;
+        _activePlayerId = playerId;
+        Debug.Log("Stan: Początek tury dla gracza: " + _activePlayerId);
     }
 
-    public IGameState TileClicked(GameController myGameController, TileController clickedTile)
+    public IGameState TileClicked(GameController myGameController, TileController clickedTile)  
     {
+        //nothing happens
         return null;
     }
 
     public IGameState UnitClicked(GameController myGameController, UnitController clickedUnit)
     {
+        //if it's active player's unit and this unit is available, change state to selected unit 
         BoardGrid myGrid;
-        if (clickedUnit == _activeUnit)
+        if (clickedUnit.GetPlayerId() == _activePlayerId && clickedUnit._isAvailable)
         {
             myGrid = myGameController.GetGrid();
-            myGrid.ShowMoveRange(clickedUnit.GetGridPosition(), clickedUnit.GetMoveRange());
-            return new UnitSelectedState(clickedUnit);
+            return new UnitSelectedState(clickedUnit, myGrid);
         }
         return null;
     }
 
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)
     {
+        //highlight tile
         BoardGrid myGrid;
         myGrid = myGameController.GetGrid();
         myGrid.TileHovered(hoveredTile);
@@ -38,11 +41,25 @@ public class BeginTurnState : IGameState
 
     public IGameState UnitHovered(GameController myGameController, UnitController hoveredUnit)
     {
+        //nothing happens
         return null;
     }
 
     public IGameState ExecutionEnd(GameController myGameController)
     {
+        //nothing happens
+        return null;
+    }
+
+    public IGameState EndTurnPressed(GameController myGameController)
+    {
+        //nothing happens
+        return null;
+    }
+
+    public IGameState AttackPressed(GameController myGameController)
+    {
+        //nothing happens
         return null;
     }
 }

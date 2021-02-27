@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class UnitController : MonoBehaviour
+public class UnitController : MonoBehaviour, IClickable
 {
     [SerializeField] private ScriptableUnit _unit;
     [SerializeField] private HealthController _myHealth;
+    [SerializeField] private SpriteRenderer _myReticle;
     public TileController _myTile { get; set; }
+    public bool _isAvailable { get; set; }
     private SpriteRenderer _mySpriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
-        _mySpriteRenderer.sprite = _unit.unitSprite;
-        gameObject.AddComponent<BoxCollider2D>();
+        _mySpriteRenderer.sprite = _unit.unitDesignerSprite;
+        //gameObject.AddComponent<BoxCollider2D>();
     }
 
-    private void OnMouseDown()
+    private void OnDestroy()
     {
-        EventManager._instance.UnitClicked(this);  
+        _myTile._isOccupied = false;
     }
 
     private IEnumerator MakeMove(List<GridNode> movePath)
     {
         GridNode currentNode;
         float step;
-
+        _myTile._myUnit = null;
+        _myTile._isOccupied = false;
         while (movePath.Count > 0)
         {
             currentNode = movePath[0];
@@ -40,14 +43,26 @@ public class UnitController : MonoBehaviour
             _myTile = currentNode._nodeTile;
             movePath.Remove(currentNode);
         }
+        _myTile._myUnit = this;
+        _myTile._isOccupied = true;
         EventManager._instance.ExecutionEnded();
     }
 
     public void InitializeUnit(TileController initialTile)
     {
         _myTile = initialTile;
+        _myTile._myUnit = this;
+        _myTile._isOccupied = true;
         transform.position = initialTile.transform.position;
         _myHealth.InitializeHealth(_unit.unitHealth);
+        _myReticle.enabled = false;
+        _isAvailable = true;
+    }
+
+    public void Click()
+    {
+        Debug.Log("Kliknięta jednostka: " + _unit.name);
+        EventManager._instance.UnitClicked(this);
     }
 
     public GridPosition GetGridPosition()
@@ -88,5 +103,10 @@ public class UnitController : MonoBehaviour
     public bool DamageUnit(int damage)
     {
         return _myHealth.ChangeHealth(-damage);
+    }
+
+    public void SetReticle(bool visible)
+    {
+        _myReticle.enabled = visible;
     }
 }

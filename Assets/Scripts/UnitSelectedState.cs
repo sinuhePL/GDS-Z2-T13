@@ -6,45 +6,56 @@ public class UnitSelectedState : IGameState
 {
     private UnitController _activeUnit;
 
-    public UnitSelectedState(UnitController uc)
+    public UnitSelectedState(UnitController uc, BoardGrid myGrid)
     {
         _activeUnit = uc;
+        _activeUnit.SetReticle(true);
+        myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
+        Debug.Log("Stan: Wybrana jednostka gracza: " + _activeUnit.GetPlayerId());
     }
 
     public IGameState TileClicked(GameController myGameController, TileController clickedTile)
     {
         BoardGrid myGrid;
-
+        // if tile in move range change state to execution, if not go back to begin turn state
         myGrid = myGameController.GetGrid();
         if (myGrid.IsTileInMoveRange(_activeUnit, clickedTile))
         {
             _activeUnit.MoveUnit(myGrid.FindPath(_activeUnit.GetGridPosition(), clickedTile.GetGridPosition()));
             myGrid.HideHighlight();
-            return new ExecutionState();
+            return new ExecutionState(_activeUnit, false);
         }
         else
         {
             myGrid.HideHighlight();
-            return new BeginTurnState(_activeUnit);
+            _activeUnit.SetReticle(false);
+            return new BeginTurnState(_activeUnit.GetPlayerId());
         }
     }
 
     public IGameState UnitClicked(GameController myGameController, UnitController clickedUnit)
     {
         BoardGrid myGrid;
-
+        // if it's active player's unit, change state to selected unit if not go back to begin turn state
         myGrid = myGameController.GetGrid();
-        if (_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId() && myGrid.CalculateDistance(_activeUnit.GetGridPosition(), clickedUnit.GetGridPosition()) <= _activeUnit.GetAttackRange())
+        if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable)
         {
-            if(clickedUnit.DamageUnit(_activeUnit.GetAttackDamage())) myGameController.KillUnit(clickedUnit);
             myGrid.HideHighlight();
-            return new BeginTurnState(myGameController.GetNextUnit());
+            _activeUnit.SetReticle(false);
+            return new UnitSelectedState(clickedUnit, myGrid);
+        }
+        else if(_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId())
+        {
+            myGrid.HideHighlight();
+            _activeUnit.SetReticle(false);
+            return new BeginTurnState(myGameController.GetNextPlayer());
         }
         else return null;
     }
 
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)
     {
+        // highlight tile
         BoardGrid myGrid;
         myGrid = myGameController.GetGrid();
         myGrid.ShowPath(_activeUnit, hoveredTile);
@@ -53,11 +64,33 @@ public class UnitSelectedState : IGameState
 
     public IGameState UnitHovered(GameController myGameController, UnitController hoveredUnit)
     {
+        //nothing happens
         return null;
     }
 
     public IGameState ExecutionEnd(GameController myGameController)
     {
+        //nothing happens
         return null;
+    }
+
+    public IGameState EndTurnPressed(GameController myGameController)
+    {
+        // disable unit reticle
+        BoardGrid myGrid;
+        myGrid = myGameController.GetGrid();
+        myGrid.HideHighlight();
+        _activeUnit.SetReticle(false);
+        _activeUnit._isAvailable = false;
+        return new BeginTurnState(myGameController.GetNextPlayer());
+    }
+
+    public IGameState AttackPressed(GameController myGameController)
+    {
+        //change state to Attack Selected State
+        BoardGrid myGrid;
+        myGrid = myGameController.GetGrid();
+        myGrid.HideHighlight();
+        return new AttackSelectedState(_activeUnit, myGrid);
     }
 }

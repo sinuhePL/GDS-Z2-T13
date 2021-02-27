@@ -21,7 +21,7 @@ public class HealthController : MonoBehaviour
         {
             newPoint = Instantiate(_healthPointPrefab, Vector3.zero, Quaternion.identity);
             newPoint.transform.SetParent(this.transform);
-            newPoint.transform.localPosition = new Vector3(-0.5f + 0.25f * i, 0.5f, 0.0f);
+            newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * i, 0.5f, 0.0f);
             _healthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
         }
     }

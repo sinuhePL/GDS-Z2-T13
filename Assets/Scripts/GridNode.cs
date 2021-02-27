@@ -22,7 +22,8 @@ public class GridNode
 
     public bool isWalkable()
     {
-        return _nodeTile.isWalkable();
+
+        return _nodeTile.isWalkable() && !_nodeTile._isOccupied;
     }
 
     public void CalculateFCost()

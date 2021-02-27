@@ -9,4 +9,6 @@ public interface IGameState
     IGameState TileHovered(GameController myGameController, TileController hoveredTile);
     IGameState UnitHovered(GameController myGameController, UnitController hoveredUnit);
     IGameState ExecutionEnd(GameController myGameController);
+    IGameState EndTurnPressed(GameController myGameController);
+    IGameState AttackPressed(GameController myGameController);
 }

@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour
     private IGameState _myGameState;
     private BoardGrid _myGrid;
     private List<UnitController> _units;
+    private int _activePlayerId;
+    private Camera myCamera;
     public static GameController _instance;
 
     private void Awake()
@@ -86,19 +88,57 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myCamera = Camera.main;
         string configFilePath = Application.streamingAssetsPath + "/grid.csv";
         string[] gridFile = File.ReadAllLines(configFilePath);
         _myGrid = new BoardGrid(gridFile, _tilesDictionary, _tilePrefab, _tileSize);
+        _activePlayerId = 1;
         _units = new List<UnitController>();
-        _units.Add(Instantiate(_player1UnitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
-        _units[0].InitializeUnit(_myGrid.GetTile(2,2));
-        _units.Add(Instantiate(_player2UnitPrefabs[0], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
-        _units[1].InitializeUnit(_myGrid.GetTile(8, 8));
-        _myGameState = new BeginTurnState(GetNextUnit());
+        for(int i=0; i< _player1UnitPrefabs.Length; i++)
+        { 
+            _units.Add(Instantiate(_player1UnitPrefabs[i], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
+            _units[i].InitializeUnit(_myGrid.GetTile(0, i));
+        }
+        for (int i = 0; i < _player2UnitPrefabs.Length; i++)
+        {
+            _units.Add(Instantiate(_player2UnitPrefabs[i], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
+            _units[i + _player1UnitPrefabs.Length].InitializeUnit(_myGrid.GetTile(_myGrid.GetBoardWidth()-1, _myGrid.GetBoardHeight()-1-i));
+        }
+        _myGameState = new BeginTurnState(_activePlayerId);
         EventManager._instance.OnUnitClicked += OnUnitClicked;
         EventManager._instance.OnTileClicked += OnTileClicked;
         EventManager._instance.OnTileHovered += OnTileHovered;
         EventManager._instance.OnExecutionEnd += OnExecutionEnded;
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, new Vector2(0, 0), 0.01f);
+            SpriteRenderer topRenderer = null;
+            foreach(RaycastHit2D hit in hits)
+            {
+                if(topRenderer == null)
+                {
+                    topRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
+                    continue;
+                }
+                SpriteRenderer currentRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
+                if (currentRenderer.sortingLayerID > topRenderer.sortingLayerID) topRenderer = currentRenderer;
+                else if (currentRenderer.sortingLayerID == topRenderer.sortingLayerID)
+                {
+                    if(currentRenderer.sortingOrder > topRenderer.sortingOrder) topRenderer = currentRenderer;
+                }
+            }
+            if(topRenderer != null)
+            {
+                IClickable clickedObject = null;
+                clickedObject = topRenderer.gameObject.GetComponent<IClickable>();
+                if(clickedObject != null) clickedObject.Click();
+            }
+        }
     }
 
     private void OnDestroy()
@@ -114,18 +154,47 @@ public class GameController : MonoBehaviour
         return _myGrid;
     }
 
-    public UnitController GetNextUnit()
+    public int GetNextPlayer()
     {
-        UnitController nextUnit;
-        nextUnit = _units[0];
-        _units.Remove(nextUnit);
-        _units.Add(nextUnit);
-        return nextUnit;
+        bool allUnitsNotAvailable = true;
+        foreach(UnitController unit in _units)
+        {
+            if (unit.GetPlayerId() == _activePlayerId && unit._isAvailable) allUnitsNotAvailable = false;
+        }
+        if (allUnitsNotAvailable)
+        {
+            _activePlayerId = (_activePlayerId == 1 ? 2 : 1);
+            foreach (UnitController unit in _units)
+            {
+                if (unit.GetPlayerId() == _activePlayerId) unit._isAvailable = true;
+            }
+        }
+        return _activePlayerId;
     }
 
     public void KillUnit(UnitController killedUnit)
     {
         _units.Remove(killedUnit);
         Destroy(killedUnit.gameObject);
+    }
+
+    public void EndTurnAction()
+    {
+        IGameState newState;
+        newState = _myGameState.EndTurnPressed(this);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
+    }
+
+    public void AttackAction()
+    {
+        IGameState newState;
+        newState = _myGameState.AttackPressed(this);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
     }
 }
