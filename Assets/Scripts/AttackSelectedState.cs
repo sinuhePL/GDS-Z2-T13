@@ -25,11 +25,19 @@ public class AttackSelectedState : IGameState
         myGrid = myGameController.GetGrid();
         if (_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId() && myGrid.IsTileInAttackRange(_activeUnit, clickedUnit._myTile))
         {
-            bool isKilled = clickedUnit.DamageUnit(_activeUnit.GetAttackDamage());
-            if (isKilled) myGameController.KillUnit(clickedUnit);
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
+            bool isKilled = clickedUnit.DamageUnit(_activeUnit.GetAttackDamage());
+            if (isKilled)
+            {
+                myGameController.KillUnit(clickedUnit);
+                int winnerId = myGameController.GetWinner();
+                if (winnerId != 0)
+                {
+                    return new EndState(myGameController, winnerId);
+                }
+            }
             return new BeginTurnState(myGameController.GetNextPlayer());
         }
         else if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable)

@@ -19,5 +19,7 @@ MonoBehaviour:
   moveRange: 2
   attackDamage: 1
   attackRange: 2
+  armor: 1
   moveSpeed: 1
   playerId: 1
+  isKing: 0

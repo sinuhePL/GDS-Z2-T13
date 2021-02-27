@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 {
     [Header("Technical:")]
     [SerializeField] private GameObject _tilePrefab;
+    [SerializeField] private UIController _myUIController;
     [Header("For designers:")]
     [Tooltip("Size of square board Tile, depends on tile sprote size.")]
     [SerializeField] private float _tileSize;
@@ -154,6 +155,11 @@ public class GameController : MonoBehaviour
         return _myGrid;
     }
 
+    public UIController GetUI()
+    {
+        return _myUIController;
+    }
+
     public int GetNextPlayer()
     {
         bool allUnitsNotAvailable = true;
@@ -196,5 +202,27 @@ public class GameController : MonoBehaviour
         {
             _myGameState = newState;
         }
+    }
+
+    public int GetWinner()
+    {
+        int player1UnitsCount = 0, player2UnitsCount = 0;
+        bool player1KingAlive = false, player2KingAlive = false;
+        foreach(UnitController unit in _units)
+        {
+            if(unit.GetPlayerId() == 1)
+            {
+                player1UnitsCount++;
+                if (unit.IsKing()) player1KingAlive = true;
+            }
+            if (unit.GetPlayerId() == 2)
+            {
+                player2UnitsCount++;
+                if (unit.IsKing()) player2KingAlive = true;
+            }
+        }
+        if (player1UnitsCount == 0 || player1KingAlive == false) return 2;
+        else if (player2UnitsCount == 0 || player2KingAlive == false) return 1;
+        else return 0;
     }
 }

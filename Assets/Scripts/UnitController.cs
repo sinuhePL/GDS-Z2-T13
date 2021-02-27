@@ -102,11 +102,19 @@ public class UnitController : MonoBehaviour, IClickable
 
     public bool DamageUnit(int damage)
     {
-        return _myHealth.ChangeHealth(-damage);
+        int damageTaken = damage - _unit.armor;
+        Debug.Log(_unit.unitName + " received " + damage + " damage minus " + _unit.armor + " armor.");
+        if (damageTaken < 0) damageTaken = 0;
+        return _myHealth.ChangeHealth(-damageTaken);
     }
 
     public void SetReticle(bool visible)
     {
         _myReticle.enabled = visible;
+    }
+
+    public bool IsKing()
+    {
+        return _unit.isKing;
     }
 }
