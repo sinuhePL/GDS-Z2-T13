@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7999c2d43aea1174c80db7c1e5e3bc1b, type: 3}
-  m_Name: ObstacleTile
+  m_Name: TileHealing
   m_EditorClassIdentifier: 
-  letter: O
-  tileSprite: {fileID: 21300000, guid: 6899eca2fb85f0b4aabc3b78feff9ef3, type: 3}
-  isPassable: 0
-  tileName: Obstacle
+  letter: H
+  tileSprite: {fileID: 0}
+  tileDesignerSprite: {fileID: 21300000, guid: 13a68a08182fbf141bc760c190685b14, type: 3}
+  isWalkable: 1
+  tileName: Healing

@@ -44,4 +44,11 @@ public class EventManager : MonoBehaviour
     {
         OnExecutionEnd?.Invoke();
     }
+
+    public event Action<UnitController> OnUnitKilled;
+
+    public void UnitKilled(UnitController killedUnit)
+    {
+        OnUnitKilled?.Invoke(killedUnit);
+    }
 }

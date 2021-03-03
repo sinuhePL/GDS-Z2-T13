@@ -48,7 +48,7 @@ public class UnitSelectedState : IGameState
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
-            return new BeginTurnState(myGameController.GetNextPlayer());
+            return new BeginTurnState(_activeUnit.GetPlayerId());
         }
         else return null;
     }
@@ -78,11 +78,15 @@ public class UnitSelectedState : IGameState
     {
         // disable unit reticle
         BoardGrid myGrid;
+        int newPlayer;
+
         myGrid = myGameController.GetGrid();
         myGrid.HideHighlight();
         _activeUnit.SetReticle(false);
         _activeUnit._isAvailable = false;
-        return new BeginTurnState(myGameController.GetNextPlayer());
+        myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
+        newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
+        return new BeginTurnState(newPlayer);
     }
 
     public IGameState AttackPressed(GameController myGameController)

@@ -53,8 +53,12 @@ public class BeginTurnState : IGameState
 
     public IGameState EndTurnPressed(GameController myGameController)
     {
-        //nothing happens
-        return null;
+        //change player turn
+        int newPlayer;
+
+        myGameController.EndPlayerTurn(_activePlayerId);
+        newPlayer = (_activePlayerId == 1 ? 2 : 1);
+        return new BeginTurnState(newPlayer);
     }
 
     public IGameState AttackPressed(GameController myGameController)

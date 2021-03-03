@@ -28,17 +28,8 @@ public class AttackSelectedState : IGameState
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
-            bool isKilled = clickedUnit.DamageUnit(_activeUnit.GetAttackDamage());
-            if (isKilled)
-            {
-                myGameController.KillUnit(clickedUnit);
-                int winnerId = myGameController.GetWinner();
-                if (winnerId != 0)
-                {
-                    return new EndState(myGameController, winnerId);
-                }
-            }
-            return new BeginTurnState(myGameController.GetNextPlayer());
+            _activeUnit.AttackUnit(clickedUnit);
+            return new ExecutionState(_activeUnit, true);
         }
         else if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable)
         {
@@ -75,11 +66,15 @@ public class AttackSelectedState : IGameState
     {
         // disable unit reticle and turn off highlight
         BoardGrid myGrid;
+        int newPlayer;
+
         myGrid = myGameController.GetGrid();
         myGrid.HideHighlight();
         _activeUnit.SetReticle(false);
         _activeUnit._isAvailable = false;
-        return new BeginTurnState(myGameController.GetNextPlayer());
+        myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
+        newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
+        return new BeginTurnState(newPlayer);
     }
 
     public IGameState AttackPressed(GameController myGameController)

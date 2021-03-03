@@ -10,6 +10,10 @@ public class UnitController : MonoBehaviour, IClickable
     [SerializeField] private SpriteRenderer _myReticle;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
+    public int _myBonusArmor { get; set; }
+    public int _myBonusAttackDamage { get; set; }
+    public int _myBonusAttackRange { get; set; }
+    public int _myBonusMoveRange { get; set; }
     private SpriteRenderer _mySpriteRenderer;
 
     // Start is called before the first frame update
@@ -25,26 +29,36 @@ public class UnitController : MonoBehaviour, IClickable
         _myTile._isOccupied = false;
     }
 
-    private IEnumerator MakeMove(List<GridNode> movePath)
+    private IEnumerator MakeMove(List<TileController> movePath)
     {
-        GridNode currentNode;
+        ITileBehaviour myTileBehaviour;
+        TileController currentNode;
         float step;
         _myTile._myUnit = null;
         _myTile._isOccupied = false;
         while (movePath.Count > 0)
         {
             currentNode = movePath[0];
-            while (Vector3.Distance(currentNode._nodeTile.transform.position, transform.position) > 0.001f)
+            while (Vector3.Distance(currentNode.transform.position, transform.position) > 0.001f)
             {
                 step = _unit.moveSpeed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, currentNode._nodeTile.transform.position, step);
+                transform.position = Vector3.MoveTowards(transform.position, currentNode.transform.position, step);
                 yield return 0;
             }
-            _myTile = currentNode._nodeTile;
+            _myTile = currentNode;
             movePath.Remove(currentNode);
         }
         _myTile._myUnit = this;
         _myTile._isOccupied = true;
+        myTileBehaviour = _myTile.gameObject.GetComponent<ITileBehaviour>();
+        myTileBehaviour.MakeInstantAction(this);
+        EventManager._instance.ExecutionEnded();
+    }
+
+    private IEnumerator MakeAttack(UnitController target)
+    {
+        target.DamageUnit(_unit.attackDamage + _myBonusAttackDamage);
+        yield return 0;
         EventManager._instance.ExecutionEnded();
     }
 
@@ -57,6 +71,9 @@ public class UnitController : MonoBehaviour, IClickable
         _myHealth.InitializeHealth(_unit.unitHealth);
         _myReticle.enabled = false;
         _isAvailable = true;
+        _myBonusArmor = 0;
+        _myBonusAttackDamage = 0;
+        _myBonusAttackRange = 0;
     }
 
     public void Click()
@@ -72,7 +89,8 @@ public class UnitController : MonoBehaviour, IClickable
 
     public int GetMoveRange()
     {
-        return _unit.moveRange;
+        if (_unit.moveRange + _myBonusMoveRange < 1) return 1;
+        else return _unit.moveRange + _myBonusMoveRange;
     }
 
     public float GetMoveSpeed()
@@ -80,9 +98,14 @@ public class UnitController : MonoBehaviour, IClickable
         return _unit.moveSpeed;
     }
 
-    public void MoveUnit(List<GridNode> movePath)
+    public void MoveUnit(List<TileController> movePath)
     {
         StartCoroutine(MakeMove(movePath));
+    }
+
+    public void AttackUnit(UnitController targetUnit)
+    {
+        StartCoroutine(MakeAttack(targetUnit));
     }
 
     public int GetPlayerId()
@@ -90,22 +113,24 @@ public class UnitController : MonoBehaviour, IClickable
         return _unit.playerId;
     }
 
-    public int GetAttackDamage()
-    {
-        return _unit.attackDamage;
-    }
-
     public int GetAttackRange()
     {
-        return _unit.attackRange;
+        return _unit.attackRange + _myBonusAttackRange;
     }
 
-    public bool DamageUnit(int damage)
+    public void DamageUnit(int damage)
     {
-        int damageTaken = damage - _unit.armor;
+        bool isKilled;
+        int damageTaken = damage - _unit.armor - _myBonusArmor;
         Debug.Log(_unit.unitName + " received " + damage + " damage minus " + _unit.armor + " armor.");
         if (damageTaken < 0) damageTaken = 0;
-        return _myHealth.ChangeHealth(-damageTaken);
+        isKilled = _myHealth.ChangeHealth(-damageTaken);
+        if (isKilled) EventManager._instance.UnitKilled(this);
+    }
+
+    public void HealUnit(int healPoints)
+    {
+        _myHealth.ChangeHealth(healPoints);
     }
 
     public void SetReticle(bool visible)

@@ -5,12 +5,12 @@ using UnityEngine;
 public class ExecutionState : IGameState
 {
     private UnitController _activeUnit;
-    private bool _executionEndsTurn;
+    private bool _executionEndsUnitTurn;
 
     public ExecutionState(UnitController activeUnit, bool endTurn)
     {
         _activeUnit = activeUnit;
-        _executionEndsTurn = endTurn;
+        _executionEndsUnitTurn = endTurn;
         _activeUnit.SetReticle(false);
         Debug.Log("Stan: Wykonuję akcję ruchu jednostki gracza: " + _activeUnit.GetPlayerId());
     }
@@ -43,12 +43,23 @@ public class ExecutionState : IGameState
     {
         //if move ended change state to Attack Selected State, if attack ended change state to Begin Turn State
         BoardGrid myGrid;
+        int newPlayer;
+
         myGrid = myGameController.GetGrid();
-        if (_executionEndsTurn)
+        if (_executionEndsUnitTurn)
         {
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
-            return new BeginTurnState(myGameController.GetNextPlayer());
+            if (myGameController.MovesDepleted(_activeUnit.GetPlayerId()))
+            {
+                myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
+                newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
+            }
+            else
+            {
+                newPlayer = _activeUnit.GetPlayerId();
+            }
+            return new BeginTurnState(newPlayer);
         }
         else return new AttackSelectedState(_activeUnit, myGrid);
     }

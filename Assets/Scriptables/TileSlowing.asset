@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7999c2d43aea1174c80db7c1e5e3bc1b, type: 3}
-  m_Name: PlainTile
+  m_Name: TileSlowing
   m_EditorClassIdentifier: 
-  letter: P
-  tileSprite: {fileID: 21300000, guid: e9e02423c5a6306488434dd9cac67166, type: 3}
-  tileDesignerSprite: {fileID: 0}
+  letter: S
+  tileSprite: {fileID: 0}
+  tileDesignerSprite: {fileID: 21300000, guid: 6e9d6bf17e2d56e408ac9ee4850ba4a4, type: 3}
   isWalkable: 1
-  tileName: Grass
+  tileName: Slower

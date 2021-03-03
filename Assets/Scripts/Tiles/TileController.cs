@@ -8,10 +8,15 @@ public class TileController : MonoBehaviour, IClickable
     public UnitController _myUnit { get; set; }
     public bool _isOccupied { get; set; }
     [SerializeField] private SpriteRenderer _overlaySpriteRenderer;
-    private ScriptableTile _tile;
+    [SerializeField] private ScriptableTile _tile;
     private SpriteRenderer _mySpriteRenderer;
     private GridPosition _gridPosition;
     private Color _previousColor;
+    private ITileBehaviour _myBehaviour;
+    public int _gCost { get; set; }
+    public int _hCost { get; set; }
+    public int _fCost { get; set; }
+    public TileController _cameFromNode { get; set; }
 
     private void OnMouseEnter()
     {
@@ -26,15 +31,28 @@ public class TileController : MonoBehaviour, IClickable
         }
     }
 
-    public void InitializeTile(ScriptableTile myScriptableTile, GridPosition position)
+    public void InitializeTile(GridPosition position)
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
-        _tile = myScriptableTile;
-        _mySpriteRenderer.sprite = _tile.tileSprite;
+        _mySpriteRenderer.sprite = _tile.tileDesignerSprite;
         _gridPosition = position;
         _previousColor = _overlaySpriteRenderer.color;
         _myUnit = null;
         _isOccupied = false;
+        _gCost = 0;
+        _hCost = 0;
+        _fCost = 0;
+        _myBehaviour = GetComponent<ITileBehaviour>();
+    }
+
+    public void CalculateFCost()
+    {
+        _fCost = _gCost + _hCost;
+    }
+
+    public int GetGridDistance(GridPosition startingPosition)
+    {
+        return Mathf.Abs(startingPosition.x - _gridPosition.x) + Mathf.Abs(startingPosition.y - _gridPosition.y);
     }
 
     public void Click()
@@ -63,5 +81,10 @@ public class TileController : MonoBehaviour, IClickable
     {
         _previousColor = _overlaySpriteRenderer.color;
         _overlaySpriteRenderer.color = highlightColor;
+    }
+
+    public string GetLetter()
+    {
+        return _tile.letter;
     }
 }
