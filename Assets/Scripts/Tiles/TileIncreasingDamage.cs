@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(TileController))]
 public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
 {
     [SerializeField] private int _attackBonus;
@@ -13,7 +13,7 @@ public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
         _myTileController = GetComponent<TileController>();
     }
 
-    public void MakeEndTurnAction(int playerId)
+    public void EndTurnAction(int playerId)
     {
         UnitController myUnit;
         myUnit = _myTileController._myUnit;
@@ -23,7 +23,7 @@ public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
         }
     }
 
-    public void MakeInstantAction(UnitController myUnit)
+    public void InstantAction(UnitController myUnit)
     {
         myUnit._myBonusAttackDamage = _attackBonus;
         myUnit._myBonusAttackRange = 0;

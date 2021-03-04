@@ -13,7 +13,7 @@ public class TileDamaging : MonoBehaviour, ITileBehaviour
         _myTileController = GetComponent<TileController>();
     }
 
-    public void MakeEndTurnAction(int playerId)
+    public void EndTurnAction(int playerId)
     {
         UnitController myUnit;
         myUnit = _myTileController._myUnit;
@@ -24,7 +24,7 @@ public class TileDamaging : MonoBehaviour, ITileBehaviour
         }
     }
 
-    public void MakeInstantAction(UnitController myUnit)
+    public void InstantAction(UnitController myUnit)
     {
         myUnit._myBonusAttackRange = 0;
         myUnit._myBonusAttackDamage = 0;

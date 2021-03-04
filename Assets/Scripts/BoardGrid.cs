@@ -285,12 +285,24 @@ public class BoardGrid
     public void MakeEndTurnActions(int playerId)
     {
         ITileBehaviour myTileBehaviour;
+        IUnitSkill[] myUnitSkills;
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             for (int x = 0; x < _gridArray.GetLength(1); x++)
             {
                 myTileBehaviour = _gridArray[x, y].gameObject.GetComponent<ITileBehaviour>();
-                if (myTileBehaviour != null) myTileBehaviour.MakeEndTurnAction(playerId);
+                if (myTileBehaviour != null) myTileBehaviour.EndTurnAction(playerId);
+                if (_gridArray[x, y]._isOccupied && _gridArray[x, y]._myUnit != null)
+                {
+                    myUnitSkills = _gridArray[x, y]._myUnit.gameObject.GetComponents<IUnitSkill>();
+                    if (myUnitSkills.Length > 0)
+                    {
+                        foreach (IUnitSkill skill in myUnitSkills)
+                        {
+                            skill.EndTurnAction(playerId);
+                        }
+                    }
+                }
             }
         }
     }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ITileBehaviour
+public interface IUnitSkill
 {
     void EndTurnAction(int playerId);
-    void InstantAction(UnitController myUnit);
+    int AttackAction(UnitController target);
 }

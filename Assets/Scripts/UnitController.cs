@@ -51,13 +51,20 @@ public class UnitController : MonoBehaviour, IClickable
         _myTile._myUnit = this;
         _myTile._isOccupied = true;
         myTileBehaviour = _myTile.gameObject.GetComponent<ITileBehaviour>();
-        myTileBehaviour.MakeInstantAction(this);
+        myTileBehaviour.InstantAction(this);
         EventManager._instance.ExecutionEnded();
     }
 
     private IEnumerator MakeAttack(UnitController target)
     {
-        target.DamageUnit(_unit.attackDamage + _myBonusAttackDamage);
+        IUnitSkill[] mySkills;
+        int skillsDamageBonus = 0;
+        mySkills = GetComponents<IUnitSkill>();
+        foreach(IUnitSkill skill in mySkills)
+        {
+            skillsDamageBonus += skill.AttackAction(target);
+        }
+        target.DamageUnit(_unit.attackDamage + _myBonusAttackDamage + skillsDamageBonus);
         yield return 0;
         EventManager._instance.ExecutionEnded();
     }
@@ -141,5 +148,10 @@ public class UnitController : MonoBehaviour, IClickable
     public bool IsKing()
     {
         return _unit.isKing;
+    }
+
+    public int GetArmor()
+    {
+        return _unit.armor + _myBonusArmor;
     }
 }

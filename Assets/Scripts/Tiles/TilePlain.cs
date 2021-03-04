@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(TileController))]
 public class TilePlain : MonoBehaviour, ITileBehaviour
 {
     private TileController _myTileController;
@@ -12,7 +12,7 @@ public class TilePlain : MonoBehaviour, ITileBehaviour
         _myTileController = GetComponent<TileController>();
     }
 
-    public void MakeEndTurnAction(int playerId)
+    public void EndTurnAction(int playerId)
     {
         UnitController myUnit;
         myUnit = _myTileController._myUnit;
@@ -22,7 +22,7 @@ public class TilePlain : MonoBehaviour, ITileBehaviour
         }
     }
 
-    public void MakeInstantAction(UnitController myUnit)
+    public void InstantAction(UnitController myUnit)
     {
         myUnit._myBonusAttackRange = 0;
         myUnit._myBonusAttackDamage = 0;
