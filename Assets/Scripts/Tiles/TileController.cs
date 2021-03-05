@@ -7,16 +7,17 @@ public class TileController : MonoBehaviour, IClickable
 {
     public UnitController _myUnit { get; set; }
     public bool _isOccupied { get; set; }
+    public int _gCost { get; set; }
+    public int _hCost { get; set; }
+    public int _fCost { get; set; }
+    public TileController _cameFromNode { get; set; }
     [SerializeField] private SpriteRenderer _overlaySpriteRenderer;
     [SerializeField] private ScriptableTile _tile;
     private SpriteRenderer _mySpriteRenderer;
     private GridPosition _gridPosition;
     private Color _previousColor;
     private ITileBehaviour _myBehaviour;
-    public int _gCost { get; set; }
-    public int _hCost { get; set; }
-    public int _fCost { get; set; }
-    public TileController _cameFromNode { get; set; }
+    private BoardGrid _myBoard;
 
     private void OnMouseEnter()
     {
@@ -31,7 +32,7 @@ public class TileController : MonoBehaviour, IClickable
         }
     }
 
-    public void InitializeTile(GridPosition position)
+    public void InitializeTile(GridPosition position, BoardGrid myBoardGrid)
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _mySpriteRenderer.sprite = _tile.tileDesignerSprite;
@@ -43,6 +44,7 @@ public class TileController : MonoBehaviour, IClickable
         _hCost = 0;
         _fCost = 0;
         _myBehaviour = GetComponent<ITileBehaviour>();
+        _myBoard = myBoardGrid;
     }
 
     public void CalculateFCost()
@@ -86,5 +88,21 @@ public class TileController : MonoBehaviour, IClickable
     public string GetLetter()
     {
         return _tile.letter;
+    }
+
+    public TileController GetAnotherTile(GridPosition tilePosition)
+    {
+        return _myBoard.GetTile(tilePosition);
+    }
+
+    public TileController GetAnotherTile(int x, int y)
+    {
+        return _myBoard.GetTile(x,y);
+    }
+
+    public int GetPlayerZone()
+    {
+        if (_gridPosition.x < _myBoard.GetBoardWidth() / 2) return 1;
+        else return 2;
     }
 }

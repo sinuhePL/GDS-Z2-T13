@@ -23,7 +23,7 @@ public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
         }
     }
 
-    public void InstantAction(UnitController myUnit)
+    public void EnterTileAction(UnitController myUnit)
     {
         myUnit._myBonusAttackDamage = _attackBonus;
         myUnit._myBonusAttackRange = 0;

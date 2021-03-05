@@ -38,11 +38,11 @@ public class EventManager : MonoBehaviour
         OnTileHovered?.Invoke(hoveredTile);
     }
 
-    public event Action OnExecutionEnd;
+    public event Action<UnitController> OnExecutionEnd;
 
-    public void ExecutionEnded()
+    public void ExecutionEnded(UnitController unit)
     {
-        OnExecutionEnd?.Invoke();
+        OnExecutionEnd?.Invoke(unit);
     }
 
     public event Action<UnitController> OnUnitKilled;

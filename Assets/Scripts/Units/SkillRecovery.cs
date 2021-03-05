@@ -8,10 +8,13 @@ public class SkillRecovery : MonoBehaviour, IUnitSkill
     [SerializeField] private int _recoveryRate;
     private UnitController _myUnitController;
 
-    private void Start()
+    private void Awake()
     {
         _myUnitController = GetComponent<UnitController>();
     }
+
+    public void EnterTileAction(TileController newTile)
+    { }
 
     public void EndTurnAction(int playerId)
     {

@@ -90,7 +90,7 @@ public class GameController : MonoBehaviour
         Destroy(killedUnit.gameObject);
     }
 
-    private void OnExecutionEnded()
+    private void OnExecutionEnded(UnitController unit)
     {
         IGameState newState;
         newState = _myGameState.ExecutionEnd(this);
@@ -118,6 +118,15 @@ public class GameController : MonoBehaviour
         {
             _units.Add(Instantiate(_player2UnitPrefabs[i], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
             _units[i + _player1UnitPrefabs.Length].InitializeUnit(_myGrid.GetTile(_myGrid.GetBoardWidth()-1, _myGrid.GetBoardHeight()-1-i));
+        }
+        foreach(UnitController unit in _units)
+        {
+            IUnitSkill[] unitSkills;
+            unitSkills = unit.gameObject.GetComponents<IUnitSkill>();
+            foreach(IUnitSkill skill in unitSkills)
+            {
+                skill.EnterTileAction(unit._myTile);
+            }
         }
         _myGameState = new BeginTurnState(_startingPlayer);
         EventManager._instance.OnUnitClicked += OnUnitClicked;
@@ -208,9 +217,23 @@ public class GameController : MonoBehaviour
 
     public void EndPlayerTurn(int playerId)
     {
-        foreach(UnitController unit in _units)
+        IUnitSkill[] myUnitSkills;
+
+        foreach (UnitController unit in _units)
         {
             if (unit.GetPlayerId() != playerId) unit._isAvailable = true;
+            else
+            {
+                unit.EndTurnAction(playerId);
+                myUnitSkills = unit.gameObject.GetComponents<IUnitSkill>();
+                if (myUnitSkills.Length > 0)
+                {
+                    foreach (IUnitSkill skill in myUnitSkills)
+                    {
+                        skill.EndTurnAction(playerId);
+                    }
+                }
+            }
         }
         _myGrid.MakeEndTurnActions(playerId);
     }

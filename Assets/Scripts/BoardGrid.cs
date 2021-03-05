@@ -94,7 +94,7 @@ public class BoardGrid
             foreach (TileController neighbourNode in GetNeighbourList(currentNode.GetGridPosition()))
             {
                 if (closedList.Contains(neighbourNode)) continue;
-                if (!neighbourNode.isWalkable())
+                if (!neighbourNode.isWalkable() || neighbourNode._isOccupied)
                 {
                     closedList.Add(neighbourNode);
                     continue;
@@ -142,7 +142,7 @@ public class BoardGrid
                     {
                         GridPosition tempGridPosition = new GridPosition(x, y);
                         TileController tempTileController = Object.Instantiate(g, GetWorldPosition(tempGridPosition), Quaternion.identity).GetComponent<TileController>();
-                        tempTileController.InitializeTile(tempGridPosition);
+                        tempTileController.InitializeTile(tempGridPosition, this);
                         _gridArray[x, y] = tempTileController;
                     }
                 }
@@ -153,11 +153,13 @@ public class BoardGrid
 
     public TileController GetTile(GridPosition tilePosition)
     {
-        return _gridArray[tilePosition.x, tilePosition.y];
+        if (tilePosition.x < 0 || tilePosition.y < 0 || tilePosition.x >= _width || tilePosition.y >= _height) return null;
+        else return _gridArray[tilePosition.x, tilePosition.y];
     }
 
     public TileController GetTile(int x, int y)
     {
+        if (x < 0 || y < 0 || x >= _width || y >= _height) return null;
         return _gridArray[x, y];
     }
 
@@ -285,24 +287,12 @@ public class BoardGrid
     public void MakeEndTurnActions(int playerId)
     {
         ITileBehaviour myTileBehaviour;
-        IUnitSkill[] myUnitSkills;
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             for (int x = 0; x < _gridArray.GetLength(1); x++)
             {
                 myTileBehaviour = _gridArray[x, y].gameObject.GetComponent<ITileBehaviour>();
                 if (myTileBehaviour != null) myTileBehaviour.EndTurnAction(playerId);
-                if (_gridArray[x, y]._isOccupied && _gridArray[x, y]._myUnit != null)
-                {
-                    myUnitSkills = _gridArray[x, y]._myUnit.gameObject.GetComponents<IUnitSkill>();
-                    if (myUnitSkills.Length > 0)
-                    {
-                        foreach (IUnitSkill skill in myUnitSkills)
-                        {
-                            skill.EndTurnAction(playerId);
-                        }
-                    }
-                }
             }
         }
     }

@@ -14,6 +14,8 @@ public class UnitController : MonoBehaviour, IClickable
     public int _myBonusAttackDamage { get; set; }
     public int _myBonusAttackRange { get; set; }
     public int _myBonusMoveRange { get; set; }
+    public int _myWeakness { get; set; }
+    public int _myWeaknessCountdown { get; set; }
     private SpriteRenderer _mySpriteRenderer;
 
     // Start is called before the first frame update
@@ -32,6 +34,7 @@ public class UnitController : MonoBehaviour, IClickable
     private IEnumerator MakeMove(List<TileController> movePath)
     {
         ITileBehaviour myTileBehaviour;
+        IUnitSkill[] mySkills;
         TileController currentNode;
         float step;
         _myTile._myUnit = null;
@@ -51,8 +54,13 @@ public class UnitController : MonoBehaviour, IClickable
         _myTile._myUnit = this;
         _myTile._isOccupied = true;
         myTileBehaviour = _myTile.gameObject.GetComponent<ITileBehaviour>();
-        myTileBehaviour.InstantAction(this);
-        EventManager._instance.ExecutionEnded();
+        myTileBehaviour.EnterTileAction(this);
+        mySkills = GetComponents<IUnitSkill>();
+        foreach(IUnitSkill skill in mySkills)
+        {
+            skill.EnterTileAction(_myTile);
+        }
+        EventManager._instance.ExecutionEnded(this);
     }
 
     private IEnumerator MakeAttack(UnitController target)
@@ -66,7 +74,7 @@ public class UnitController : MonoBehaviour, IClickable
         }
         target.DamageUnit(_unit.attackDamage + _myBonusAttackDamage + skillsDamageBonus);
         yield return 0;
-        EventManager._instance.ExecutionEnded();
+        EventManager._instance.ExecutionEnded(this);
     }
 
     public void InitializeUnit(TileController initialTile)
@@ -81,6 +89,19 @@ public class UnitController : MonoBehaviour, IClickable
         _myBonusArmor = 0;
         _myBonusAttackDamage = 0;
         _myBonusAttackRange = 0;
+        _myWeakness = 0;
+        _myWeaknessCountdown = 0;
+        ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
+        myTileBehaviour.EnterTileAction(this);
+    }
+
+    public void EndTurnAction(int playerId)
+    {
+        if(playerId == _unit.playerId)
+        {
+            if (_myWeaknessCountdown > 0) _myWeaknessCountdown--;
+            if (_myWeaknessCountdown == 0) _myWeakness = 0;
+        }
     }
 
     public void Click()
@@ -128,8 +149,8 @@ public class UnitController : MonoBehaviour, IClickable
     public void DamageUnit(int damage)
     {
         bool isKilled;
-        int damageTaken = damage - _unit.armor - _myBonusArmor;
-        Debug.Log(_unit.unitName + " received " + damage + " damage minus " + _unit.armor + " armor.");
+        int damageTaken = damage - _unit.armor - _myBonusArmor + _myWeakness;
+        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + _myWeakness + " weakness minus " + _unit.armor + " armor.");
         if (damageTaken < 0) damageTaken = 0;
         isKilled = _myHealth.ChangeHealth(-damageTaken);
         if (isKilled) EventManager._instance.UnitKilled(this);
@@ -153,5 +174,12 @@ public class UnitController : MonoBehaviour, IClickable
     public int GetArmor()
     {
         return _unit.armor + _myBonusArmor;
+    }
+
+    public void ChangeHP(int change)
+    {
+        bool isKilled;
+        isKilled = _myHealth.ChangeHPNumber(change);
+        if (isKilled) EventManager._instance.UnitKilled(this);
     }
 }

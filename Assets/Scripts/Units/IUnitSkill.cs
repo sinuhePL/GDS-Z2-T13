@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IUnitSkill
 {
+    void EnterTileAction(TileController newTile);
     void EndTurnAction(int playerId);
     int AttackAction(UnitController target);
 }

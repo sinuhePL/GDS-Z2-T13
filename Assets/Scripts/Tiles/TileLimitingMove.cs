@@ -23,7 +23,7 @@ public class TileLimitingMove : MonoBehaviour, ITileBehaviour
         }
     }
 
-    public void InstantAction(UnitController myUnit)
+    public void EnterTileAction(UnitController myUnit)
     {
         myUnit._myBonusAttackRange = 0;
         myUnit._myBonusAttackDamage = 0;

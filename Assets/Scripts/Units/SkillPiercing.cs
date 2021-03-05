@@ -7,10 +7,13 @@ public class SkillPiercing : MonoBehaviour, IUnitSkill
 {
     private UnitController _myUnitController;
 
-    private void Start()
+    private void Awake()
     {
         _myUnitController = GetComponent<UnitController>();
     }
+
+    public void EnterTileAction(TileController newTile)
+    { }
 
     public void EndTurnAction(int playerId)
     { }
