@@ -17,15 +17,13 @@ public class SkillPoison : MonoBehaviour, IUnitSkill
     public void EnterTileAction(TileController newTile)
     { }
 
-    public void EndTurnAction(int playerId)
-    { }
-
     public int AttackAction(UnitController target)
     {
-        if (target._myWeakness == 0)
+        EffectPoison myPoisonEffect;
+        if (target.gameObject.GetComponent<EffectPoison>() == null)
         {
-            target._myWeakness = _weaknessAmount;
-            target._myWeaknessCountdown = _weaknessTurns;
+            myPoisonEffect = target.gameObject.AddComponent<EffectPoison>();
+            myPoisonEffect.InitializeEffect(_weaknessAmount, _weaknessTurns);
             return -1;
         }
         else return 0;

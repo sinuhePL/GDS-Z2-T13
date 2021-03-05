@@ -30,12 +30,13 @@ public class GameController : MonoBehaviour
     [Tooltip("Starting player Id.")]
     [SerializeField] private int _startingPlayer;
 
+    private static GameController _instance;
     private IGameState _myGameState;
     private BoardGrid _myGrid;
     private List<UnitController> _units;
     private Camera myCamera;
     private bool gameEnded;
-    private static GameController _instance;
+    private List<UnitController> _unitsKilledThisTurn;
 
     private void Awake()
     {
@@ -86,8 +87,7 @@ public class GameController : MonoBehaviour
             winner = (killedUnit.GetPlayerId() == 1 ? 2 : 1);
             _myGameState = new EndState(this, winner);
         }
-        _units.Remove(killedUnit);
-        Destroy(killedUnit.gameObject);
+        _unitsKilledThisTurn.Add(killedUnit);
     }
 
     private void OnExecutionEnded(UnitController unit)
@@ -108,6 +108,7 @@ public class GameController : MonoBehaviour
         string[] gridFile = File.ReadAllLines(configFilePath);
         _myGrid = new BoardGrid(gridFile, _tilePrefabs, _tileSize);
         _units = new List<UnitController>();
+        _unitsKilledThisTurn = new List<UnitController>();
         gameEnded = false;
         for(int i=0; i< _player1UnitPrefabs.Length; i++)
         { 
@@ -208,6 +209,7 @@ public class GameController : MonoBehaviour
     public void AttackAction()
     {
         IGameState newState;
+
         newState = _myGameState.AttackPressed(this);
         if (newState != null)
         {
@@ -217,24 +219,26 @@ public class GameController : MonoBehaviour
 
     public void EndPlayerTurn(int playerId)
     {
-        IUnitSkill[] myUnitSkills;
+        IEndturnable[] endturnableList;
 
         foreach (UnitController unit in _units)
         {
             if (unit.GetPlayerId() != playerId) unit._isAvailable = true;
-            else
+            endturnableList = unit.gameObject.GetComponents<IEndturnable>();
+            if (endturnableList.Length > 0)
             {
-                unit.EndTurnAction(playerId);
-                myUnitSkills = unit.gameObject.GetComponents<IUnitSkill>();
-                if (myUnitSkills.Length > 0)
+                foreach (IEndturnable endturnObject  in endturnableList)
                 {
-                    foreach (IUnitSkill skill in myUnitSkills)
-                    {
-                        skill.EndTurnAction(playerId);
-                    }
+                    endturnObject.EndTurnAction(playerId);
                 }
             }
         }
         _myGrid.MakeEndTurnActions(playerId);
+        foreach(UnitController killedUnit in _unitsKilledThisTurn)
+        {
+            _units.Remove(killedUnit);
+            Destroy(killedUnit.gameObject);
+        }
+        _unitsKilledThisTurn.Clear();
     }
 }

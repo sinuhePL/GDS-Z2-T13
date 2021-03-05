@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileHealing : MonoBehaviour, ITileBehaviour
+public class TileHealing : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     [SerializeField] private int _healAmount;
     private TileController _myTileController;

@@ -30,9 +30,6 @@ public class SkillInfiltrate : MonoBehaviour, IUnitSkill
         }
     }
 
-    public void EndTurnAction(int playerId)
-    { }
-
     public int AttackAction(UnitController target)
     {
         if (_isInfiltrating) return _attackBonus;

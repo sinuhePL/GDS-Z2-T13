@@ -15,9 +15,11 @@ MonoBehaviour:
   unitSprite: {fileID: 0}
   unitDesignerSprite: {fileID: 21300000, guid: 6dd1111caf8ce1a40bcc2fd1bd39ef0a, type: 3}
   unitName: nazwa3
-  unitHealth: 2
+  unitHealth: 5
   moveRange: 2
   attackDamage: 2
   attackRange: 2
+  armor: 0
   moveSpeed: 2
   playerId: 1
+  isKing: 0

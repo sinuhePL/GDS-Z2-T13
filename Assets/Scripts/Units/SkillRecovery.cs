@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillRecovery : MonoBehaviour, IUnitSkill
+public class SkillRecovery : MonoBehaviour, IUnitSkill, IEndturnable
 {
     [SerializeField] private int _recoveryRate;
     private UnitController _myUnitController;

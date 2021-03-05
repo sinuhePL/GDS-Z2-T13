@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TilePlain : MonoBehaviour, ITileBehaviour
+public class TilePlain : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     private TileController _myTileController;
 

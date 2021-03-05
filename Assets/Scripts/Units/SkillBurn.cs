@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillBurn : MonoBehaviour
+[RequireComponent(typeof(UnitController))]
+public class SkillBurn : MonoBehaviour, IUnitSkill
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int _burnAmount;
+    [SerializeField] private int _burnTurns;
+    private UnitController _myUnitController;
+
+    private void Awake()
     {
-        
+        _myUnitController = GetComponent<UnitController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnterTileAction(TileController newTile)
+    { }
+
+    public int AttackAction(UnitController target)
     {
-        
+        EffectBurn myBurnEffect;
+        if(target.gameObject.GetComponent<EffectBurn>() == null)
+        {
+            myBurnEffect = target.gameObject.AddComponent<EffectBurn>();
+            myBurnEffect.InitializeEffect(_burnAmount, _burnTurns);
+        }
+        return 0;
     }
 }

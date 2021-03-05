@@ -16,9 +16,6 @@ public class SkillBackstab : MonoBehaviour, IUnitSkill
     public void EnterTileAction(TileController newTile)
     { }
 
-    public void EndTurnAction(int playerId)
-    { }
-
     public int AttackAction(UnitController target)
     {
         GridPosition targetPosition;

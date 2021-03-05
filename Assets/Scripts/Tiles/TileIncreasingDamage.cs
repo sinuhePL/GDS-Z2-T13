@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
+public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     [SerializeField] private int _attackBonus;
     private TileController _myTileController;

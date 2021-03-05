@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileArmoring : MonoBehaviour, ITileBehaviour
+public class TileArmoring : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     [SerializeField] private int _armorBonus;
     private TileController _myTileController;

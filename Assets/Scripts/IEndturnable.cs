@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ITileBehaviour
+public interface IEndturnable
 {
-    void EnterTileAction(UnitController myUnit);
+    void EndTurnAction(int playerId);
 }

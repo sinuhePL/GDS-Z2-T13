@@ -15,9 +15,6 @@ public class SkillPiercing : MonoBehaviour, IUnitSkill
     public void EnterTileAction(TileController newTile)
     { }
 
-    public void EndTurnAction(int playerId)
-    { }
-
     public int AttackAction(UnitController target)
     {
         return target.GetArmor();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileDamaging : MonoBehaviour, ITileBehaviour
+public class TileDamaging : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     [SerializeField] private int _damageAmount;
     private TileController _myTileController;

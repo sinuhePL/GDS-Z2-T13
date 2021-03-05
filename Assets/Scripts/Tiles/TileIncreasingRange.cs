@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileIncreasingRange : MonoBehaviour, ITileBehaviour
+public class TileIncreasingRange : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     [SerializeField] private int _attackRangeBonus;
     private TileController _myTileController;

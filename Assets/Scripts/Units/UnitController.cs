@@ -14,8 +14,6 @@ public class UnitController : MonoBehaviour, IClickable
     public int _myBonusAttackDamage { get; set; }
     public int _myBonusAttackRange { get; set; }
     public int _myBonusMoveRange { get; set; }
-    public int _myWeakness { get; set; }
-    public int _myWeaknessCountdown { get; set; }
     private SpriteRenderer _mySpriteRenderer;
 
     // Start is called before the first frame update
@@ -89,19 +87,8 @@ public class UnitController : MonoBehaviour, IClickable
         _myBonusArmor = 0;
         _myBonusAttackDamage = 0;
         _myBonusAttackRange = 0;
-        _myWeakness = 0;
-        _myWeaknessCountdown = 0;
         ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
         myTileBehaviour.EnterTileAction(this);
-    }
-
-    public void EndTurnAction(int playerId)
-    {
-        if(playerId == _unit.playerId)
-        {
-            if (_myWeaknessCountdown > 0) _myWeaknessCountdown--;
-            if (_myWeaknessCountdown == 0) _myWeakness = 0;
-        }
     }
 
     public void Click()
@@ -149,11 +136,22 @@ public class UnitController : MonoBehaviour, IClickable
     public void DamageUnit(int damage)
     {
         bool isKilled;
-        int damageTaken = damage - _unit.armor - _myBonusArmor + _myWeakness;
-        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + _myWeakness + " weakness minus " + _unit.armor + " armor.");
+        int effectsModifier = 0;
+        IEffect[] myEffects;
+        myEffects = GetComponents<IEffect>();
+        foreach(IEffect effect in myEffects)
+        {
+            effectsModifier += effect.DamageModifier();
+        }
+        int damageTaken = damage - _unit.armor - _myBonusArmor + effectsModifier;
+        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + effectsModifier + " modifiers minus " + _unit.armor + " armor.");
         if (damageTaken < 0) damageTaken = 0;
         isKilled = _myHealth.ChangeHealth(-damageTaken);
-        if (isKilled) EventManager._instance.UnitKilled(this);
+        if (isKilled)
+        {
+            gameObject.SetActive(false);
+            EventManager._instance.UnitKilled(this);
+        }
     }
 
     public void HealUnit(int healPoints)

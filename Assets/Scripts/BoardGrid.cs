@@ -286,13 +286,13 @@ public class BoardGrid
 
     public void MakeEndTurnActions(int playerId)
     {
-        ITileBehaviour myTileBehaviour;
+        IEndturnable myTileEndTurn;
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             for (int x = 0; x < _gridArray.GetLength(1); x++)
             {
-                myTileBehaviour = _gridArray[x, y].gameObject.GetComponent<ITileBehaviour>();
-                if (myTileBehaviour != null) myTileBehaviour.EndTurnAction(playerId);
+                myTileEndTurn = _gridArray[x, y].gameObject.GetComponent<IEndturnable>();
+                if (myTileEndTurn != null) myTileEndTurn.EndTurnAction(playerId);
             }
         }
     }

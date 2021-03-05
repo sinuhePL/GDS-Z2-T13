@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileLimitingMove : MonoBehaviour, ITileBehaviour
+public class TileLimitingMove : MonoBehaviour, ITileBehaviour, IEndturnable
 {
     [SerializeField] private int _movementRangeBonus;
     private TileController _myTileController;

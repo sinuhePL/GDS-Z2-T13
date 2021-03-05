@@ -63,11 +63,6 @@ public class SkillZeal : MonoBehaviour, IUnitSkill
         }
     }
 
-    public void EndTurnAction(int playerId)
-    {
-
-    }
-
     public int AttackAction(UnitController target)
     {
         if (_isAdjacentToKing) return _attackBonus;
