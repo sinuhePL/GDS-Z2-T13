@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class EffectBurn : MonoBehaviour, IEffect, IEndturnable
+public class EffectBurn : MonoBehaviour, IEndturnable
 {
     private int _damage;
     private int _duration;
@@ -14,31 +14,6 @@ public class EffectBurn : MonoBehaviour, IEffect, IEndturnable
         _damage = damage;
         _duration = duration;
         _myUnitController = GetComponent<UnitController>();
-    }
-
-    public int AttackModifier()
-    {
-        return 0;
-    }
-
-    public int ArmorModifier()
-    {
-        return 0;
-    }
-
-    public int MoveRangeModifier()
-    {
-        return 0;
-    }
-
-    public int AttackRangeModifier()
-    {
-        return 0;
-    }
-
-    public int DamageModifier()
-    {
-        return 0;
     }
 
     public void EndTurnAction(int playerId)

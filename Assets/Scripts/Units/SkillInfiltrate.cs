@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillInfiltrate : MonoBehaviour, IUnitSkill
+public class SkillInfiltrate : MonoBehaviour, IAttackModifier, IEnterTile
 {
     [SerializeField] private int _attackBonus;
     [SerializeField] private int _healthBonus;
@@ -30,7 +30,7 @@ public class SkillInfiltrate : MonoBehaviour, IUnitSkill
         }
     }
 
-    public int AttackAction(UnitController target)
+    public int GetAttackModifier(UnitController target)
     {
         if (_isInfiltrating) return _attackBonus;
         else return 0;

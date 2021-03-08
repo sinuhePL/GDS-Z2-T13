@@ -12,6 +12,18 @@ public struct GridPosition
         this.x = x;
         this.y = y;
     }
+
+    public static bool operator ==(GridPosition gp1, GridPosition gp2)
+    {
+        if (gp1.x == gp2.x && gp1.y == gp2.y) return true;
+        else return false;
+    }
+
+    public static bool operator !=(GridPosition gp1, GridPosition gp2)
+    {
+        if (gp1.x != gp2.x || gp1.y != gp2.y) return true;
+        else return false;
+    }
 }
 
 public class GameController : MonoBehaviour
@@ -122,11 +134,11 @@ public class GameController : MonoBehaviour
         }
         foreach(UnitController unit in _units)
         {
-            IUnitSkill[] unitSkills;
-            unitSkills = unit.gameObject.GetComponents<IUnitSkill>();
-            foreach(IUnitSkill skill in unitSkills)
+            IEnterTile[] unitEnterTileReactors;
+            unitEnterTileReactors = unit.gameObject.GetComponents<IEnterTile>();
+            foreach(IEnterTile reactor in unitEnterTileReactors)
             {
-                skill.EnterTileAction(unit._myTile);
+                reactor.EnterTileAction(unit._myTile);
             }
         }
         _myGameState = new BeginTurnState(_startingPlayer);

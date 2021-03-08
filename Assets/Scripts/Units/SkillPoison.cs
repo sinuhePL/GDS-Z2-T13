@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillPoison : MonoBehaviour, IUnitSkill
+public class SkillPoison : MonoBehaviour, IAttackModifier
 {
     [SerializeField] private int _weaknessAmount;
     [SerializeField] private int _weaknessTurns;
@@ -14,10 +14,7 @@ public class SkillPoison : MonoBehaviour, IUnitSkill
         _myUnitController = GetComponent<UnitController>();
     }
 
-    public void EnterTileAction(TileController newTile)
-    { }
-
-    public int AttackAction(UnitController target)
+    public int GetAttackModifier(UnitController target)
     {
         EffectPoison myPoisonEffect;
         if (target.gameObject.GetComponent<EffectPoison>() == null)

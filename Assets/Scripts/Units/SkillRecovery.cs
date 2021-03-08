@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillRecovery : MonoBehaviour, IUnitSkill, IEndturnable
+public class SkillRecovery : MonoBehaviour, IEndturnable
 {
     [SerializeField] private int _recoveryRate;
     private UnitController _myUnitController;
@@ -13,16 +13,8 @@ public class SkillRecovery : MonoBehaviour, IUnitSkill, IEndturnable
         _myUnitController = GetComponent<UnitController>();
     }
 
-    public void EnterTileAction(TileController newTile)
-    { }
-
     public void EndTurnAction(int playerId)
     {
         if(_myUnitController.GetPlayerId() == playerId) _myUnitController.HealUnit(_recoveryRate);
-    }
-
-    public int AttackAction(UnitController target)
-    {
-        return 0;
     }
 }

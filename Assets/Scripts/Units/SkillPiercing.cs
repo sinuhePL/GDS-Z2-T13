@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillPiercing : MonoBehaviour, IUnitSkill
+public class SkillPiercing : MonoBehaviour, IAttackModifier
 {
     private UnitController _myUnitController;
 
@@ -12,10 +12,7 @@ public class SkillPiercing : MonoBehaviour, IUnitSkill
         _myUnitController = GetComponent<UnitController>();
     }
 
-    public void EnterTileAction(TileController newTile)
-    { }
-
-    public int AttackAction(UnitController target)
+    public int GetAttackModifier(UnitController target)
     {
         return target.GetArmor();
     }

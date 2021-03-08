@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileArmoring : MonoBehaviour, ITileBehaviour, IEndturnable
+public class TileArmoring : MonoBehaviour, IEndturnable
 {
     [SerializeField] private int _armorBonus;
     private TileController _myTileController;
@@ -16,17 +16,13 @@ public class TileArmoring : MonoBehaviour, ITileBehaviour, IEndturnable
     public void EndTurnAction(int playerId)
     {
         UnitController myUnit;
+        EffectIncreaseArmor myEffect;
+
         myUnit = _myTileController._myUnit;
         if (myUnit != null && myUnit.GetPlayerId() == playerId)
         {
-            myUnit._myBonusArmor = _armorBonus;
-            myUnit._myBonusMoveRange = 0;
+            myEffect = myUnit.gameObject.AddComponent<EffectIncreaseArmor>();
+            myEffect.InitializeEffect(_armorBonus);
         }
-    }
-
-    public void EnterTileAction(UnitController myUnit)
-    {
-        myUnit._myBonusAttackRange = 0;
-        myUnit._myBonusAttackDamage = 0;
     }
 }

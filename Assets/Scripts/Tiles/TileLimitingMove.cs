@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileLimitingMove : MonoBehaviour, ITileBehaviour, IEndturnable
+public class TileLimitingMove : MonoBehaviour, IEndturnable
 {
     [SerializeField] private int _movementRangeBonus;
     private TileController _myTileController;
@@ -16,17 +16,13 @@ public class TileLimitingMove : MonoBehaviour, ITileBehaviour, IEndturnable
     public void EndTurnAction(int playerId)
     {
         UnitController myUnit;
+        EffectIncreaseMoveRange myEffect;
+
         myUnit = _myTileController._myUnit;
         if (myUnit != null && myUnit.GetPlayerId() == playerId)
         {
-            myUnit._myBonusMoveRange = _movementRangeBonus;
+            myEffect = myUnit.gameObject.AddComponent<EffectIncreaseMoveRange>();
+            myEffect.InitializeEffect(_movementRangeBonus);
         }
-    }
-
-    public void EnterTileAction(UnitController myUnit)
-    {
-        myUnit._myBonusAttackRange = 0;
-        myUnit._myBonusAttackDamage = 0;
-        myUnit._myBonusArmor = 0;
     }
 }

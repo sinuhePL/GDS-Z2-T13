@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillBackstab : MonoBehaviour, IUnitSkill
+public class SkillBackstab : MonoBehaviour, IAttackModifier
 {
     [SerializeField] private int _attackBonus;
     private UnitController _myUnitController;
@@ -13,10 +13,7 @@ public class SkillBackstab : MonoBehaviour, IUnitSkill
         _myUnitController = GetComponent<UnitController>();
     }
 
-    public void EnterTileAction(TileController newTile)
-    { }
-
-    public int AttackAction(UnitController target)
+    public int GetAttackModifier(UnitController target)
     {
         GridPosition targetPosition;
         targetPosition = target.GetGridPosition();

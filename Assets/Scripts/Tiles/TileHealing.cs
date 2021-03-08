@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileHealing : MonoBehaviour, ITileBehaviour, IEndturnable
+public class TileHealing : MonoBehaviour, IEndturnable
 {
     [SerializeField] private int _healAmount;
     private TileController _myTileController;
@@ -20,14 +20,6 @@ public class TileHealing : MonoBehaviour, ITileBehaviour, IEndturnable
         if (myUnit != null && myUnit.GetPlayerId() == playerId)
         {
             myUnit.HealUnit(_healAmount);
-            myUnit._myBonusMoveRange = 0;
         }
-    }
-
-    public void EnterTileAction(UnitController myUnit)
-    {
-        myUnit._myBonusAttackRange = 0;
-        myUnit._myBonusAttackDamage = 0;
-        myUnit._myBonusArmor = 0;
     }
 }

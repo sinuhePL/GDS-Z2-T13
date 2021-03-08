@@ -10,10 +10,6 @@ public class UnitController : MonoBehaviour, IClickable
     [SerializeField] private SpriteRenderer _myReticle;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
-    public int _myBonusArmor { get; set; }
-    public int _myBonusAttackDamage { get; set; }
-    public int _myBonusAttackRange { get; set; }
-    public int _myBonusMoveRange { get; set; }
     private SpriteRenderer _mySpriteRenderer;
 
     // Start is called before the first frame update
@@ -21,7 +17,6 @@ public class UnitController : MonoBehaviour, IClickable
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _mySpriteRenderer.sprite = _unit.unitDesignerSprite;
-        //gameObject.AddComponent<BoxCollider2D>();
     }
 
     private void OnDestroy()
@@ -32,7 +27,7 @@ public class UnitController : MonoBehaviour, IClickable
     private IEnumerator MakeMove(List<TileController> movePath)
     {
         ITileBehaviour myTileBehaviour;
-        IUnitSkill[] mySkills;
+        IEnterTile[] enterTileReactors;
         TileController currentNode;
         float step;
         _myTile._myUnit = null;
@@ -52,27 +47,39 @@ public class UnitController : MonoBehaviour, IClickable
         _myTile._myUnit = this;
         _myTile._isOccupied = true;
         myTileBehaviour = _myTile.gameObject.GetComponent<ITileBehaviour>();
-        myTileBehaviour.EnterTileAction(this);
-        mySkills = GetComponents<IUnitSkill>();
-        foreach(IUnitSkill skill in mySkills)
+        if(myTileBehaviour != null) myTileBehaviour.EnterTileAction(this);
+        enterTileReactors = GetComponents<IEnterTile>();
+        foreach(IEnterTile reactor in enterTileReactors)
         {
-            skill.EnterTileAction(_myTile);
+            reactor.EnterTileAction(_myTile);
         }
         EventManager._instance.ExecutionEnded(this);
     }
 
     private IEnumerator MakeAttack(UnitController target)
     {
-        IUnitSkill[] mySkills;
-        int skillsDamageBonus = 0;
-        mySkills = GetComponents<IUnitSkill>();
-        foreach(IUnitSkill skill in mySkills)
+        IAttackModifier[] myAttackModifiers;
+        int modifiersDamageBonus = 0;
+        myAttackModifiers = GetComponents<IAttackModifier>();
+        foreach(IAttackModifier modifier  in myAttackModifiers)
         {
-            skillsDamageBonus += skill.AttackAction(target);
+            modifiersDamageBonus += modifier.GetAttackModifier(target);
         }
-        target.DamageUnit(_unit.attackDamage + _myBonusAttackDamage + skillsDamageBonus);
+        target.DamageUnit(_unit.attackDamage + modifiersDamageBonus);
         yield return 0;
         EventManager._instance.ExecutionEnded(this);
+    }
+
+    private int GetBonusArmor()
+    {
+        int result = 0;
+        IArmorModifier[] myArmorModifiers;
+        myArmorModifiers = GetComponents<IArmorModifier>();
+        foreach(IArmorModifier modifier in myArmorModifiers)
+        {
+            result += modifier.GetArmorModifier();
+        }
+        return result;
     }
 
     public void InitializeUnit(TileController initialTile)
@@ -84,11 +91,8 @@ public class UnitController : MonoBehaviour, IClickable
         _myHealth.InitializeHealth(_unit.unitHealth);
         _myReticle.enabled = false;
         _isAvailable = true;
-        _myBonusArmor = 0;
-        _myBonusAttackDamage = 0;
-        _myBonusAttackRange = 0;
         ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
-        myTileBehaviour.EnterTileAction(this);
+        if(myTileBehaviour != null) myTileBehaviour.EnterTileAction(this);
     }
 
     public void Click()
@@ -104,8 +108,15 @@ public class UnitController : MonoBehaviour, IClickable
 
     public int GetMoveRange()
     {
-        if (_unit.moveRange + _myBonusMoveRange < 1) return 1;
-        else return _unit.moveRange + _myBonusMoveRange;
+        int moveRangeModifier = 0;
+        IMoveRangeModifier[] myMoveRangeModifiers;
+        myMoveRangeModifiers = GetComponents<IMoveRangeModifier>();
+        foreach(IMoveRangeModifier modifier in myMoveRangeModifiers)
+        {
+            moveRangeModifier += modifier.GetMoveRangeModifier();
+        }
+        if (_unit.moveRange + moveRangeModifier < 1) return 1;
+        else return _unit.moveRange + moveRangeModifier;
     }
 
     public float GetMoveSpeed()
@@ -130,21 +141,28 @@ public class UnitController : MonoBehaviour, IClickable
 
     public int GetAttackRange()
     {
-        return _unit.attackRange + _myBonusAttackRange;
+        int rangeModifier = 0;
+        IAttackRangeModifier[] myAttackRangeModifiers;
+        myAttackRangeModifiers = GetComponents<IAttackRangeModifier>();
+        foreach(IAttackRangeModifier modifier in myAttackRangeModifiers)
+        {
+            rangeModifier += modifier.GetAttackRangeModifier();
+        }
+        return _unit.attackRange + rangeModifier;
     }
 
     public void DamageUnit(int damage)
     {
         bool isKilled;
-        int effectsModifier = 0;
-        IEffect[] myEffects;
-        myEffects = GetComponents<IEffect>();
-        foreach(IEffect effect in myEffects)
+        int damageModifier = 0;
+        IDamageModifier[] myDamageModifiers;
+        myDamageModifiers = GetComponents<IDamageModifier>();
+        foreach(IDamageModifier modifier in myDamageModifiers)
         {
-            effectsModifier += effect.DamageModifier();
+            damageModifier += modifier.GetDamageModifier();
         }
-        int damageTaken = damage - _unit.armor - _myBonusArmor + effectsModifier;
-        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + effectsModifier + " modifiers minus " + _unit.armor + " armor.");
+        int damageTaken = damage - _unit.armor - GetBonusArmor() + damageModifier;
+        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + damageModifier + " modifiers minus " + _unit.armor + " armor.");
         if (damageTaken < 0) damageTaken = 0;
         isKilled = _myHealth.ChangeHealth(-damageTaken);
         if (isKilled)
@@ -171,7 +189,7 @@ public class UnitController : MonoBehaviour, IClickable
 
     public int GetArmor()
     {
-        return _unit.armor + _myBonusArmor;
+        return _unit.armor + GetBonusArmor();
     }
 
     public void ChangeHP(int change)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TileController))]
-public class TileIncreasingRange : MonoBehaviour, ITileBehaviour, IEndturnable
+public class TileIncreasingRange : MonoBehaviour, ITileBehaviour
 {
     [SerializeField] private int _attackRangeBonus;
     private TileController _myTileController;
@@ -13,20 +13,10 @@ public class TileIncreasingRange : MonoBehaviour, ITileBehaviour, IEndturnable
         _myTileController = GetComponent<TileController>();
     }
 
-    public void EndTurnAction(int playerId)
-    {
-        UnitController myUnit;
-        myUnit = _myTileController._myUnit;
-        if (myUnit != null && myUnit.GetPlayerId() == playerId)
-        {
-            myUnit._myBonusMoveRange = 0;
-        }
-    }
-
     public void EnterTileAction(UnitController myUnit)
     {
-        myUnit._myBonusAttackRange = _attackRangeBonus;
-        myUnit._myBonusAttackDamage = 0;
-        myUnit._myBonusArmor = 0;
+        EffectIncreaseAttackRange myEffect;
+        myEffect = myUnit.gameObject.AddComponent<EffectIncreaseAttackRange>();
+        myEffect.InitializeEffect(_attackRangeBonus);
     }
 }

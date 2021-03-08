@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillBurn : MonoBehaviour, IUnitSkill
+public class SkillBurn : MonoBehaviour, IAttackModifier
 {
     [SerializeField] private int _burnAmount;
     [SerializeField] private int _burnTurns;
@@ -14,10 +14,7 @@ public class SkillBurn : MonoBehaviour, IUnitSkill
         _myUnitController = GetComponent<UnitController>();
     }
 
-    public void EnterTileAction(TileController newTile)
-    { }
-
-    public int AttackAction(UnitController target)
+    public int GetAttackModifier(UnitController target)
     {
         EffectBurn myBurnEffect;
         if(target.gameObject.GetComponent<EffectBurn>() == null)

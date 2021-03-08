@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IUnitSkill
+public interface IEnterTile 
 {
     void EnterTileAction(TileController newTile);
-    int AttackAction(UnitController target);
 }

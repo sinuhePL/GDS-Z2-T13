@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class EffectPoison : MonoBehaviour, IEffect, IEndturnable
+public class EffectPoison : MonoBehaviour, IDamageModifier, IEndturnable
 {
     private int _damage;
     private int _duration;
@@ -16,27 +16,7 @@ public class EffectPoison : MonoBehaviour, IEffect, IEndturnable
         _myUnitController = GetComponent<UnitController>();
     }
 
-    public int AttackModifier()
-    {
-        return 0;
-    }
-
-    public int ArmorModifier()
-    {
-        return 0;
-    }
-
-    public int MoveRangeModifier()
-    {
-        return 0;
-    }
-
-    public int AttackRangeModifier()
-    {
-        return 0;
-    }
-
-    public int DamageModifier()
+    public int GetDamageModifier()
     {
         return _damage;
     }
