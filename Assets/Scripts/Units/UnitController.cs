@@ -11,6 +11,7 @@ public class UnitController : MonoBehaviour, IClickable
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
     private SpriteRenderer _mySpriteRenderer;
+    private int _freeAttacksCount;
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +68,7 @@ public class UnitController : MonoBehaviour, IClickable
         }
         target.DamageUnit(_unit.attackDamage + modifiersDamageBonus);
         yield return 0;
+        if (_freeAttacksCount < 1) _freeAttacksCount = _unit.attacksCount;
         EventManager._instance.ExecutionEnded(this);
     }
 
@@ -93,6 +95,7 @@ public class UnitController : MonoBehaviour, IClickable
         _isAvailable = true;
         ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
         if(myTileBehaviour != null) myTileBehaviour.EnterTileAction(this);
+        _freeAttacksCount = _unit.attacksCount;
     }
 
     public void Click()
@@ -115,7 +118,7 @@ public class UnitController : MonoBehaviour, IClickable
         {
             moveRangeModifier += modifier.GetMoveRangeModifier();
         }
-        if (_unit.moveRange + moveRangeModifier < 1) return 1;
+        if (_unit.moveRange + moveRangeModifier < 1) return 0;
         else return _unit.moveRange + moveRangeModifier;
     }
 
@@ -131,6 +134,7 @@ public class UnitController : MonoBehaviour, IClickable
 
     public void AttackUnit(UnitController targetUnit)
     {
+        _freeAttacksCount--;
         StartCoroutine(MakeAttack(targetUnit));
     }
 
@@ -197,5 +201,22 @@ public class UnitController : MonoBehaviour, IClickable
         bool isKilled;
         isKilled = _myHealth.ChangeHPNumber(change);
         if (isKilled) EventManager._instance.UnitKilled(this);
+    }
+
+    public bool IsTargetValid(UnitController attackTarget)
+    {
+        IValidateTarget[] myValidateTargetModifiers;
+        myValidateTargetModifiers = GetComponents<IValidateTarget>();
+        foreach(IValidateTarget modifier in myValidateTargetModifiers)
+        {
+            if (!modifier.IsTargetValid(attackTarget)) return false;
+        }
+        if (attackTarget.GetPlayerId() != _unit.playerId) return true;
+        else return false;
+    }
+
+    public int GetFreeAttackNumber()
+    {
+        return _freeAttacksCount;
     }
 }

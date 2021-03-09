@@ -24,6 +24,16 @@ public struct GridPosition
         if (gp1.x != gp2.x || gp1.y != gp2.y) return true;
         else return false;
     }
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class GameController : MonoBehaviour

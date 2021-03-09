@@ -22,14 +22,17 @@ public class AttackSelectedState : IGameState
     public IGameState UnitClicked(GameController myGameController, UnitController clickedUnit)
     {
         BoardGrid myGrid;
+        bool attackEndsTurn;
         myGrid = myGameController.GetGrid();
-        if (_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId() && myGrid.IsTileInAttackRange(_activeUnit, clickedUnit._myTile))
+        if (_activeUnit.IsTargetValid(clickedUnit) && myGrid.IsTileInAttackRange(_activeUnit, clickedUnit._myTile))
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
             _activeUnit.AttackUnit(clickedUnit);
-            return new ExecutionState(_activeUnit, true);
+            if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;
+            else attackEndsTurn = false;
+            return new ExecutionState(_activeUnit, attackEndsTurn);
         }
         else if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable)
         {

@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitSprite: {fileID: 0}
   unitDesignerSprite: {fileID: 21300000, guid: 925439bef8289c14ea30ab06c68077b5, type: 3}
-  unitName: "\u0141omotnik"
-  unitHealth: 2
-  moveRange: 4
-  attackDamage: 1
-  attackRange: 3
+  unitName: DPSMelee2
+  unitHealth: 9
+  moveRange: 3
+  attackDamage: 2
+  attackRange: 1
+  armor: 1
   moveSpeed: 2
   playerId: 2
+  isKing: 0
+  attacksCount: 1

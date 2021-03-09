@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitSprite: {fileID: 0}
   unitDesignerSprite: {fileID: 21300000, guid: 20e9877f9ac15b94faa25d629805a18a, type: 3}
-  unitName: name5
-  unitHealth: 2
+  unitName: Tank1
+  unitHealth: 10
   moveRange: 2
   attackDamage: 2
-  attackRange: 2
+  attackRange: 1
+  armor: 1
   moveSpeed: 2
   playerId: 1
+  isKing: 0
+  attacksCount: 1
