@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackBonus: 1
+  _effectDescription: Strenghten (+1 attack strength)
 --- !u!1001 &5617111126193697084
 PrefabInstance:
   m_ObjectHideFlags: 0

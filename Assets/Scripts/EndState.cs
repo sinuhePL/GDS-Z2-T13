@@ -35,6 +35,12 @@ public class EndState : IGameState
         return null;
     }
 
+    public IGameState UnitUnhovered(GameController myGameController, UnitController unhoveredUnit)
+    {
+        //nothing happens
+        return null;
+    }
+
     public IGameState ExecutionEnd(GameController myGameController)
     {
         //nothing happens

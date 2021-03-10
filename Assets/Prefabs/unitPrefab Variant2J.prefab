@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1303056864539e047b3d0ab270a83eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _description: Instigator (Nearby enemies can select only this unit as an attack
+    target and cannot move)
+  _effectDescription: Provoked (cannot move and can only attack one enemy)
 --- !u!114 &-2829039138333319930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,6 +28,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _recoveryRate: 1
+  _description: Recovery (+1 HP/turn)
 --- !u!1001 &690961305165970716
 PrefabInstance:
   m_ObjectHideFlags: 0

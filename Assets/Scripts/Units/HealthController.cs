@@ -70,4 +70,9 @@ public class HealthController : MonoBehaviour
         if (_healthPoints <= 0) return true;
         else return false;
     }
+
+    public int GetCurrentHealth()
+    {
+        return _healthPoints;
+    }
 }

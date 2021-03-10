@@ -24,6 +24,20 @@ public class EventManager : MonoBehaviour
         OnUnitClicked?.Invoke(clickedUnit);
     }
 
+    public event Action<UnitController> OnUnitHovered;
+
+    public void UnitHovered(UnitController hoveredUnit)
+    {
+        OnUnitHovered?.Invoke(hoveredUnit);
+    }
+
+    public event Action<UnitController> OnUnitUnhovered;
+
+    public void UnitUnhovered(UnitController unhoveredUnit)
+    {
+        OnUnitUnhovered?.Invoke(unhoveredUnit);
+    }
+
     public event Action<TileController> OnTileClicked;
 
     public void TileClicked(TileController clickedTile)

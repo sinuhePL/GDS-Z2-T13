@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class EffectProvoked : MonoBehaviour, IValidateTarget, IMoveRangeModifier, IEndturnable
+public class EffectProvoked : MonoBehaviour, IValidateTarget, IMoveRangeModifier, IEndturnable, IEffect
 {
     private UnitController _instigator;
+    private string _description;
     private UnitController _myUnitController;
 
-    public void InitializeEffect(UnitController provokingUnit)
+    public void InitializeEffect(UnitController provokingUnit, string myDescription)
     {
         _instigator = provokingUnit;
         _myUnitController = GetComponent<UnitController>();
+        _description = myDescription;
     }
 
     public bool IsTargetValid(UnitController targetUnit)
@@ -32,5 +34,10 @@ public class EffectProvoked : MonoBehaviour, IValidateTarget, IMoveRangeModifier
     public int GetMoveRangeModifier()
     {
         return -10;
+    }
+
+    public string GetDescription()
+    {
+        return _description;
     }
 }

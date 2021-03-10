@@ -10,4 +10,5 @@ public class ScriptableTile : ScriptableObject
     public Sprite tileDesignerSprite;
     public bool isWalkable;
     public string tileName;
+    public string tileDescription;
 }

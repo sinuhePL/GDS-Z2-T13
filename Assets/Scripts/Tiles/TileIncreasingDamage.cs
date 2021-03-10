@@ -6,6 +6,7 @@ using UnityEngine;
 public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
 {
     [SerializeField] private int _attackBonus;
+    [SerializeField] private string _effectDescription;
     private TileController _myTileController;
 
     private void Start()
@@ -17,6 +18,6 @@ public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
     {
         EffectIncreaseDamage myEffect;
         myEffect = myUnit.gameObject.AddComponent<EffectIncreaseDamage>();
-        myEffect.InitializeEffect(_attackBonus);
+        myEffect.InitializeEffect(_attackBonus, _effectDescription);
     }
 }

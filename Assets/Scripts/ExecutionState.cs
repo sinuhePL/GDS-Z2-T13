@@ -39,6 +39,12 @@ public class ExecutionState : IGameState
         return null;
     }
 
+    public IGameState UnitUnhovered(GameController myGameController, UnitController unhoveredUnit)
+    {
+        //nothing happens
+        return null;
+    }
+
     public IGameState ExecutionEnd(GameController myGameController)
     {
         //if move ended change state to Attack Selected State, if attack ended change state to Begin Turn State

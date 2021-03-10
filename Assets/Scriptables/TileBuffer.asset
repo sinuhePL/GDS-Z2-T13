@@ -17,3 +17,4 @@ MonoBehaviour:
   tileDesignerSprite: {fileID: 21300000, guid: 2297b1306d27cdb4fa6b3ffc5c47eebf, type: 3}
   isWalkable: 1
   tileName: AttackBuffer
+  tileDescription: +1 Attack Strength

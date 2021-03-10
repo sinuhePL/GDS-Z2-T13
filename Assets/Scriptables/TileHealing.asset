@@ -17,3 +17,4 @@ MonoBehaviour:
   tileDesignerSprite: {fileID: 21300000, guid: 13a68a08182fbf141bc760c190685b14, type: 3}
   isWalkable: 1
   tileName: Healing
+  tileDescription: +1 HP/Turn

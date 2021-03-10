@@ -25,6 +25,16 @@ public class UnitController : MonoBehaviour, IClickable
         _myTile._isOccupied = false;
     }
 
+    private void OnMouseEnter()
+    {
+        EventManager._instance.UnitHovered(this);
+    }
+
+    private void OnMouseExit()
+    {
+        EventManager._instance.UnitUnhovered(this);
+    }
+
     private IEnumerator MakeMove(List<TileController> movePath)
     {
         ITileBehaviour myTileBehaviour;
@@ -218,5 +228,45 @@ public class UnitController : MonoBehaviour, IClickable
     public int GetFreeAttackNumber()
     {
         return _freeAttacksCount;
+    }
+
+    public string GetUnitName()
+    {
+        return _unit.unitName;
+    }
+
+    public int GetHP()
+    {
+        return _myHealth.GetCurrentHealth();
+    }
+
+    public int GetMaxHP()
+    {
+        return _unit.unitHealth;
+    }
+
+    public int GetBaseMoveRange()
+    {
+        return _unit.moveRange;
+    }
+
+    public int GetAttackStrength()
+    {
+        return _unit.attackDamage;
+    }
+
+    public int GetBaseAttackRange()
+    {
+        return _unit.attackRange;
+    }
+
+    public int GetBaseArmor()
+    {
+        return _unit.armor;
+    }
+
+    public int GetBaseAttacksCount()
+    {
+        return _unit.attacksCount;
     }
 }

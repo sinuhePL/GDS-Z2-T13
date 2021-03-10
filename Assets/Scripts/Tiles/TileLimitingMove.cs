@@ -6,6 +6,7 @@ using UnityEngine;
 public class TileLimitingMove : MonoBehaviour, IEndturnable
 {
     [SerializeField] private int _movementRangeBonus;
+    [SerializeField] private string _effectDescription;
     private TileController _myTileController;
 
     private void Start()
@@ -22,7 +23,7 @@ public class TileLimitingMove : MonoBehaviour, IEndturnable
         if (myUnit != null && myUnit.GetPlayerId() == playerId)
         {
             myEffect = myUnit.gameObject.AddComponent<EffectIncreaseMoveRange>();
-            myEffect.InitializeEffect(_movementRangeBonus);
+            myEffect.InitializeEffect(_movementRangeBonus, _effectDescription);
         }
     }
 }

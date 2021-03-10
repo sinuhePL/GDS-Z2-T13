@@ -175,7 +175,7 @@ public class BoardGrid
                     // skip unwalkable tiles
                     if (!_gridArray[x, y].isWalkable()) continue;
                     pathNodeList = FindPath(startingPosition, _gridArray[x, y].GetGridPosition());
-                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inMoveRangeColor);
+                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inMoveRangeColor, false);
                 }
             }
         }
@@ -200,15 +200,15 @@ public class BoardGrid
             pathNodeList = FindPath(myUnit.GetGridPosition(), myTile.GetGridPosition());
             foreach (TileController myNode in pathNodeList)
             {
-                myNode.Highlight(_pathColor);
+                myNode.Highlight(_pathColor, false);
             }
         }
-        else if (myTile.isWalkable()) myTile.Highlight(_hoverColor);
+        else if (myTile.isWalkable()) myTile.Highlight(_hoverColor, false);
     }
 
     public void TileHovered(TileController hoveredTile)
     {
-        if(hoveredTile.isWalkable()) hoveredTile.Highlight(_hoverColor);
+        if(hoveredTile.isWalkable()) hoveredTile.Highlight(_hoverColor, false);
     }
 
     public void HideHighlight()
@@ -232,24 +232,24 @@ public class BoardGrid
         return _height;
     }
 
-    public void ShowAttackRange(GridPosition startingPosition, int range)
+    public void ShowAttackRange(GridPosition startingPosition, int range, int playerId)
     {
         if(range == 1)  // highlight melee attack range
         {
             if (startingPosition.x > 0)
             {
-                _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(_inAttackRangeColor);
-                if(startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y-1].Highlight(_inAttackRangeColor);
-                if(startingPosition.y < _height-1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(_inAttackRangeColor);
+                _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
+                if(startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y-1].Highlight(_inAttackRangeColor, true, playerId);
+                if(startingPosition.y < _height-1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
             }
             if(startingPosition.x < _width - 1)
             {
-                _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_inAttackRangeColor);
-                if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(_inAttackRangeColor);
-                if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(_inAttackRangeColor);
+                _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
             }
-            if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_inAttackRangeColor);
-            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_inAttackRangeColor);
+            if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_inAttackRangeColor, true, playerId);
+            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
         }
         else
         {
@@ -258,13 +258,13 @@ public class BoardGrid
         {
             for(int i=1; i<_width; i++)
             {
-                if(startingPosition.x + i < _width && i <= range) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(_inAttackRangeColor);
-                if (startingPosition.x - i >= 0 && i <= range) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(_inAttackRangeColor);
+                if(startingPosition.x + i < _width && i <= range) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.x - i >= 0 && i <= range) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
             }
             for (int i = 1; i < _height; i++)
             {
-                if (startingPosition.y + i < _height && i <= range) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(_inAttackRangeColor);
-                if (startingPosition.y - i >= 0 && i <= range) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(_inAttackRangeColor);
+                if (startingPosition.y + i < _height && i <= range) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.y - i >= 0 && i <= range) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(_inAttackRangeColor, true, playerId);
             }
         }
     }

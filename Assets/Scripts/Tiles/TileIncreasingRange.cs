@@ -6,6 +6,7 @@ using UnityEngine;
 public class TileIncreasingRange : MonoBehaviour, ITileBehaviour
 {
     [SerializeField] private int _attackRangeBonus;
+    [SerializeField] private string _effectDescription;
     private TileController _myTileController;
 
     private void Start()
@@ -17,6 +18,6 @@ public class TileIncreasingRange : MonoBehaviour, ITileBehaviour
     {
         EffectIncreaseAttackRange myEffect;
         myEffect = myUnit.gameObject.AddComponent<EffectIncreaseAttackRange>();
-        myEffect.InitializeEffect(_attackRangeBonus);
+        myEffect.InitializeEffect(_attackRangeBonus, _effectDescription);
     }
 }

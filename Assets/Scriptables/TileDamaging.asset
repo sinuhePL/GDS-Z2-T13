@@ -17,3 +17,4 @@ MonoBehaviour:
   tileDesignerSprite: {fileID: 21300000, guid: c12e5f899ac338740afaece45c82d066, type: 3}
   isWalkable: 1
   tileName: Kolce
+  tileDescription: -1 HP/Turn

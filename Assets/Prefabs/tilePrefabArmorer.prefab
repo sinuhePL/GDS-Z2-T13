@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _armorBonus: 1
+  _effectDescription: Armored (+1 armor)
 --- !u!1001 &1952971101205101660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 8562372451011211746, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
         type: 3}
       propertyPath: m_Name
-      value: tileArmorer
+      value: tilePrefabArmorer
       objectReference: {fileID: 0}
     - target: {fileID: 8562372451011211751, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
         type: 3}

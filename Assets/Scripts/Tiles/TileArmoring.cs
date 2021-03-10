@@ -6,6 +6,7 @@ using UnityEngine;
 public class TileArmoring : MonoBehaviour, IEndturnable
 {
     [SerializeField] private int _armorBonus;
+    [SerializeField] private string _effectDescription;
     private TileController _myTileController;
 
     private void Start()
@@ -22,7 +23,7 @@ public class TileArmoring : MonoBehaviour, IEndturnable
         if (myUnit != null && myUnit.GetPlayerId() == playerId)
         {
             myEffect = myUnit.gameObject.AddComponent<EffectIncreaseArmor>();
-            myEffect.InitializeEffect(_armorBonus);
+            myEffect.InitializeEffect(_armorBonus, _effectDescription);
         }
     }
 }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287b434387c806a4fb635e7121b69404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _recoveryRate: 0
+  _recoveryRate: 1
+  _description: Recovery (+1 HP/Turn)
 --- !u!114 &7279241877104730211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,7 +26,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49d8e1ee75d9214a831a49c069b8f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackBonus: 0
+  _attackBonus: 1
+  _description: Backstab (+1 attack strength when attacking from behind)
 --- !u!1001 &2867596594549318681
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class TileController : MonoBehaviour, IClickable
     public int _fCost { get; set; }
     public TileController _cameFromNode { get; set; }
     [SerializeField] private SpriteRenderer _overlaySpriteRenderer;
+    [SerializeField] private SpriteRenderer _crosshairSpriteRenderer;
     [SerializeField] private ScriptableTile _tile;
     private SpriteRenderer _mySpriteRenderer;
     private GridPosition _gridPosition;
@@ -21,12 +22,14 @@ public class TileController : MonoBehaviour, IClickable
 
     private void OnMouseEnter()
     {
-        if(_tile.isWalkable && !_isOccupied) EventManager._instance.TileHovered(this);
+        if(_isOccupied) EventManager._instance.UnitHovered(_myUnit);
+        else if (_tile.isWalkable) EventManager._instance.TileHovered(this);
     }
 
     private void OnMouseExit()
     {
-        if (_tile.isWalkable && !_isOccupied)
+        if (_isOccupied) EventManager._instance.UnitUnhovered(_myUnit);
+        if (_tile.isWalkable)
         {
             _overlaySpriteRenderer.color = _previousColor;
         }
@@ -36,6 +39,7 @@ public class TileController : MonoBehaviour, IClickable
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
         _mySpriteRenderer.sprite = _tile.tileDesignerSprite;
+        _crosshairSpriteRenderer.enabled = false;
         _gridPosition = position;
         _previousColor = _overlaySpriteRenderer.color;
         _myUnit = null;
@@ -77,12 +81,20 @@ public class TileController : MonoBehaviour, IClickable
     {
         _overlaySpriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         _previousColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        _crosshairSpriteRenderer.enabled = false;
     }
 
-    public void Highlight(Color highlightColor)
+    public void Highlight(Color highlightColor, bool showAttackRange, int playerId = 0)
     {
-        _previousColor = _overlaySpriteRenderer.color;
-        _overlaySpriteRenderer.color = highlightColor;
+        if (!_isOccupied && showAttackRange && _tile.isWalkable) _crosshairSpriteRenderer.enabled = true;
+        else
+        {
+            if (!_isOccupied && _tile.isWalkable || _isOccupied && playerId != _myUnit.GetPlayerId())
+            {
+                _previousColor = _overlaySpriteRenderer.color;
+                _overlaySpriteRenderer.color = highlightColor;
+            }
+        }
     }
 
     public string GetLetter()
@@ -104,5 +116,15 @@ public class TileController : MonoBehaviour, IClickable
     {
         if (_gridPosition.x < _myBoard.GetBoardWidth() / 2) return 1;
         else return 2;
+    }
+
+    public string GetTileName()
+    {
+        return _tile.tileName;
+    }
+
+    public string GetDescription()
+    {
+        return _tile.tileDescription;
     }
 }

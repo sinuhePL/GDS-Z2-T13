@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
 {
     [Header("Technical:")]
     [SerializeField] private UIController _myUIController;
+    [SerializeField] private UnitTilePanelController _myInfoPanel;
     [Header("For designers:")]
     [Tooltip("Size of square board Tile, depends on tile sprote size.")]
     [SerializeField] private float _tileSize;
@@ -75,6 +76,26 @@ public class GameController : MonoBehaviour
         IGameState newState;
         newState = _myGameState.UnitClicked(this, clickedUnit);
         if(newState != null)
+        {
+            _myGameState = newState;
+        }
+    }
+
+    private void OnUnitHovered(UnitController hoveredUnit)
+    {
+        IGameState newState;
+        newState = _myGameState.UnitHovered(this, hoveredUnit);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
+    }
+
+    private void OnUnitUnhovered(UnitController unhoveredUnit)
+    {
+        IGameState newState;
+        newState = _myGameState.UnitUnhovered(this, unhoveredUnit);
+        if (newState != null)
         {
             _myGameState = newState;
         }
@@ -153,6 +174,8 @@ public class GameController : MonoBehaviour
         }
         _myGameState = new BeginTurnState(_startingPlayer);
         EventManager._instance.OnUnitClicked += OnUnitClicked;
+        EventManager._instance.OnUnitHovered += OnUnitHovered;
+        EventManager._instance.OnUnitUnhovered += OnUnitUnhovered;
         EventManager._instance.OnTileClicked += OnTileClicked;
         EventManager._instance.OnTileHovered += OnTileHovered;
         EventManager._instance.OnExecutionEnd += OnExecutionEnded;
@@ -187,6 +210,32 @@ public class GameController : MonoBehaviour
                 if(clickedObject != null) clickedObject.Click();
             }
         }
+        /*if((Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
+        {
+            Vector2 mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, new Vector2(0, 0), 0.01f);
+            SpriteRenderer topRenderer = null;
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (topRenderer == null)
+                {
+                    topRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
+                    continue;
+                }
+                SpriteRenderer currentRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
+                if (currentRenderer.sortingLayerID > topRenderer.sortingLayerID) topRenderer = currentRenderer;
+                else if (currentRenderer.sortingLayerID == topRenderer.sortingLayerID)
+                {
+                    if (currentRenderer.sortingOrder > topRenderer.sortingOrder) topRenderer = currentRenderer;
+                }
+            }
+            if (topRenderer != null)
+            {
+                IClickable clickedObject = null;
+                clickedObject = topRenderer.gameObject.GetComponent<IClickable>();
+                if (clickedObject != null) clickedObject.Click();
+            }
+        }*/
     }
 
     private void OnDestroy()
@@ -194,8 +243,10 @@ public class GameController : MonoBehaviour
         EventManager._instance.OnUnitClicked -= OnUnitClicked;
         EventManager._instance.OnTileClicked -= OnTileClicked;
         EventManager._instance.OnTileHovered -= OnTileHovered;
+        EventManager._instance.OnUnitUnhovered -= OnUnitUnhovered;
         EventManager._instance.OnExecutionEnd -= OnExecutionEnded;
         EventManager._instance.OnUnitKilled -= OnUnitKilled;
+        EventManager._instance.OnUnitHovered -= OnUnitHovered;
     }
 
     public BoardGrid GetGrid()
@@ -206,6 +257,11 @@ public class GameController : MonoBehaviour
     public UIController GetUI()
     {
         return _myUIController;
+    }
+
+    public UnitTilePanelController GetInfoPanel()
+    {
+        return _myInfoPanel;
     }
 
     public bool MovesDepleted(int playerId)

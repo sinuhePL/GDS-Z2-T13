@@ -22,10 +22,12 @@ public class BeginTurnState : IGameState
     {
         //if it's active player's unit and this unit is available, change state to selected unit 
         BoardGrid myGrid;
+        UnitTilePanelController infoPanel;
         if (clickedUnit.GetPlayerId() == _activePlayerId && clickedUnit._isAvailable)
         {
             myGrid = myGameController.GetGrid();
-            return new UnitSelectedState(clickedUnit, myGrid);
+            infoPanel = myGameController.GetInfoPanel();
+            return new UnitSelectedState(clickedUnit, myGrid, infoPanel);
         }
         return null;
     }
@@ -34,14 +36,33 @@ public class BeginTurnState : IGameState
     {
         //highlight tile
         BoardGrid myGrid;
+        UnitTilePanelController infoPanel;
         myGrid = myGameController.GetGrid();
         myGrid.TileHovered(hoveredTile);
+        infoPanel = myGameController.GetInfoPanel();
+        infoPanel.DisplayTile(hoveredTile);
         return null;
     }
 
     public IGameState UnitHovered(GameController myGameController, UnitController hoveredUnit)
     {
-        //nothing happens
+        //show units move and attack ranges
+        BoardGrid myGrid;
+        UnitTilePanelController infoPanel;
+        myGrid = myGameController.GetGrid();
+        myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
+        myGrid.ShowAttackRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
+        infoPanel = myGameController.GetInfoPanel();
+        infoPanel.DisplayUnit(hoveredUnit);
+        return null;
+    }
+
+    public IGameState UnitUnhovered(GameController myGameController, UnitController unhoveredUnit)
+    {
+        //clear board
+        BoardGrid myGrid;
+        myGrid = myGameController.GetGrid();
+        myGrid.HideHighlight();
         return null;
     }
 

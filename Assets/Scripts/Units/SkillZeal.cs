@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillZeal : MonoBehaviour, IAttackModifier, IEnterTile
+public class SkillZeal : MonoBehaviour, IAttackModifier, IEnterTile, ISkill
 {
     [SerializeField] private int _attackBonus;
     [SerializeField] private int _healthBonus;
+    [SerializeField] private string _description;
     private UnitController _myUnitController;
     private bool _isAdjacentToKing;
 
@@ -68,5 +69,10 @@ public class SkillZeal : MonoBehaviour, IAttackModifier, IEnterTile
         if (_isAdjacentToKing) return _attackBonus;
         else return 0;
 
+    }
+
+    public string GetDescription()
+    {
+        return _description;
     }
 }
