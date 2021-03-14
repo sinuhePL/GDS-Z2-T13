@@ -17,4 +17,5 @@ public class ScriptableUnit : ScriptableObject
     public int playerId;
     public bool isKing;
     public int attacksCount;
+    public int unitTypeId;
 }

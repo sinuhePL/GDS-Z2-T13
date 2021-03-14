@@ -25,7 +25,7 @@ public class UnitTilePanelController : MonoBehaviour
     [SerializeField] Text _effects;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _hpText.enabled = false;
         _moveRangeText.enabled = false;
@@ -34,7 +34,7 @@ public class UnitTilePanelController : MonoBehaviour
         _armorText.enabled = false;
         _attacksCountText.enabled = false;
         _skillsText.enabled = false;
-        _effectsText.enabled = false;
+        if(_effectsText != null) _effectsText.enabled = false;
     }
 
     public void DisplayTile(TileController myTile)
@@ -73,7 +73,7 @@ public class UnitTilePanelController : MonoBehaviour
         _armorText.enabled = true;
         _attacksCountText.enabled = true;
         _skillsText.enabled = true;
-        _effectsText.enabled = true;
+        if (_effectsText != null) _effectsText.enabled = true;
         _name.text = myUnit.GetUnitName();
         if (myUnit.IsKing()) _description.text = "Commander";
         else _description.text = "Minion";
@@ -102,7 +102,7 @@ public class UnitTilePanelController : MonoBehaviour
             description += effect.GetDescription();
             counter++;
         }
-        _effects.text = description;
+        if (_effectsText != null) _effects.text = description;
     }
 
     public void ClearDisplay()

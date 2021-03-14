@@ -46,14 +46,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private float _tileSize;
     [Tooltip("Every new tile should be added here.")]
     [SerializeField] private GameObject[] _tilePrefabs;
-    [Tooltip("Every new player 1's army unit should be added here.")]
-    [SerializeField] private GameObject[] _player1UnitPrefabs;
-    [Tooltip("Every new player 2's army unit should be added here.")]
-    [SerializeField] private GameObject[] _player2UnitPrefabs;
     [Tooltip("Starting player Id.")]
     [SerializeField] private int _startingPlayer;
 
     private static GameController _instance;
+    private List<GameObject> _unitPrefabsPlayer1;
+    private List<GameObject> _unitPrefabsPlayer2;
     private IGameState _myGameState;
     private BoardGrid _myGrid;
     private List<UnitController> _units;
@@ -150,29 +148,11 @@ public class GameController : MonoBehaviour
         string configFilePath = Application.streamingAssetsPath + "/grid.csv";
         string[] gridFile = File.ReadAllLines(configFilePath);
         _myGrid = new BoardGrid(gridFile, _tilePrefabs, _tileSize);
+        _unitPrefabsPlayer1 = new List<GameObject>();
+        _unitPrefabsPlayer2 = new List<GameObject>();
         _units = new List<UnitController>();
         _unitsKilledThisTurn = new List<UnitController>();
         gameEnded = false;
-        for(int i=0; i< _player1UnitPrefabs.Length; i++)
-        { 
-            _units.Add(Instantiate(_player1UnitPrefabs[i], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
-            _units[i].InitializeUnit(_myGrid.GetTile(0, i));
-        }
-        for (int i = 0; i < _player2UnitPrefabs.Length; i++)
-        {
-            _units.Add(Instantiate(_player2UnitPrefabs[i], Vector3.zero, Quaternion.identity).GetComponent<UnitController>());
-            _units[i + _player1UnitPrefabs.Length].InitializeUnit(_myGrid.GetTile(_myGrid.GetBoardWidth()-1, _myGrid.GetBoardHeight()-1-i));
-        }
-        foreach(UnitController unit in _units)
-        {
-            IEnterTile[] unitEnterTileReactors;
-            unitEnterTileReactors = unit.gameObject.GetComponents<IEnterTile>();
-            foreach(IEnterTile reactor in unitEnterTileReactors)
-            {
-                reactor.EnterTileAction(unit._myTile);
-            }
-        }
-        _myGameState = new BeginTurnState(_startingPlayer);
         EventManager._instance.OnUnitClicked += OnUnitClicked;
         EventManager._instance.OnUnitHovered += OnUnitHovered;
         EventManager._instance.OnUnitUnhovered += OnUnitUnhovered;
@@ -210,32 +190,6 @@ public class GameController : MonoBehaviour
                 if(clickedObject != null) clickedObject.Click();
             }
         }
-        /*if((Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
-        {
-            Vector2 mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, new Vector2(0, 0), 0.01f);
-            SpriteRenderer topRenderer = null;
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (topRenderer == null)
-                {
-                    topRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
-                    continue;
-                }
-                SpriteRenderer currentRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
-                if (currentRenderer.sortingLayerID > topRenderer.sortingLayerID) topRenderer = currentRenderer;
-                else if (currentRenderer.sortingLayerID == topRenderer.sortingLayerID)
-                {
-                    if (currentRenderer.sortingOrder > topRenderer.sortingOrder) topRenderer = currentRenderer;
-                }
-            }
-            if (topRenderer != null)
-            {
-                IClickable clickedObject = null;
-                clickedObject = topRenderer.gameObject.GetComponent<IClickable>();
-                if (clickedObject != null) clickedObject.Click();
-            }
-        }*/
     }
 
     private void OnDestroy()
@@ -318,5 +272,42 @@ public class GameController : MonoBehaviour
             Destroy(killedUnit.gameObject);
         }
         _unitsKilledThisTurn.Clear();
+    }
+
+    public void AddUnitPrefab(GameObject unitPrefab, int playerId)
+    {
+        if(playerId == 1) _unitPrefabsPlayer1.Add(unitPrefab);
+        else _unitPrefabsPlayer2.Add(unitPrefab);
+    }
+
+    public void StartGame()
+    {
+        UnitController newUnit;
+        int i = 0;
+        foreach (GameObject unitPrefab in _unitPrefabsPlayer1)
+        {
+            newUnit = Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<UnitController>();
+            newUnit.InitializeUnit(_myGrid.GetTile(0, i));
+            _units.Add(newUnit);
+            i++;
+        }
+        i = 0;
+        foreach (GameObject unitPrefab in _unitPrefabsPlayer2)
+        {
+            newUnit = Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<UnitController>();
+            newUnit.InitializeUnit(_myGrid.GetTile(_myGrid.GetBoardWidth() - 1, _myGrid.GetBoardHeight() - 1 - i));
+            _units.Add(newUnit);
+            i++;
+        }
+        foreach (UnitController unit in _units)
+        {
+            IEnterTile[] unitEnterTileReactors;
+            unitEnterTileReactors = unit.gameObject.GetComponents<IEnterTile>();
+            foreach (IEnterTile reactor in unitEnterTileReactors)
+            {
+                reactor.EnterTileAction(unit._myTile);
+            }
+        }
+        _myGameState = new BeginTurnState(_startingPlayer);
     }
 }

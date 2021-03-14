@@ -24,3 +24,4 @@ MonoBehaviour:
   playerId: 2
   isKing: 0
   attacksCount: 1
+  unitTypeId: 2

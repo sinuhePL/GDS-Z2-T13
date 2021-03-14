@@ -269,4 +269,14 @@ public class UnitController : MonoBehaviour, IClickable
     {
         return _unit.attacksCount;
     }
+
+    public Sprite GetUnitImage()
+    {
+        return _unit.unitDesignerSprite;
+    }
+
+    public int GetUnitType()
+    {
+        return _unit.unitTypeId;
+    }
 }
