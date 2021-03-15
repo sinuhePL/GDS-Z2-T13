@@ -23,10 +23,10 @@ public class AttackSelectedState : IGameState
     public IGameState UnitClicked(GameController myGameController, UnitController clickedUnit)
     {
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
+        UIController ui;
         bool attackEndsTurn;
 
-        infoPanel = myGameController.GetInfoPanel();
+        ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
         if (_activeUnit.IsTargetValid(clickedUnit) && myGrid.IsTileInAttackRange(_activeUnit, clickedUnit._myTile))
         {
@@ -43,7 +43,7 @@ public class AttackSelectedState : IGameState
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
-            return new UnitSelectedState(clickedUnit, myGrid, infoPanel);
+            return new UnitSelectedState(clickedUnit, myGrid, ui);
         }
         else return null;
     }
@@ -62,8 +62,10 @@ public class AttackSelectedState : IGameState
         //show units move and attack ranges
         BoardGrid myGrid;
         UnitTilePanelController infoPanel;
+        UIController ui;
 
-        infoPanel = myGameController.GetInfoPanel();
+        ui = myGameController.GetUI();
+        infoPanel = ui.GetInfoPanel();
         myGrid = myGameController.GetGrid();
         infoPanel.DisplayUnit(hoveredUnit);
         if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
@@ -80,8 +82,11 @@ public class AttackSelectedState : IGameState
         //clear board
         BoardGrid myGrid;
         UnitTilePanelController infoPanel;
+        UIController ui;
+
+        ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
-        infoPanel = myGameController.GetInfoPanel();
+        infoPanel = ui.GetInfoPanel();
         infoPanel.DisplayUnit(_activeUnit);
         if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
         {

@@ -40,7 +40,6 @@ public class GameController : MonoBehaviour
 {
     [Header("Technical:")]
     [SerializeField] private UIController _myUIController;
-    [SerializeField] private UnitTilePanelController _myInfoPanel;
     [Header("For designers:")]
     [Tooltip("Size of square board Tile, depends on tile sprote size.")]
     [SerializeField] private float _tileSize;
@@ -55,8 +54,8 @@ public class GameController : MonoBehaviour
     private IGameState _myGameState;
     private BoardGrid _myGrid;
     private List<UnitController> _units;
-    private Camera myCamera;
-    private bool gameEnded;
+    private Camera _myCamera;
+    private bool _gameEnded;
     private List<UnitController> _unitsKilledThisTurn;
 
     private void Awake()
@@ -124,7 +123,7 @@ public class GameController : MonoBehaviour
         int winner;
         if (killedUnit.IsKing())
         {
-            gameEnded = true;
+            _gameEnded = true;
             winner = (killedUnit.GetPlayerId() == 1 ? 2 : 1);
             _myGameState = new EndState(this, winner);
         }
@@ -135,7 +134,7 @@ public class GameController : MonoBehaviour
     {
         IGameState newState;
         newState = _myGameState.ExecutionEnd(this);
-        if (newState != null && !gameEnded)
+        if (newState != null && !_gameEnded)
         {
             _myGameState = newState;
         }
@@ -144,12 +143,12 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myCamera = Camera.main;
+        _myCamera = Camera.main;
         _unitPrefabsPlayer1 = new List<GameObject>();
         _unitPrefabsPlayer2 = new List<GameObject>();
         _units = new List<UnitController>();
         _unitsKilledThisTurn = new List<UnitController>();
-        gameEnded = false;
+        _gameEnded = false;
         EventManager._instance.OnUnitClicked += OnUnitClicked;
         EventManager._instance.OnUnitHovered += OnUnitHovered;
         EventManager._instance.OnUnitUnhovered += OnUnitUnhovered;
@@ -163,7 +162,7 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePosition = _myCamera.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, new Vector2(0, 0), 0.01f);
             SpriteRenderer topRenderer = null;
             foreach(RaycastHit2D hit in hits)
@@ -208,11 +207,6 @@ public class GameController : MonoBehaviour
     public UIController GetUI()
     {
         return _myUIController;
-    }
-
-    public UnitTilePanelController GetInfoPanel()
-    {
-        return _myInfoPanel;
     }
 
     public bool MovesDepleted(int playerId)
@@ -269,6 +263,7 @@ public class GameController : MonoBehaviour
             Destroy(killedUnit.gameObject);
         }
         _unitsKilledThisTurn.Clear();
+        _myUIController.ChangePlayer(playerId==1?2:1);
     }
 
     public void AddUnitPrefab(GameObject unitPrefab, int playerId)
@@ -284,6 +279,7 @@ public class GameController : MonoBehaviour
         string configFilePath = Application.streamingAssetsPath + "/grid.csv";
         string[] gridFile = File.ReadAllLines(configFilePath);
         _myGrid = new BoardGrid(gridFile, _tilePrefabs, _tileSize);
+        _myGameState = new BeginTurnState(_startingPlayer);
         int i = 0;
         foreach (GameObject unitPrefab in _unitPrefabsPlayer1)
         {
@@ -309,6 +305,6 @@ public class GameController : MonoBehaviour
                 reactor.EnterTileAction(unit._myTile);
             }
         }
-        _myGameState = new BeginTurnState(_startingPlayer);
+        _myUIController.InitializeUnitsPanel(_units, _startingPlayer);
     }
 }
