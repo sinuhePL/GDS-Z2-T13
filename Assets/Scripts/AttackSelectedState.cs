@@ -9,6 +9,7 @@ public class AttackSelectedState : IGameState
     public AttackSelectedState(UnitController uc, BoardGrid myGrid)
     {
         _activeUnit = uc;
+        _activeUnit.SetReticle(true);
         myGrid.ShowAttackRange(uc.GetGridPosition(), uc.GetAttackRange(), _activeUnit.GetPlayerId());
         Debug.Log("Stan: Wybrany atak jednostki gracza: " + _activeUnit.GetPlayerId());
     }
@@ -65,7 +66,7 @@ public class AttackSelectedState : IGameState
         infoPanel = myGameController.GetInfoPanel();
         myGrid = myGameController.GetGrid();
         infoPanel.DisplayUnit(hoveredUnit);
-        if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId())
+        if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
         {
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
@@ -82,8 +83,11 @@ public class AttackSelectedState : IGameState
         myGrid = myGameController.GetGrid();
         infoPanel = myGameController.GetInfoPanel();
         infoPanel.DisplayUnit(_activeUnit);
-        myGrid.HideHighlight();
-        myGrid.ShowAttackRange(_activeUnit.GetGridPosition(), _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
+        if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
+        {
+            myGrid.HideHighlight();
+            myGrid.ShowAttackRange(_activeUnit.GetGridPosition(), _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
+        }
         return null;
     }
 

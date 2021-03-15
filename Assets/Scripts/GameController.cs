@@ -145,9 +145,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         myCamera = Camera.main;
-        string configFilePath = Application.streamingAssetsPath + "/grid.csv";
-        string[] gridFile = File.ReadAllLines(configFilePath);
-        _myGrid = new BoardGrid(gridFile, _tilePrefabs, _tileSize);
         _unitPrefabsPlayer1 = new List<GameObject>();
         _unitPrefabsPlayer2 = new List<GameObject>();
         _units = new List<UnitController>();
@@ -283,6 +280,10 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         UnitController newUnit;
+
+        string configFilePath = Application.streamingAssetsPath + "/grid.csv";
+        string[] gridFile = File.ReadAllLines(configFilePath);
+        _myGrid = new BoardGrid(gridFile, _tilePrefabs, _tileSize);
         int i = 0;
         foreach (GameObject unitPrefab in _unitPrefabsPlayer1)
         {

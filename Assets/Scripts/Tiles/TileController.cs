@@ -29,7 +29,7 @@ public class TileController : MonoBehaviour, IClickable
     private void OnMouseExit()
     {
         if (_isOccupied) EventManager._instance.UnitUnhovered(_myUnit);
-        if (_tile.isWalkable)
+        if (_tile.isWalkable && !_isOccupied)
         {
             _overlaySpriteRenderer.color = _previousColor;
         }

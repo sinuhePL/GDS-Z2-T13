@@ -94,7 +94,7 @@ public class UnitSelectedState : IGameState
         myGrid = myGameController.GetGrid();
         infoPanel = myGameController.GetInfoPanel();
         infoPanel.DisplayUnit(hoveredUnit);
-        if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId())
+        if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
         {
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
@@ -112,9 +112,12 @@ public class UnitSelectedState : IGameState
         infoPanel = myGameController.GetInfoPanel();
         infoPanel.ClearDisplay();
         myGrid = myGameController.GetGrid();
-        myGrid.HideHighlight();
-        myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
-        myGrid.ShowAttackRange(_activeUnit.GetGridPosition(), _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
+        if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
+        {
+            myGrid.HideHighlight();
+            myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
+            myGrid.ShowAttackRange(_activeUnit.GetGridPosition(), _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
+        }
         return null;
     }
 
