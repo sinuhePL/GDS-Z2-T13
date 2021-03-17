@@ -23,7 +23,7 @@ public class BeginTurnState : IGameState
         //if it's active player's unit and this unit is available, change state to selected unit 
         BoardGrid myGrid;
         UIController ui;
-        if (clickedUnit.GetPlayerId() == _activePlayerId && clickedUnit._isAvailable)
+        if (clickedUnit.GetPlayerId() == _activePlayerId && clickedUnit._isAvailable && clickedUnit._isDeployed)
         {
             myGrid = myGameController.GetGrid();
             ui = myGameController.GetUI();
@@ -37,12 +37,11 @@ public class BeginTurnState : IGameState
         //highlight tile
         BoardGrid myGrid;
         UIController ui;
-        UnitTilePanelController infoPanel;
+
         myGrid = myGameController.GetGrid();
         myGrid.TileHovered(hoveredTile);
         ui = myGameController.GetUI();
-        infoPanel = ui.GetInfoPanel();
-        infoPanel.DisplayTile(hoveredTile);
+        ui.DisplayTile(hoveredTile);
         return null;
     }
 
@@ -50,14 +49,13 @@ public class BeginTurnState : IGameState
     {
         //show units move and attack ranges
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
         UIController ui;
+
         myGrid = myGameController.GetGrid();
         myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
         myGrid.ShowAttackRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
         ui = myGameController.GetUI();
-        infoPanel = ui.GetInfoPanel();
-        infoPanel.DisplayUnit(hoveredUnit);
+        ui.DisplayUnit(hoveredUnit);
         return null;
     }
 
@@ -86,7 +84,7 @@ public class BeginTurnState : IGameState
         return new BeginTurnState(newPlayer);
     }
 
-    public IGameState AttackPressed(GameController myGameController)
+    public IGameState DeploymentPressed(GameController myGameController)
     {
         //nothing happens
         return null;

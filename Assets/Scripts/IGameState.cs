@@ -11,5 +11,5 @@ public interface IGameState
     IGameState UnitUnhovered(GameController myGameController, UnitController unhoveredUnit);
     IGameState ExecutionEnd(GameController myGameController);
     IGameState EndTurnPressed(GameController myGameController);
-    IGameState AttackPressed(GameController myGameController);
+    IGameState DeploymentPressed(GameController myGameController);
 }

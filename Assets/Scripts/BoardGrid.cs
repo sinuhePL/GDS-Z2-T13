@@ -7,7 +7,7 @@ public class BoardGrid
     private int _height, _width;
     private float _tileSize;
     private TileController[,] _gridArray;
-    private Color _inMoveRangeColor, _pathColor, _hoverColor, _inAttackRangeColor;
+    private Color _inMoveRangeColor, _pathColor, _hoverColor, _inAttackRangeColor, _deploymentZoneColor;
 
     private Vector3 GetWorldPosition(GridPosition gp)
     {
@@ -130,6 +130,7 @@ public class BoardGrid
         _inAttackRangeColor = new Color(1.0f, 0.0f, 0.0f, 0.25f);
         _pathColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
         _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
+        _deploymentZoneColor = new Color(1.0f, 1.0f, 0.0f, 0.25f);
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             string[] gridLine = gridInfo[y].Split(',');
@@ -295,5 +296,15 @@ public class BoardGrid
                 if (myTileEndTurn != null) myTileEndTurn.EndTurnAction(playerId);
             }
         }
+    }
+
+    public void ShowDeploymentZone(TileController startingTile)
+    {
+        GridPosition startingPosition;
+        startingPosition = startingTile.GetGridPosition();
+        if (startingPosition.x > 0 && !_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(_deploymentZoneColor, false);
+        if(startingPosition.x < _width - 1 && !_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_deploymentZoneColor, false);
+        if (startingPosition.y > 0 && !_gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_deploymentZoneColor, false);
+        if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_deploymentZoneColor, false);
     }
 }

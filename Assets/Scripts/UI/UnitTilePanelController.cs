@@ -13,12 +13,6 @@ public class UnitTilePanelController : MonoBehaviour
     [SerializeField] Text _moveRange;
     [SerializeField] Text _attackStrengthText;
     [SerializeField] Text _attackStrength;
-    [SerializeField] Text _attackRangeText;
-    [SerializeField] Text _attackRange;
-    [SerializeField] Text _armorText;
-    [SerializeField] Text _armor;
-    [SerializeField] Text _attacksCountText;
-    [SerializeField] Text _attackCount;
     [SerializeField] Text _skillsText;
     [SerializeField] Text _skills;
     [SerializeField] Text _effectsText;
@@ -30,9 +24,6 @@ public class UnitTilePanelController : MonoBehaviour
         _hpText.enabled = false;
         _moveRangeText.enabled = false;
         _attackStrengthText.enabled = false;
-        _attackRangeText.enabled = false;
-        _armorText.enabled = false;
-        _attacksCountText.enabled = false;
         _skillsText.enabled = false;
         if(_effectsText != null) _effectsText.enabled = false;
     }
@@ -44,17 +35,11 @@ public class UnitTilePanelController : MonoBehaviour
         _hpText.enabled = false;
         _moveRangeText.enabled = false;
         _attackStrengthText.enabled = false;
-        _attackRangeText.enabled = false;
-        _armorText.enabled = false;
-        _attacksCountText.enabled = false;
         _skillsText.enabled = false;
         _effectsText.enabled = false;
         _hp.text = "";
         _moveRange.text = "";
         _attackStrength.text = "";
-        _attackRange.text = "";
-        _armor.text = "";
-        _attackCount.text = "";
         _skills.text = "";
         _effects.text = "";
     }
@@ -69,9 +54,6 @@ public class UnitTilePanelController : MonoBehaviour
         _hpText.enabled = true;
         _moveRangeText.enabled = true;
         _attackStrengthText.enabled = true;
-        _attackRangeText.enabled = true;
-        _armorText.enabled = true;
-        _attacksCountText.enabled = true;
         _skillsText.enabled = true;
         if (_effectsText != null) _effectsText.enabled = true;
         _name.text = myUnit.GetUnitName();
@@ -80,16 +62,37 @@ public class UnitTilePanelController : MonoBehaviour
         _hp.text = myUnit.GetHP().ToString() + "/" + myUnit.GetMaxHP().ToString();
         _moveRange.text = myUnit.GetBaseMoveRange().ToString();
         _attackStrength.text = myUnit.GetAttackStrength().ToString();
-        _attackRange.text = myUnit.GetBaseAttackRange().ToString();
-        _armor.text = myUnit.GetBaseArmor().ToString();
-        _attackCount.text = myUnit.GetBaseAttacksCount().ToString();
         unitSkills = myUnit.gameObject.GetComponents<ISkill>();
         description = "";
         counter = 0;
         foreach(ISkill skill in unitSkills)
         {
-            if (counter > 0) description += "\n";
+            if (counter > 0) description += "\n\n";
             description += skill.GetDescription();
+            counter++;
+        }
+        if (myUnit.IsKing())
+        {
+            if (counter > 0) description += "\n\n";
+            description += "Summon (summons minions)";
+            counter++;
+        }
+        if (myUnit.GetArmor() > 0)
+        {
+            if (counter > 0) description += "\n\n";
+            description += "Armored (ignores 1 damage)";
+            counter++;
+        }
+        if (myUnit.GetAttackRange() > 1)
+        {
+            if (counter > 0) description += "\n\n";
+            description += "Ranged (attacks distant targets)";
+            counter++;
+        }
+        if (myUnit.GetBaseAttacksCount() > 1)
+        {
+            if (counter > 0) description += "\n\n";
+            description += "Double (can attack twice in turn)";
             counter++;
         }
         _skills.text = description;
@@ -98,7 +101,7 @@ public class UnitTilePanelController : MonoBehaviour
         counter = 0;
         foreach (IEffect effect in unitEffects)
         {
-            if(counter > 0) description += "\n";
+            if(counter > 0) description += "\n\n";
             description += effect.GetDescription();
             counter++;
         }
@@ -110,9 +113,6 @@ public class UnitTilePanelController : MonoBehaviour
         _hpText.enabled = false;
         _moveRangeText.enabled = false;
         _attackStrengthText.enabled = false;
-        _attackRangeText.enabled = false;
-        _armorText.enabled = false;
-        _attacksCountText.enabled = false;
         _skillsText.enabled = false;
         _effectsText.enabled = false;
         _name.text = "";
@@ -120,9 +120,6 @@ public class UnitTilePanelController : MonoBehaviour
         _hp.text = "";
         _moveRange.text = "";
         _attackStrength.text = "";
-        _attackRange.text = "";
-        _armor.text = "";
-        _attackCount.text = "";
         _skills.text = "";
         _effects.text = "";
     }

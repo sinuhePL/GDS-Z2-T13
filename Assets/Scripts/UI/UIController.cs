@@ -8,10 +8,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private Text _winnerText;
     [SerializeField] private UnitTilePanelController _myInfoPanel;
     [SerializeField] private PlayerUnitsController _myUnitsPanel;
+    [SerializeField] private Button _deployMinionButton;
 
     private void Start()
     {
         _winnerText.enabled = false;
+        _deployMinionButton.gameObject.SetActive(false);
     }
 
     public void DisplayWinner(int winnerId)
@@ -26,9 +28,19 @@ public class UIController : MonoBehaviour
         _myUnitsPanel.InitializePanel(units, startingPlayer);
     }
 
-    public UnitTilePanelController GetInfoPanel()
+    public void DisplayTile(TileController tile)
     {
-        return _myInfoPanel;
+        _myInfoPanel.DisplayTile(tile);
+    }
+
+    public void DisplayUnit(UnitController unit)
+    {
+        _myInfoPanel.DisplayUnit(unit);
+    }
+
+    public void ClearDisplay()
+    {
+        _myInfoPanel.ClearDisplay();
     }
 
     public void ChangePlayer(int playerId)
@@ -38,6 +50,23 @@ public class UIController : MonoBehaviour
 
     public void SelectUnit(UnitController unit)
     {
+        if(unit.IsKing()) _deployMinionButton.gameObject.SetActive(true);
+        else _deployMinionButton.gameObject.SetActive(false);
         _myUnitsPanel.UnitSelected(unit);
+    }
+
+    public void KillUnit(UnitController unit)
+    {
+        _myUnitsPanel.UnitKilled(unit);
+    }
+
+    public void ShowDeployableUnits()
+    {
+        _myUnitsPanel.ShowDeployableMinions();
+    }
+
+    public void EndDeployment()
+    {
+        _myUnitsPanel.EndDeployment();
     }
 }

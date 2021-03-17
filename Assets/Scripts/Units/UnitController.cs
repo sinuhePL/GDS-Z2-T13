@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class UnitController : MonoBehaviour, IClickable
+public class UnitController : MonoBehaviour, IClickable, IEndturnable
 {
     [SerializeField] private ScriptableUnit _unit;
     [SerializeField] private HealthController _myHealth;
     [SerializeField] private SpriteRenderer _myReticle;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
+    public bool _isKilled { get; set; }
+    public bool _isDeployed { get; set; }
+    public bool _hasMoved { get; set; }
     private SpriteRenderer _mySpriteRenderer;
     private int _freeAttacksCount;
 
@@ -20,19 +23,14 @@ public class UnitController : MonoBehaviour, IClickable
         _mySpriteRenderer.sprite = _unit.unitDesignerSprite;
     }
 
-    private void OnDestroy()
-    {
-        _myTile._isOccupied = false;
-    }
-
     private void OnMouseEnter()
     {
-        EventManager._instance.UnitHovered(this);
+        if(_isDeployed) EventManager._instance.UnitHovered(this);
     }
 
     private void OnMouseExit()
     {
-        EventManager._instance.UnitUnhovered(this);
+        if (_isDeployed) EventManager._instance.UnitUnhovered(this);
     }
 
     private IEnumerator MakeMove(List<TileController> movePath)
@@ -94,18 +92,35 @@ public class UnitController : MonoBehaviour, IClickable
         return result;
     }
 
-    public void InitializeUnit(TileController initialTile)
+    public void EndTurnAction(int playerId)
+    {
+        if (_unit.playerId != playerId)
+        {
+            _isAvailable = true;
+            _hasMoved = false;
+        }
+    }
+
+    public void DeployUnit(TileController initialTile)
     {
         _myTile = initialTile;
         _myTile._myUnit = this;
         _myTile._isOccupied = true;
         transform.position = initialTile.transform.position;
+        ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
+        if (myTileBehaviour != null) myTileBehaviour.EnterTileAction(this);
+    }
+
+    public void InitializeUnit()
+    {
         _myHealth.InitializeHealth(_unit.unitHealth);
         _myReticle.enabled = false;
         _isAvailable = true;
-        ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
-        if(myTileBehaviour != null) myTileBehaviour.EnterTileAction(this);
+        _hasMoved = false;
         _freeAttacksCount = _unit.attacksCount;
+        _isKilled = false;
+        if (_unit.isKing) _isDeployed = true;
+        else _isDeployed = false;
     }
 
     public void Click()
@@ -139,6 +154,7 @@ public class UnitController : MonoBehaviour, IClickable
 
     public void MoveUnit(List<TileController> movePath)
     {
+        _hasMoved = true;
         StartCoroutine(MakeMove(movePath));
     }
 
@@ -167,7 +183,6 @@ public class UnitController : MonoBehaviour, IClickable
 
     public void DamageUnit(int damage)
     {
-        bool isKilled;
         int damageModifier = 0;
         IDamageModifier[] myDamageModifiers;
         myDamageModifiers = GetComponents<IDamageModifier>();
@@ -178,9 +193,12 @@ public class UnitController : MonoBehaviour, IClickable
         int damageTaken = damage - _unit.armor - GetBonusArmor() + damageModifier;
         Debug.Log(_unit.unitName + " received " + damage + " damage plus " + damageModifier + " modifiers minus " + _unit.armor + " armor.");
         if (damageTaken < 0) damageTaken = 0;
-        isKilled = _myHealth.ChangeHealth(-damageTaken);
-        if (isKilled)
+        _isKilled = _myHealth.ChangeHealth(-damageTaken);
+        if (_isKilled)
         {
+            _myTile._isOccupied = false;
+            _myTile._myUnit = null;
+            _myTile = null;
             gameObject.SetActive(false);
             EventManager._instance.UnitKilled(this);
         }

@@ -9,7 +9,7 @@ public class PlayerUnitsController : MonoBehaviour
 
     private List<UnitController> _myUnitList;
 
-    private void Awake()
+    private void Start()
     {
         gameObject.SetActive(false);
     }
@@ -44,6 +44,36 @@ public class PlayerUnitsController : MonoBehaviour
         {
             buttonController = myButton.GetComponent<ButtonUnitController>();
             buttonController.EnlargeUnit(unit);
+        }
+    }
+
+    public void ShowDeployableMinions()
+    {
+        ButtonUnitController buttonController;
+        foreach (Button myButton in _unitButtons)
+        {
+            buttonController = myButton.GetComponent<ButtonUnitController>();
+            buttonController.MarkForDeployment();
+        }
+    }
+
+    public void EndDeployment()
+    {
+        ButtonUnitController buttonController;
+        foreach (Button myButton in _unitButtons)
+        {
+            buttonController = myButton.GetComponent<ButtonUnitController>();
+            buttonController.MarkForAction();
+        }
+    }
+
+    public void UnitKilled(UnitController unit)
+    {
+        ButtonUnitController buttonController;
+        foreach (Button myButton in _unitButtons)
+        {
+            buttonController = myButton.GetComponent<ButtonUnitController>();
+            buttonController.UnitKilled(unit);
         }
     }
 }

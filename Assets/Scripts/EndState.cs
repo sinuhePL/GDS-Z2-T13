@@ -53,7 +53,7 @@ public class EndState : IGameState
         return null;
     }
 
-    public IGameState AttackPressed(GameController myGameController)
+    public IGameState DeploymentPressed(GameController myGameController)
     {
         //nothing happens
         return null;

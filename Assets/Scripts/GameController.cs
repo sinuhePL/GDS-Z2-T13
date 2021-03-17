@@ -56,7 +56,6 @@ public class GameController : MonoBehaviour
     private List<UnitController> _units;
     private Camera _myCamera;
     private bool _gameEnded;
-    private List<UnitController> _unitsKilledThisTurn;
 
     private void Awake()
     {
@@ -121,13 +120,13 @@ public class GameController : MonoBehaviour
     private void OnUnitKilled(UnitController killedUnit)
     {
         int winner;
+        _myUIController.KillUnit(killedUnit);
         if (killedUnit.IsKing())
         {
             _gameEnded = true;
             winner = (killedUnit.GetPlayerId() == 1 ? 2 : 1);
             _myGameState = new EndState(this, winner);
         }
-        _unitsKilledThisTurn.Add(killedUnit);
     }
 
     private void OnExecutionEnded(UnitController unit)
@@ -147,7 +146,6 @@ public class GameController : MonoBehaviour
         _unitPrefabsPlayer1 = new List<GameObject>();
         _unitPrefabsPlayer2 = new List<GameObject>();
         _units = new List<UnitController>();
-        _unitsKilledThisTurn = new List<UnitController>();
         _gameEnded = false;
         EventManager._instance.OnUnitClicked += OnUnitClicked;
         EventManager._instance.OnUnitHovered += OnUnitHovered;
@@ -214,7 +212,7 @@ public class GameController : MonoBehaviour
         bool allUnitsNotAvailable = true;
         foreach(UnitController unit in _units)
         {
-            if (unit.GetPlayerId() == playerId && unit._isAvailable) allUnitsNotAvailable = false;
+            if (unit.GetPlayerId() == playerId && unit._isAvailable && !unit._isKilled && unit._isDeployed) allUnitsNotAvailable = false;
         }
         return allUnitsNotAvailable;
     }
@@ -229,11 +227,11 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void AttackAction()
+    public void DeployAction()
     {
         IGameState newState;
 
-        newState = _myGameState.AttackPressed(this);
+        newState = _myGameState.DeploymentPressed(this);
         if (newState != null)
         {
             _myGameState = newState;
@@ -246,9 +244,8 @@ public class GameController : MonoBehaviour
 
         foreach (UnitController unit in _units)
         {
-            if (unit.GetPlayerId() != playerId) unit._isAvailable = true;
             endturnableList = unit.gameObject.GetComponents<IEndturnable>();
-            if (endturnableList.Length > 0)
+            if (endturnableList.Length > 0 && unit._isDeployed && !unit._isKilled)
             {
                 foreach (IEndturnable endturnObject  in endturnableList)
                 {
@@ -257,12 +254,6 @@ public class GameController : MonoBehaviour
             }
         }
         _myGrid.MakeEndTurnActions(playerId);
-        foreach(UnitController killedUnit in _unitsKilledThisTurn)
-        {
-            _units.Remove(killedUnit);
-            Destroy(killedUnit.gameObject);
-        }
-        _unitsKilledThisTurn.Clear();
         _myUIController.ChangePlayer(playerId==1?2:1);
     }
 
@@ -283,26 +274,31 @@ public class GameController : MonoBehaviour
         int i = 0;
         foreach (GameObject unitPrefab in _unitPrefabsPlayer1)
         {
-            newUnit = Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<UnitController>();
-            newUnit.InitializeUnit(_myGrid.GetTile(0, i));
+            newUnit = Instantiate(unitPrefab, new Vector3(100.0f, 100.0f, 0.0f), Quaternion.identity).GetComponent<UnitController>();
+            newUnit.InitializeUnit();
+            if (newUnit.IsKing()) newUnit.DeployUnit(_myGrid.GetTile(0, i));
             _units.Add(newUnit);
             i++;
         }
         i = 0;
         foreach (GameObject unitPrefab in _unitPrefabsPlayer2)
         {
-            newUnit = Instantiate(unitPrefab, Vector3.zero, Quaternion.identity).GetComponent<UnitController>();
-            newUnit.InitializeUnit(_myGrid.GetTile(_myGrid.GetBoardWidth() - 1, _myGrid.GetBoardHeight() - 1 - i));
+            newUnit = Instantiate(unitPrefab, new Vector3(100.0f, 100.0f, 0.0f), Quaternion.identity).GetComponent<UnitController>();
+            newUnit.InitializeUnit();
+            if (newUnit.IsKing()) newUnit.DeployUnit(_myGrid.GetTile(_myGrid.GetBoardWidth() - 1, _myGrid.GetBoardHeight() - 1 - i));
             _units.Add(newUnit);
             i++;
         }
         foreach (UnitController unit in _units)
         {
             IEnterTile[] unitEnterTileReactors;
-            unitEnterTileReactors = unit.gameObject.GetComponents<IEnterTile>();
-            foreach (IEnterTile reactor in unitEnterTileReactors)
+            if (unit._isDeployed)
             {
-                reactor.EnterTileAction(unit._myTile);
+                unitEnterTileReactors = unit.gameObject.GetComponents<IEnterTile>();
+                foreach (IEnterTile reactor in unitEnterTileReactors)
+                {
+                    reactor.EnterTileAction(unit._myTile);
+                }
             }
         }
         _myUIController.InitializeUnitsPanel(_units, _startingPlayer);

@@ -38,7 +38,7 @@ public class AttackSelectedState : IGameState
             else attackEndsTurn = false;
             return new ExecutionState(_activeUnit, attackEndsTurn);
         }
-        else if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable)
+        else if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable && clickedUnit._isDeployed)
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
@@ -61,13 +61,11 @@ public class AttackSelectedState : IGameState
     {
         //show units move and attack ranges
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
         UIController ui;
 
         ui = myGameController.GetUI();
-        infoPanel = ui.GetInfoPanel();
         myGrid = myGameController.GetGrid();
-        infoPanel.DisplayUnit(hoveredUnit);
+        ui.DisplayUnit(hoveredUnit);
         if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
         {
             myGrid.HideHighlight();
@@ -81,13 +79,11 @@ public class AttackSelectedState : IGameState
     {
         //clear board
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
         UIController ui;
 
         ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
-        infoPanel = ui.GetInfoPanel();
-        infoPanel.DisplayUnit(_activeUnit);
+        ui.DisplayUnit(_activeUnit);
         if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
         {
             myGrid.HideHighlight();
@@ -117,9 +113,12 @@ public class AttackSelectedState : IGameState
         return new BeginTurnState(newPlayer);
     }
 
-    public IGameState AttackPressed(GameController myGameController)
+    public IGameState DeploymentPressed(GameController myGameController)
     {
-        //nothing happens
-        return null;
+        UIController ui;
+        BoardGrid myGrid;
+        ui = myGameController.GetUI();
+        myGrid = myGameController.GetGrid();
+        return new DeploymentState(_activeUnit, myGrid, ui);
     }
 }

@@ -12,7 +12,7 @@ public class UnitSelectedState : IGameState
         _activeUnit.SetReticle(true);
         myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
         myGrid.ShowAttackRange(uc.GetGridPosition(), uc.GetAttackRange(), _activeUnit.GetPlayerId());
-        ui.GetInfoPanel().DisplayUnit(uc);
+        ui.DisplayUnit(uc);
         ui.SelectUnit(uc);
         Debug.Log("Stan: Wybrana jednostka gracza: " + _activeUnit.GetPlayerId());
     }
@@ -44,7 +44,7 @@ public class UnitSelectedState : IGameState
         // if it's active player's unit, change state to selected unit if not go back to begin turn state
         myGrid = myGameController.GetGrid();
         ui = myGameController.GetUI();
-        if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable)
+        if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable && clickedUnit._isDeployed)
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
@@ -76,15 +76,13 @@ public class UnitSelectedState : IGameState
     {
         // highlight tile
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
         UIController ui;
 
         myGrid = myGameController.GetGrid();
         myGrid.ShowPath(_activeUnit, hoveredTile);
         ui = myGameController.GetUI();
-        infoPanel = ui.GetInfoPanel();
-        if (myGrid.IsTileInMoveRange(_activeUnit, hoveredTile)) infoPanel.DisplayTile(hoveredTile);
-        else infoPanel.DisplayUnit(_activeUnit);
+        if (myGrid.IsTileInMoveRange(_activeUnit, hoveredTile)) ui.DisplayTile(hoveredTile);
+        else ui.DisplayUnit(_activeUnit);
         return null;
     }
 
@@ -92,13 +90,11 @@ public class UnitSelectedState : IGameState
     {
         //show units move and attack ranges
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
         UIController ui;
 
         myGrid = myGameController.GetGrid();
         ui = myGameController.GetUI();
-        infoPanel = ui.GetInfoPanel();
-        infoPanel.DisplayUnit(hoveredUnit);
+        ui.DisplayUnit(hoveredUnit);
         if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
         {
             myGrid.HideHighlight();
@@ -110,14 +106,11 @@ public class UnitSelectedState : IGameState
 
     public IGameState UnitUnhovered(GameController myGameController, UnitController unhoveredUnit)
     {
-        //clear board
         BoardGrid myGrid;
-        UnitTilePanelController infoPanel;
         UIController ui;
 
         ui = myGameController.GetUI();
-        infoPanel = ui.GetInfoPanel();
-        infoPanel.ClearDisplay();
+        ui.ClearDisplay();
         myGrid = myGameController.GetGrid();
         if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
         {
@@ -149,12 +142,12 @@ public class UnitSelectedState : IGameState
         return new BeginTurnState(newPlayer);
     }
 
-    public IGameState AttackPressed(GameController myGameController)
+    public IGameState DeploymentPressed(GameController myGameController)
     {
-        //change state to Attack Selected State
+        UIController ui;
         BoardGrid myGrid;
+        ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
-        myGrid.HideHighlight();
-        return new AttackSelectedState(_activeUnit, myGrid);
+        return new DeploymentState(_activeUnit, myGrid, ui);
     }
 }
