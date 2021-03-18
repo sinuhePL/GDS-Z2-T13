@@ -50,7 +50,7 @@ public class UIController : MonoBehaviour
 
     public void SelectUnit(UnitController unit)
     {
-        if(unit.IsKing()) _deployMinionButton.gameObject.SetActive(true);
+        if(unit.IsKing() && !_myUnitsPanel.AllUnitsDeployed()) _deployMinionButton.gameObject.SetActive(true);
         else _deployMinionButton.gameObject.SetActive(false);
         _myUnitsPanel.UnitSelected(unit);
     }
@@ -68,5 +68,15 @@ public class UIController : MonoBehaviour
     public void EndDeployment()
     {
         _myUnitsPanel.EndDeployment();
+    }
+
+    public void MarkUnitUnavailable(UnitController unit)
+    {
+        _myUnitsPanel.MarkUnitUnavailable(unit);
+    }
+
+    public bool AllUnitsDeployed()
+    {
+        return _myUnitsPanel.AllUnitsDeployed();
     }
 }

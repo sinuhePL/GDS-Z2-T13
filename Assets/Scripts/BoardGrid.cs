@@ -274,10 +274,7 @@ public class BoardGrid
             if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_inAttackRangeColor, true, playerId);
             if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
         }
-        else
-        {
-            // highlight range attack range
-        }
+        else // highlight range attack range
         {
             for(int i=1; i<_width; i++)
             {
@@ -331,5 +328,44 @@ public class BoardGrid
         if(startingPosition.x < _width - 1 && !_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_deploymentZoneColor, false);
         if (startingPosition.y > 0 && !_gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_deploymentZoneColor, false);
         if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_deploymentZoneColor, false);
+    }
+
+    public bool HasPossibleAttack(UnitController unit)
+    {
+        GridPosition startingPosition;
+        int unitPlayer, range;
+
+        startingPosition = unit.GetGridPosition();
+        unitPlayer = unit.GetPlayerId();
+        range = unit.GetAttackRange();
+        if(range == 1)
+        {
+            if (startingPosition.x > 0)
+            {
+                if(_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer) return true;
+                if (startingPosition.y > 0 && _gridArray[startingPosition.x - 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+                if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x - 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+            }
+            if (startingPosition.x < _width - 1)
+            {
+                if(_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer) return true;
+                if (startingPosition.y > 0 && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+                if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+            }
+        }
+        else
+        {
+            for (int i = 1; i < _width; i++)
+            {
+                if (startingPosition.x + i < _width && i <= range && _gridArray[startingPosition.x + i, startingPosition.y]._isOccupied && _gridArray[startingPosition.x + i, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer && IsTileVisible(startingPosition, new GridPosition(startingPosition.x + i, startingPosition.y))) return true;
+                if (startingPosition.x - i >= 0 && i <= range && _gridArray[startingPosition.x - i, startingPosition.y]._isOccupied && _gridArray[startingPosition.x - i, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer && IsTileVisible(startingPosition, new GridPosition(startingPosition.x - i, startingPosition.y))) return true;
+            }
+            for (int i = 1; i < _height; i++)
+            {
+                if (startingPosition.y + i < _height && i <= range && _gridArray[startingPosition.x, startingPosition.y + i]._isOccupied && _gridArray[startingPosition.x, startingPosition.y + i]._myUnit.GetPlayerId() != unitPlayer && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y + i))) return true;
+                if (startingPosition.y - i >= 0 && i <= range && _gridArray[startingPosition.x, startingPosition.y - i]._isOccupied && _gridArray[startingPosition.x, startingPosition.y - i]._myUnit.GetPlayerId() != unitPlayer && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y - i))) return true;
+            }
+        }
+        return false;
     }
 }

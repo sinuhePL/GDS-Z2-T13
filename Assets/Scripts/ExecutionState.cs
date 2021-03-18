@@ -54,10 +54,11 @@ public class ExecutionState : IGameState
 
         myGrid = myGameController.GetGrid();
         ui = myGameController.GetUI();
-        if (_executionEndsUnitTurn)
+        if (_executionEndsUnitTurn || (!myGrid.HasPossibleAttack(_activeUnit) && (!_activeUnit.IsKing() || ui.AllUnitsDeployed())))
         {
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
+            ui.MarkUnitUnavailable(_activeUnit);
             if (myGameController.MovesDepleted(_activeUnit.GetPlayerId()))
             {
                 myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());

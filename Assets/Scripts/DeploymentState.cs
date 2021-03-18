@@ -47,10 +47,12 @@ public class DeploymentState : IGameState
         else if (IsTileInDeploymentZone(_activeUnit._myTile, clickedTile) && !clickedTile._isOccupied)
         {
             _unitToDeploy.DeployUnit(clickedTile);
+            ui.MarkUnitUnavailable(_unitToDeploy);
             _unitToDeploy._isDeployed = true;
             _unitToDeploy._isAvailable = false;
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
+            ui.MarkUnitUnavailable(_activeUnit);
             clickedTile.ClearTile();
             ui.EndDeployment();
             myGrid.HideHighlight();
@@ -82,6 +84,7 @@ public class DeploymentState : IGameState
             if (_activeUnit == clickedUnit && _activeUnit._hasMoved)
             {
                 _activeUnit._isAvailable = false;
+                ui.MarkUnitUnavailable(_activeUnit);
                 ui.SelectUnit(_activeUnit);
                 return null;
             }
@@ -146,6 +149,7 @@ public class DeploymentState : IGameState
         myGrid.HideHighlight();
         _activeUnit.SetReticle(false);
         _activeUnit._isAvailable = false;
+        ui.MarkUnitUnavailable(_activeUnit);
         myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
         newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
         ui.EndDeployment();

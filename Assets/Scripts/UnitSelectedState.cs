@@ -58,6 +58,7 @@ public class UnitSelectedState : IGameState
                 myGrid.HideHighlight();
                 _activeUnit.SetReticle(false);
                 _activeUnit._isAvailable = false;
+                ui.MarkUnitUnavailable(_activeUnit);
                 clickedUnit.StopShowingPotentialDamage();
                 _activeUnit.AttackUnit(clickedUnit);
                 if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;
@@ -135,12 +136,15 @@ public class UnitSelectedState : IGameState
     {
         // disable unit reticle
         BoardGrid myGrid;
+        UIController ui;
         int newPlayer;
 
         myGrid = myGameController.GetGrid();
         myGrid.HideHighlight();
+        ui = myGameController.GetUI();
         _activeUnit.SetReticle(false);
         _activeUnit._isAvailable = false;
+        ui.MarkUnitUnavailable(_activeUnit);
         myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
         newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
         return new BeginTurnState(newPlayer);

@@ -32,6 +32,8 @@ public class PlayerUnitsController : MonoBehaviour
                 buttonController = _unitButtons[i].GetComponent<ButtonUnitController>();
                 buttonController.SetUnit(unit);
                 buttonController.EnlargeUnit(null);
+                if (!unit._isDeployed) buttonController.gameObject.SetActive(false);
+                else buttonController.gameObject.SetActive(true);
                 i++;
             }
         }
@@ -75,5 +77,26 @@ public class PlayerUnitsController : MonoBehaviour
             buttonController = myButton.GetComponent<ButtonUnitController>();
             buttonController.UnitKilled(unit);
         }
+    }
+
+    public void MarkUnitUnavailable(UnitController unit)
+    {
+        ButtonUnitController buttonController;
+        foreach (Button myButton in _unitButtons)
+        {
+            buttonController = myButton.GetComponent<ButtonUnitController>();
+            buttonController.DisableUnit(unit);
+        }
+    }
+
+    public bool AllUnitsDeployed()
+    {
+        ButtonUnitController buttonController;
+        foreach (Button myButton in _unitButtons)
+        {
+            buttonController = myButton.GetComponent<ButtonUnitController>();
+            if(!buttonController.IsUnitDeployed()) return false;
+        }
+        return true;
     }
 }
