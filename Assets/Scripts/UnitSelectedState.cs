@@ -48,7 +48,8 @@ public class UnitSelectedState : IGameState
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
-            return new UnitSelectedState(clickedUnit, myGrid, ui);
+            if (clickedUnit._hasMoved) return new AttackSelectedState(clickedUnit, myGrid, ui);
+            else return new UnitSelectedState(clickedUnit, myGrid, ui);
         }
         else if(_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId())
         {
@@ -57,6 +58,7 @@ public class UnitSelectedState : IGameState
                 myGrid.HideHighlight();
                 _activeUnit.SetReticle(false);
                 _activeUnit._isAvailable = false;
+                clickedUnit.StopShowingPotentialDamage();
                 _activeUnit.AttackUnit(clickedUnit);
                 if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;
                 else attackEndsTurn = false;
@@ -101,6 +103,7 @@ public class UnitSelectedState : IGameState
             myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
             myGrid.ShowAttackRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
         }
+        else if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId()) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
         return null;
     }
 
@@ -118,6 +121,7 @@ public class UnitSelectedState : IGameState
             myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
             myGrid.ShowAttackRange(_activeUnit.GetGridPosition(), _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
         }
+        else if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId()) unhoveredUnit.StopShowingPotentialDamage();
         return null;
     }
 

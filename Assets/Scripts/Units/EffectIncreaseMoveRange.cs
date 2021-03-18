@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class EffectIncreaseMoveRange : MonoBehaviour, IMoveRangeModifier, IEffect
+public class EffectIncreaseMoveRange : MonoBehaviour, IMoveRangeModifier, IEffect, IEnterTile
 {
     private int _increaseAmount;
     private string _description;

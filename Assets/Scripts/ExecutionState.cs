@@ -49,9 +49,11 @@ public class ExecutionState : IGameState
     {
         //if move ended change state to Attack Selected State, if attack ended change state to Begin Turn State
         BoardGrid myGrid;
+        UIController ui;
         int newPlayer;
 
         myGrid = myGameController.GetGrid();
+        ui = myGameController.GetUI();
         if (_executionEndsUnitTurn)
         {
             _activeUnit.SetReticle(false);
@@ -67,7 +69,7 @@ public class ExecutionState : IGameState
             }
             return new BeginTurnState(newPlayer);
         }
-        else return new AttackSelectedState(_activeUnit, myGrid);
+        else return new AttackSelectedState(_activeUnit, myGrid, ui);
     }
 
     public IGameState EndTurnPressed(GameController myGameController)

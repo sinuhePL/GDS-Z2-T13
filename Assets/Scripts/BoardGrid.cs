@@ -59,6 +59,28 @@ public class BoardGrid
         return Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
     }
 
+    private bool IsTileVisible(GridPosition startingPosition, GridPosition checkedTilePosition)
+    {
+        bool result = true;
+        if (checkedTilePosition.x > startingPosition.x)
+        {
+            for (int x2 = startingPosition.x + 1; x2 < checkedTilePosition.x; x2++) if (_gridArray[x2, startingPosition.y]._isOccupied) result = false;
+        }
+        if (checkedTilePosition.x < startingPosition.x)
+        {
+            for (int x2 = startingPosition.x - 1; x2 > checkedTilePosition.x; x2--) if (_gridArray[x2, startingPosition.y]._isOccupied) result = false;
+        }
+        if (checkedTilePosition.y > startingPosition.y)
+        {
+            for (int y2 = startingPosition.y + 1; y2 < checkedTilePosition.y; y2++) if (_gridArray[startingPosition.x, y2]._isOccupied) result = false;
+        }
+        if (checkedTilePosition.y < startingPosition.y)
+        {
+            for (int y2 = startingPosition.y - 1; y2 > checkedTilePosition.y; y2--) if (_gridArray[startingPosition.x, y2]._isOccupied) result = false;
+        }
+        return result;
+    }
+
     public List<TileController> FindPath(GridPosition startPosition, GridPosition endPosition)
     {
         List<TileController> openList, closedList;
@@ -259,13 +281,13 @@ public class BoardGrid
         {
             for(int i=1; i<_width; i++)
             {
-                if(startingPosition.x + i < _width && i <= range) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
-                if (startingPosition.x - i >= 0 && i <= range) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
+                if(startingPosition.x + i < _width && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x + i, startingPosition.y))) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.x - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x - i, startingPosition.y))) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
             }
             for (int i = 1; i < _height; i++)
             {
-                if (startingPosition.y + i < _height && i <= range) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(_inAttackRangeColor, true, playerId);
-                if (startingPosition.y - i >= 0 && i <= range) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.y + i < _height && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y + i))) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.y - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y - i))) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(_inAttackRangeColor, true, playerId);
             }
         }
     }
@@ -280,7 +302,10 @@ public class BoardGrid
         else
         {
             if (myUnit.GetGridPosition().x == targetTile.GetGridPosition().x && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= myUnit.GetAttackRange()
-                || myUnit.GetGridPosition().y == targetTile.GetGridPosition().y && Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= myUnit.GetAttackRange()) return true;
+                || myUnit.GetGridPosition().y == targetTile.GetGridPosition().y && Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= myUnit.GetAttackRange())
+            {
+                return IsTileVisible(myUnit.GetGridPosition(), targetTile.GetGridPosition());
+            }
             else return false;
         }
     }

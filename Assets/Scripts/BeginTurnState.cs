@@ -27,7 +27,8 @@ public class BeginTurnState : IGameState
         {
             myGrid = myGameController.GetGrid();
             ui = myGameController.GetUI();
-            return new UnitSelectedState(clickedUnit, myGrid, ui);
+            if (clickedUnit._hasMoved) return new AttackSelectedState(clickedUnit, myGrid, ui);
+            else return new UnitSelectedState(clickedUnit, myGrid, ui);
         }
         return null;
     }

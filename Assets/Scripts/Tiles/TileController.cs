@@ -23,7 +23,7 @@ public class TileController : MonoBehaviour, IClickable
     private void OnMouseEnter()
     {
         if(_isOccupied) EventManager._instance.UnitHovered(_myUnit);
-        else if (_tile.isWalkable) EventManager._instance.TileHovered(this);
+        else if (_tile.isWalkable && !_isOccupied) EventManager._instance.TileHovered(this);
     }
 
     private void OnMouseExit()

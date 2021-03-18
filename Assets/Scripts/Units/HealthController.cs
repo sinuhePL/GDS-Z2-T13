@@ -10,6 +10,7 @@ public class HealthController : MonoBehaviour
 
     private List<SpriteRenderer> _healthPointsList;
     private int _healthPoints, _initialHealthPoints;
+    private bool _showPotentialDamage;
 
     private void CreateHealthBar()
     {
@@ -40,6 +41,7 @@ public class HealthController : MonoBehaviour
         _healthPoints = health;
         _initialHealthPoints = health;
         _healthPointsList = new List<SpriteRenderer>();
+        _showPotentialDamage = true;
         CreateHealthBar();   
     }
 
@@ -74,5 +76,30 @@ public class HealthController : MonoBehaviour
     public int GetCurrentHealth()
     {
         return _healthPoints;
+    }
+
+    public void StopShowingPotentialDamage()
+    {
+        _showPotentialDamage = false;
+    }
+
+    public IEnumerator ShowPotentialDamage(int damage)
+    {
+        int currentHealth, minHealth;
+        if (_showPotentialDamage) yield break;
+        else
+        {
+            _showPotentialDamage = true;
+            currentHealth = _healthPoints;
+            minHealth = _healthPoints - damage;
+            if (minHealth < 0) minHealth = 0;
+            while (_showPotentialDamage)
+            {
+                for (int i = _healthPoints - 1; i >= minHealth; i--) _healthPointsList[i].sprite = _lostHealthSprite;
+                yield return new WaitForSeconds(0.25f);
+                for (int i = _healthPoints - 1; i >= minHealth; i--) _healthPointsList[i].sprite = _healthSprite;
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
     }
 }

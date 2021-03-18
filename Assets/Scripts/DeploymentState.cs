@@ -85,7 +85,8 @@ public class DeploymentState : IGameState
                 ui.SelectUnit(_activeUnit);
                 return null;
             }
-            return new UnitSelectedState(clickedUnit, myGrid, ui);
+            if (clickedUnit._hasMoved) return new AttackSelectedState(clickedUnit, myGrid, ui);
+            else return new UnitSelectedState(clickedUnit, myGrid, ui);
         }
         else
         {

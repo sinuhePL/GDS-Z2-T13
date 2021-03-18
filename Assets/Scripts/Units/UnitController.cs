@@ -15,6 +15,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public bool _hasMoved { get; set; }
     private SpriteRenderer _mySpriteRenderer;
     private int _freeAttacksCount;
+    private bool _showingPotentialDamage;
 
     // Start is called before the first frame update
     void Start()
@@ -67,14 +68,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     private IEnumerator MakeAttack(UnitController target)
     {
-        IAttackModifier[] myAttackModifiers;
-        int modifiersDamageBonus = 0;
-        myAttackModifiers = GetComponents<IAttackModifier>();
-        foreach(IAttackModifier modifier  in myAttackModifiers)
-        {
-            modifiersDamageBonus += modifier.GetAttackModifier(target);
-        }
-        target.DamageUnit(_unit.attackDamage + modifiersDamageBonus);
+        target.DamageUnit(CalculateAttack(target));
         yield return 0;
         if (_freeAttacksCount < 1) _freeAttacksCount = _unit.attacksCount;
         EventManager._instance.ExecutionEnded(this);
@@ -90,6 +84,34 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
             result += modifier.GetArmorModifier();
         }
         return result;
+    }
+
+    private int CalculateDamage(int damage)
+    {
+        int damageTaken;
+        int damageModifier = 0;
+        IDamageModifier[] myDamageModifiers;
+        myDamageModifiers = GetComponents<IDamageModifier>();
+        foreach (IDamageModifier modifier in myDamageModifiers)
+        {
+            damageModifier += modifier.GetDamageModifier();
+        }
+        damageTaken = damage - _unit.armor - GetBonusArmor() + damageModifier;
+        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + damageModifier + " modifiers minus " + _unit.armor + " armor.");
+        if (damageTaken < 0) damageTaken = 0;
+        return damageTaken;
+    }
+
+    private int CalculateAttack(UnitController target)
+    {
+        IAttackModifier[] myAttackModifiers;
+        int modifiersDamageBonus = 0;
+        myAttackModifiers = GetComponents<IAttackModifier>();
+        foreach (IAttackModifier modifier in myAttackModifiers)
+        {
+            modifiersDamageBonus += modifier.GetAttackModifier(target);
+        }
+        return _unit.attackDamage + modifiersDamageBonus;
     }
 
     public void EndTurnAction(int playerId)
@@ -121,6 +143,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         _isKilled = false;
         if (_unit.isKing) _isDeployed = true;
         else _isDeployed = false;
+        _showingPotentialDamage = false;
     }
 
     public void Click()
@@ -183,16 +206,9 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public void DamageUnit(int damage)
     {
-        int damageModifier = 0;
-        IDamageModifier[] myDamageModifiers;
-        myDamageModifiers = GetComponents<IDamageModifier>();
-        foreach(IDamageModifier modifier in myDamageModifiers)
-        {
-            damageModifier += modifier.GetDamageModifier();
-        }
-        int damageTaken = damage - _unit.armor - GetBonusArmor() + damageModifier;
-        Debug.Log(_unit.unitName + " received " + damage + " damage plus " + damageModifier + " modifiers minus " + _unit.armor + " armor.");
-        if (damageTaken < 0) damageTaken = 0;
+        int damageTaken;
+
+        damageTaken = CalculateDamage(damage);
         _isKilled = _myHealth.ChangeHealth(-damageTaken);
         if (_isKilled)
         {
@@ -243,6 +259,24 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         else return false;
     }
 
+    public void ShowPotentialDamage(int damage)
+    {
+        int damageTaken;
+
+        if (!_showingPotentialDamage)
+        {
+            _showingPotentialDamage = true;
+            damageTaken = CalculateDamage(damage);
+            StartCoroutine(_myHealth.ShowPotentialDamage(damageTaken));
+        }
+    }
+
+    public void StopShowingPotentialDamage()
+    {
+        _myHealth.StopShowingPotentialDamage();
+        _showingPotentialDamage = false;
+    }
+
     public int GetFreeAttackNumber()
     {
         return _freeAttacksCount;
@@ -271,6 +305,11 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public int GetAttackStrength()
     {
         return _unit.attackDamage;
+    }
+
+    public int GetCalculatedAttack(UnitController target)
+    {
+        return CalculateAttack(target);
     }
 
     public int GetBaseAttackRange()
