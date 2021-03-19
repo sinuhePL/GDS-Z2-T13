@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 8562372451011211745}
   - component: {fileID: 1037132767376044327}
   m_Layer: 0
-  m_Name: tilePrefab
+  m_Name: TilePrefab
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,6 +262,12 @@ MonoBehaviour:
   _overlaySpriteRenderer: {fileID: 2663428435524170279}
   _crosshairSpriteRenderer: {fileID: 7829815624851616830}
   _tile: {fileID: 0}
+  _designerPlainTileSprite: {fileID: 21300000, guid: e9e02423c5a6306488434dd9cac67166,
+    type: 3}
+  _plainTileSprite: {fileID: 21300000, guid: 87d9dd6d96f9d604880cf8222bd7b82e, type: 3}
+  _designerCrosshairSprite: {fileID: 21300000, guid: ddd6ad4a69e9f3543b5e6bfe8ab1cbd4,
+    type: 3}
+  _crosshairSprite: {fileID: 21300000, guid: ddd6ad4a69e9f3543b5e6bfe8ab1cbd4, type: 3}
 --- !u!61 &1037132767376044327
 BoxCollider2D:
   m_ObjectHideFlags: 0

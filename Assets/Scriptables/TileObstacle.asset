@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TileObstacle
   m_EditorClassIdentifier: 
   letter: O
-  tileSprite: {fileID: 0}
+  tileSprite: {fileID: 21300000, guid: 06783537e1d2a494fba39f7e9e9fc134, type: 3}
   tileDesignerSprite: {fileID: 21300000, guid: 6899eca2fb85f0b4aabc3b78feff9ef3, type: 3}
   isWalkable: 0
   tileName: Obstacle

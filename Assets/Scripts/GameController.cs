@@ -42,7 +42,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private UIController _myUIController;
     [Header("For designers:")]
     [Tooltip("Size of square board Tile, depends on tile sprote size.")]
-    [SerializeField] private float _tileSize;
+    [SerializeField] private float _designerTileSize;
+    [SerializeField] private float _tileWidth;
+    [SerializeField] private float _tileHeight;
     [Tooltip("Every new tile should be added here.")]
     [SerializeField] private GameObject[] _tilePrefabs;
     [Tooltip("Starting player Id.")]
@@ -269,7 +271,7 @@ public class GameController : MonoBehaviour
 
         string configFilePath = Application.streamingAssetsPath + "/grid.csv";
         string[] gridFile = File.ReadAllLines(configFilePath);
-        _myGrid = new BoardGrid(gridFile, _tilePrefabs, _tileSize);
+        _myGrid = new BoardGrid(gridFile, _tilePrefabs, _designerTileSize, _tileWidth, _tileHeight);
         _myGameState = new BeginTurnState(_startingPlayer);
         int i = 0;
         foreach (GameObject unitPrefab in _unitPrefabsPlayer1)

@@ -14,6 +14,10 @@ public class TileController : MonoBehaviour, IClickable
     [SerializeField] private SpriteRenderer _overlaySpriteRenderer;
     [SerializeField] private SpriteRenderer _crosshairSpriteRenderer;
     [SerializeField] private ScriptableTile _tile;
+    [SerializeField] private Sprite _designerPlainTileSprite;
+    [SerializeField] private Sprite _plainTileSprite;
+    [SerializeField] private Sprite _designerCrosshairSprite;
+    [SerializeField] private Sprite _crosshairSprite;
     private SpriteRenderer _mySpriteRenderer;
     private GridPosition _gridPosition;
     private Color _previousColor;
@@ -38,8 +42,10 @@ public class TileController : MonoBehaviour, IClickable
     public void InitializeTile(GridPosition position, BoardGrid myBoardGrid)
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
-        _mySpriteRenderer.sprite = _tile.tileDesignerSprite;
+        _mySpriteRenderer.sprite = _tile.tileSprite;
         _crosshairSpriteRenderer.enabled = false;
+        _crosshairSpriteRenderer.sprite = _crosshairSprite;
+        _overlaySpriteRenderer.sprite = _plainTileSprite;
         _gridPosition = position;
         _previousColor = _overlaySpriteRenderer.color;
         _myUnit = null;
@@ -126,5 +132,21 @@ public class TileController : MonoBehaviour, IClickable
     public string GetDescription()
     {
         return _tile.tileDescription;
+    }
+
+    public void ChangeMode(string newMode)
+    {
+        if (newMode == "designer")
+        {
+            _mySpriteRenderer.sprite = _tile.tileDesignerSprite;
+            _overlaySpriteRenderer.sprite = _designerPlainTileSprite;
+            _crosshairSpriteRenderer.sprite = _designerCrosshairSprite;
+        }
+        else
+        {
+            _mySpriteRenderer.sprite = _tile.tileSprite;
+            _overlaySpriteRenderer.sprite = _plainTileSprite;
+            _crosshairSpriteRenderer.sprite = _crosshairSprite;
+        }
     }
 }

@@ -5,13 +5,23 @@ using UnityEngine;
 public class BoardGrid
 {
     private int _height, _width;
-    private float _tileSize;
+    private float _designerTileSize;
+    private float _tileWidth;
+    private float _tileHeight;
     private TileController[,] _gridArray;
     private Color _inMoveRangeColor, _pathColor, _hoverColor, _inAttackRangeColor, _deploymentZoneColor;
+    private bool _isDesignerMode;
 
     private Vector3 GetWorldPosition(GridPosition gp)
     {
-        return new Vector3(gp.x * _tileSize, gp.y * -_tileSize, 0.0f);
+        float x, y;
+        if (_isDesignerMode) return new Vector3(gp.x * _designerTileSize, gp.y * -_designerTileSize, 0.0f);
+        else
+        {
+            x = (gp.x - gp.y) * _tileWidth/2;
+            y = -(gp.x + gp.y - 2.0f) * _tileHeight / 2;
+            return new Vector3(x, y, 0.0f);
+        }
     }
 
     #region Pathfinding
@@ -142,17 +152,20 @@ public class BoardGrid
 
     #endregion
 
-    public BoardGrid(string[] gridInfo, GameObject[] tilePrefabs, float tileSize)
+    public BoardGrid(string[] gridInfo, GameObject[] tilePrefabs, float tileSize, float tileWidth, float tileHeight)
     {
         _height = gridInfo.Length;
         _width = (gridInfo[0].Length+1)/2;
         _gridArray = new TileController[_width, _height];
-        _tileSize = tileSize;
+        _designerTileSize = tileSize;
+        _tileWidth = tileWidth;
+        _tileHeight = tileHeight;
         _inMoveRangeColor = new Color(0.0f, 1.0f, 1.0f, 0.25f);
         _inAttackRangeColor = new Color(1.0f, 0.0f, 0.0f, 0.25f);
         _pathColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
         _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
         _deploymentZoneColor = new Color(1.0f, 1.0f, 0.0f, 0.25f);
+        _isDesignerMode = false;
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
             string[] gridLine = gridInfo[y].Split(',');
