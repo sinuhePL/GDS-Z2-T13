@@ -36,6 +36,8 @@ public struct GridPosition
     }
 }
 
+public enum HighlightType { MoveRange, Path, Hover, AttackRange, Deployment}
+
 public class GameController : MonoBehaviour
 {
     [Header("Technical:")]
@@ -304,5 +306,10 @@ public class GameController : MonoBehaviour
             }
         }
         _myUIController.InitializeUnitsPanel(_units, _startingPlayer);
+    }
+
+    public void ChangeMode()
+    {
+        _myGameState.ChangeMode(this);
     }
 }

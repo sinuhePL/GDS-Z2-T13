@@ -161,4 +161,12 @@ public class DeploymentState : IGameState
         //nothing happens
         return null;
     }
+
+    public void ChangeMode(GameController myGameController)
+    {
+        BoardGrid myGrid;
+
+        myGrid = myGameController.GetGrid();
+        myGrid.ChangeMode();
+    }
 }

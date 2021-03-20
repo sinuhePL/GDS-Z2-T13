@@ -9,13 +9,12 @@ public class BoardGrid
     private float _tileWidth;
     private float _tileHeight;
     private TileController[,] _gridArray;
-    private Color _inMoveRangeColor, _pathColor, _hoverColor, _inAttackRangeColor, _deploymentZoneColor;
     private bool _isDesignerMode;
 
     private Vector3 GetWorldPosition(GridPosition gp)
     {
         float x, y;
-        if (_isDesignerMode) return new Vector3(gp.x * _designerTileSize, gp.y * -_designerTileSize, 0.0f);
+        if (_isDesignerMode) return new Vector3((gp.x) * _designerTileSize - 2.0f, gp.y * -_designerTileSize, 0.0f);
         else
         {
             x = (gp.x - gp.y) * _tileWidth/2;
@@ -160,11 +159,6 @@ public class BoardGrid
         _designerTileSize = tileSize;
         _tileWidth = tileWidth;
         _tileHeight = tileHeight;
-        _inMoveRangeColor = new Color(0.0f, 1.0f, 1.0f, 0.25f);
-        _inAttackRangeColor = new Color(1.0f, 0.0f, 0.0f, 0.25f);
-        _pathColor = new Color(0.0f, 0.0f, 1.0f, 0.25f);
-        _hoverColor = new Color(0.0f, 1.0f, 0.0f, 0.25f);
-        _deploymentZoneColor = new Color(1.0f, 1.0f, 0.0f, 0.25f);
         _isDesignerMode = false;
         for (int y = 0; y < _gridArray.GetLength(0); y++)
         {
@@ -211,7 +205,7 @@ public class BoardGrid
                     // skip unwalkable tiles
                     if (!_gridArray[x, y].isWalkable()) continue;
                     pathNodeList = FindPath(startingPosition, _gridArray[x, y].GetGridPosition());
-                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(_inMoveRangeColor, false);
+                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(HighlightType.MoveRange, false);
                 }
             }
         }
@@ -236,15 +230,15 @@ public class BoardGrid
             pathNodeList = FindPath(myUnit.GetGridPosition(), myTile.GetGridPosition());
             foreach (TileController myNode in pathNodeList)
             {
-                myNode.Highlight(_pathColor, false);
+                myNode.Highlight(HighlightType.Path, false);
             }
         }
-        else if (myTile.isWalkable()) myTile.Highlight(_hoverColor, false);
+        else if (myTile.isWalkable()) myTile.Highlight(HighlightType.Hover, false);
     }
 
     public void TileHovered(TileController hoveredTile)
     {
-        if(hoveredTile.isWalkable()) hoveredTile.Highlight(_hoverColor, false);
+        if(hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
     }
 
     public void HideHighlight()
@@ -270,46 +264,40 @@ public class BoardGrid
 
     public void ShowAttackRange(GridPosition startingPosition, int range, int playerId)
     {
-        if(range == 1)  // highlight melee attack range
+        // highlight melee attack range
+        if (startingPosition.x > 0)
         {
-            if (startingPosition.x > 0)
-            {
-                _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
-                if(startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y-1].Highlight(_inAttackRangeColor, true, playerId);
-                if(startingPosition.y < _height-1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
-            }
-            if(startingPosition.x < _width - 1)
-            {
-                _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
-                if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(_inAttackRangeColor, true, playerId);
-                if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
-            }
-            if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_inAttackRangeColor, true, playerId);
-            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_inAttackRangeColor, true, playerId);
+            _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
+            if(startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y-1].Highlight(HighlightType.AttackRange, true, playerId);
+            if(startingPosition.y < _height-1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(HighlightType.AttackRange, true, playerId);
         }
-        else // highlight range attack range
+        if(startingPosition.x < _width - 1)
+        {
+            _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
+            if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(HighlightType.AttackRange, true, playerId);
+            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(HighlightType.AttackRange, true, playerId);
+        }
+        if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(HighlightType.AttackRange, true, playerId);
+        if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(HighlightType.AttackRange, true, playerId);
+        if (range > 1) // highlight range attack range
         {
             for(int i=1; i<_width; i++)
             {
-                if(startingPosition.x + i < _width && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x + i, startingPosition.y))) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
-                if (startingPosition.x - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x - i, startingPosition.y))) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(_inAttackRangeColor, true, playerId);
+                if(startingPosition.x + i < _width && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x + i, startingPosition.y))) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
+                if (startingPosition.x - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x - i, startingPosition.y))) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
             }
             for (int i = 1; i < _height; i++)
             {
-                if (startingPosition.y + i < _height && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y + i))) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(_inAttackRangeColor, true, playerId);
-                if (startingPosition.y - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y - i))) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(_inAttackRangeColor, true, playerId);
+                if (startingPosition.y + i < _height && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y + i))) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(HighlightType.AttackRange, true, playerId);
+                if (startingPosition.y - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y - i))) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(HighlightType.AttackRange, true, playerId);
             }
         }
     }
 
     public bool IsTileInAttackRange(UnitController myUnit, TileController targetTile)
     {
-        if(myUnit.GetAttackRange() == 1)
-        {
-            if (Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= 1 && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= 1) return true;
-            else return false;
-        }
-        else
+        if (Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= 1 && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= 1) return true;
+        if (myUnit.GetAttackRange() > 1)
         {
             if (myUnit.GetGridPosition().x == targetTile.GetGridPosition().x && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= myUnit.GetAttackRange()
                 || myUnit.GetGridPosition().y == targetTile.GetGridPosition().y && Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= myUnit.GetAttackRange())
@@ -318,6 +306,7 @@ public class BoardGrid
             }
             else return false;
         }
+        else return false;
     }
 
     public void MakeEndTurnActions(int playerId)
@@ -337,10 +326,10 @@ public class BoardGrid
     {
         GridPosition startingPosition;
         startingPosition = startingTile.GetGridPosition();
-        if (startingPosition.x > 0 && !_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(_deploymentZoneColor, false);
-        if(startingPosition.x < _width - 1 && !_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(_deploymentZoneColor, false);
-        if (startingPosition.y > 0 && !_gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(_deploymentZoneColor, false);
-        if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(_deploymentZoneColor, false);
+        if (startingPosition.x > 0 && !_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
+        if(startingPosition.x < _width - 1 && !_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
+        if (startingPosition.y > 0 && !_gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(HighlightType.Deployment, false);
+        if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(HighlightType.Deployment, false);
     }
 
     public bool HasPossibleAttack(UnitController unit)
@@ -351,22 +340,19 @@ public class BoardGrid
         startingPosition = unit.GetGridPosition();
         unitPlayer = unit.GetPlayerId();
         range = unit.GetAttackRange();
-        if(range == 1)
+        if (startingPosition.x > 0)
         {
-            if (startingPosition.x > 0)
-            {
-                if(_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer) return true;
-                if (startingPosition.y > 0 && _gridArray[startingPosition.x - 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
-                if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x - 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
-            }
-            if (startingPosition.x < _width - 1)
-            {
-                if(_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer) return true;
-                if (startingPosition.y > 0 && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
-                if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
-            }
+            if(_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer) return true;
+            if (startingPosition.y > 0 && _gridArray[startingPosition.x - 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+            if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x - 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x - 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
         }
-        else
+        if (startingPosition.x < _width - 1)
+        {
+            if(_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y]._myUnit.GetPlayerId() != unitPlayer) return true;
+            if (startingPosition.y > 0 && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+            if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+        }
+        if (range > 1)
         {
             for (int i = 1; i < _width; i++)
             {
@@ -380,5 +366,28 @@ public class BoardGrid
             }
         }
         return false;
+    }
+
+    public void ChangeMode()
+    {
+        string mode;
+
+        if (_isDesignerMode)
+        {
+            _isDesignerMode = false;
+            mode = "player";
+        }
+        else
+        {
+            _isDesignerMode = true;
+            mode = "designer";
+        }
+        for (int y = 0; y < _gridArray.GetLength(0); y++)
+        {
+            for (int x = 0; x < _gridArray.GetLength(1); x++)
+            {
+                _gridArray[x, y].ChangeMode(mode, GetWorldPosition(_gridArray[x, y].GetGridPosition()));
+            }
+        }
     }
 }

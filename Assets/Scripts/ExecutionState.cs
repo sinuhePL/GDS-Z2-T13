@@ -84,4 +84,9 @@ public class ExecutionState : IGameState
         //nothing happens
         return null;
     }
+
+    public void ChangeMode(GameController myGameController)
+    {
+
+    }
 }

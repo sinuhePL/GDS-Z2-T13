@@ -12,4 +12,5 @@ public interface IGameState
     IGameState ExecutionEnd(GameController myGameController);
     IGameState EndTurnPressed(GameController myGameController);
     IGameState DeploymentPressed(GameController myGameController);
+    void ChangeMode(GameController myGameController);
 }

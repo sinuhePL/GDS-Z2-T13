@@ -131,4 +131,12 @@ public class AttackSelectedState : IGameState
         myGrid = myGameController.GetGrid();
         return new DeploymentState(_activeUnit, myGrid, ui);
     }
+
+    public void ChangeMode(GameController myGameController)
+    {
+        BoardGrid myGrid;
+
+        myGrid = myGameController.GetGrid();
+        myGrid.ChangeMode();
+    }
 }
