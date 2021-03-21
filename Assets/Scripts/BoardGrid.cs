@@ -23,6 +23,24 @@ public class BoardGrid
         }
     }
 
+    private void HighlightSurroundingTiles(GridPosition startingPosition, bool isAttack, HighlightType hType, int playerId = 0)
+    {
+        if (startingPosition.x > 0)
+        {
+            _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(hType, isAttack, playerId);
+            if (startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y - 1].Highlight(hType, isAttack, playerId);
+            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(hType, isAttack, playerId);
+        }
+        if (startingPosition.x < _width - 1)
+        {
+            _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(hType, isAttack, playerId);
+            if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(hType, isAttack, playerId);
+            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(hType, isAttack, playerId);
+        }
+        if (startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(hType, isAttack, playerId);
+        if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(hType, isAttack, playerId);
+    }
+
     #region Pathfinding
 
     private TileController GetLowestFCostNode(List<TileController> nodeList)
@@ -265,20 +283,7 @@ public class BoardGrid
     public void ShowAttackRange(GridPosition startingPosition, int range, int playerId)
     {
         // highlight melee attack range
-        if (startingPosition.x > 0)
-        {
-            _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
-            if(startingPosition.y > 0) _gridArray[startingPosition.x - 1, startingPosition.y-1].Highlight(HighlightType.AttackRange, true, playerId);
-            if(startingPosition.y < _height-1) _gridArray[startingPosition.x - 1, startingPosition.y + 1].Highlight(HighlightType.AttackRange, true, playerId);
-        }
-        if(startingPosition.x < _width - 1)
-        {
-            _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
-            if (startingPosition.y > 0) _gridArray[startingPosition.x + 1, startingPosition.y - 1].Highlight(HighlightType.AttackRange, true, playerId);
-            if (startingPosition.y < _height - 1) _gridArray[startingPosition.x + 1, startingPosition.y + 1].Highlight(HighlightType.AttackRange, true, playerId);
-        }
-        if(startingPosition.y > 0) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(HighlightType.AttackRange, true, playerId);
-        if (startingPosition.y < _height - 1) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(HighlightType.AttackRange, true, playerId);
+        HighlightSurroundingTiles(startingPosition, true, HighlightType.AttackRange, playerId);
         if (range > 1) // highlight range attack range
         {
             for(int i=1; i<_width; i++)
@@ -326,10 +331,11 @@ public class BoardGrid
     {
         GridPosition startingPosition;
         startingPosition = startingTile.GetGridPosition();
-        if (startingPosition.x > 0 && !_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
+        HighlightSurroundingTiles(startingPosition, false, HighlightType.Deployment);
+        /*if (startingPosition.x > 0 && !_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
         if(startingPosition.x < _width - 1 && !_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
         if (startingPosition.y > 0 && !_gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(HighlightType.Deployment, false);
-        if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(HighlightType.Deployment, false);
+        if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(HighlightType.Deployment, false);*/
     }
 
     public bool HasPossibleAttack(UnitController unit)

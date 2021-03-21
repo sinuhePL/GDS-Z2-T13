@@ -10,18 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c041d6c9b97176846a88e42b2ec3d02e, type: 3}
-  m_Name: 2F
+  m_Name: F
   m_EditorClassIdentifier: 
-  unitSprite: {fileID: 0}
-  unitDesignerSprite: {fileID: 21300000, guid: 66c9df8772228384b84133d27fda87b7, type: 3}
   unitName: Commander2
-  unitHealth: 10
+  unitHealth: 15
   moveRange: 2
   attackDamage: 2
   attackRange: 1
-  armor: 1
+  armor: 0
   moveSpeed: 2
-  playerId: 2
   isKing: 1
   attacksCount: 1
   unitTypeId: 1

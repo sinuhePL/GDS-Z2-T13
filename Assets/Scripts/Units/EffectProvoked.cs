@@ -25,7 +25,7 @@ public class EffectProvoked : MonoBehaviour, IValidateTarget, IMoveRangeModifier
     public void EndTurnAction(int playerId)
     {
         if(_myUnitController.GetPlayerId() != playerId 
-            && (Mathf.Abs(_instigator.GetGridPosition().x - _myUnitController.GetGridPosition().x) > 1 || Mathf.Abs(_instigator.GetGridPosition().y - _myUnitController.GetGridPosition().y) > 1))
+            && (_instigator._isKilled || Mathf.Abs(_instigator.GetGridPosition().x - _myUnitController.GetGridPosition().x) > 1 || Mathf.Abs(_instigator.GetGridPosition().y - _myUnitController.GetGridPosition().y) > 1))
         {
             Destroy(this);
         }

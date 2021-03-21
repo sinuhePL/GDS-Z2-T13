@@ -12,8 +12,7 @@ public class DeploymentState : IGameState
         GridPosition startingPosition, checkedPosition;
         startingPosition = startingTile.GetGridPosition();
         checkedPosition = checkedTile.GetGridPosition();
-        if (Mathf.Abs(startingPosition.x - checkedPosition.x) == 1 && Mathf.Abs(startingPosition.y - checkedPosition.y) == 0 
-            || Mathf.Abs(startingPosition.y - checkedPosition.y) == 1 && Mathf.Abs(startingPosition.x - checkedPosition.x) == 0) return true;
+        if (Mathf.Abs(startingPosition.x - checkedPosition.x) <= 1 && Mathf.Abs(startingPosition.y - checkedPosition.y) <= 1) return true;
         else return false;
     }
 

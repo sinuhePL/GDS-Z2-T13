@@ -20,7 +20,7 @@ public class TileArmoring : MonoBehaviour, IEndturnable
         EffectIncreaseArmor myEffect;
 
         myUnit = _myTileController._myUnit;
-        if (myUnit != null && myUnit.GetPlayerId() == playerId)
+        if (myUnit != null && myUnit.GetPlayerId() == playerId && myUnit.gameObject.GetComponent<EffectIncreaseArmor>() == null)
         {
             myEffect = myUnit.gameObject.AddComponent<EffectIncreaseArmor>();
             myEffect.InitializeEffect(_armorBonus, _effectDescription);

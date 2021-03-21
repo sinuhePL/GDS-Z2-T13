@@ -7198,6 +7198,10 @@ MonoBehaviour:
   - {fileID: 1675890706652306334, guid: fbb76340f475d5a40b5d223b609c110f, type: 3}
   - {fileID: 7617900980011590799, guid: 4796d32d7de02384aaa083688fdd08d3, type: 3}
   - {fileID: 8757812623590570230, guid: dbe8a99a3f8367341ba02ad56b427ccc, type: 3}
+  - {fileID: 8546351567169676311, guid: d98e78ed174a8fe40b35c9461240fc69, type: 3}
+  - {fileID: 3271249675414168807, guid: 800b6478e91f01f4f9950379ad136ac7, type: 3}
+  - {fileID: 641729191399954979, guid: ef46b3e6c988658428b5258e8c0d8346, type: 3}
+  - {fileID: 5760062941152983991, guid: 260f74c74962c6045b77a11563ac7032, type: 3}
   _player1InfoPanel: {fileID: 1575068839}
   _player2Panels:
   - {fileID: 1385820035}
@@ -7211,6 +7215,10 @@ MonoBehaviour:
   - {fileID: 6183849372890433769, guid: 39699da794264324fb2cf6adba932bcb, type: 3}
   - {fileID: 5882565131293799808, guid: 0fa5311757ff69d4fb00479bf21ddd3f, type: 3}
   - {fileID: 6083007797194558571, guid: 300394c384076fb429fb2aea9a7cf505, type: 3}
+  - {fileID: 7224448712261530417, guid: b023ea416dd86dd4f8cf0ca71f401dc9, type: 3}
+  - {fileID: 4900415317148257838, guid: 51ee9fae9705c8b4fabe043e0aa022e8, type: 3}
+  - {fileID: 5593241023611074686, guid: e67e8e9fb9ab54f4689b520a9ca753ae, type: 3}
+  - {fileID: 8837546631030173672, guid: 22de99edd22b2d249821eaa19ba37103, type: 3}
   _player2InfoPanel: {fileID: 388720054}
   _nextButton: {fileID: 1761513281}
   _myGameController: {fileID: 2060501877}

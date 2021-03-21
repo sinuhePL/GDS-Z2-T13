@@ -29,6 +29,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 716703ddd0486c241b435e4ec4a9a153,
         type: 2}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: _myPlayerId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: unitDesignerSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4bec9e0541dee5e44ad94760a10467ba,
+        type: 3}
     - target: {fileID: 6772823374680011127, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}
       propertyPath: m_Name

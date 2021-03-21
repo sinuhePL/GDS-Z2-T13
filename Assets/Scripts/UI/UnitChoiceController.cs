@@ -3,6 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public struct ChosenUnit
+{
+    public int playerId;
+    public string unitName;
+
+    public ChosenUnit(int p, string n)
+    {
+        playerId = p;
+        unitName = n;
+    }
+
+    public static bool operator ==(ChosenUnit cu1, ChosenUnit cu2)
+    {
+        if (cu1.playerId == cu2.playerId && cu1.unitName == cu2.unitName) return true;
+        else return false;
+    }
+
+    public static bool operator !=(ChosenUnit cu1, ChosenUnit cu2)
+    {
+        if (cu1.playerId != cu2.playerId || cu1.unitName != cu2.unitName) return true;
+        else return false;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+}
+
 public class UnitChoiceController : MonoBehaviour
 {
     [SerializeField] private UnitPanelController[] _player1Panels;
@@ -17,7 +51,7 @@ public class UnitChoiceController : MonoBehaviour
 
     private UnitPanelController _currentUnitPanel;
     private UnitPanelController _currentOpponentUnitPanel;
-
+    private List<ChosenUnit> _chosenUnits;
     private int _currentPanelIndex;
     private int _currentPlayer;
     private int _currentUnitIndex;
@@ -42,6 +76,7 @@ public class UnitChoiceController : MonoBehaviour
         _currentUnitIndex = 0;
         _currentUnitPanel.SetUnit(_player1UnitPrefabs[0]);
         _player1InfoPanel.DisplayUnit(_player1UnitPrefabs[0].GetComponent<UnitController>());
+        _chosenUnits = new List<ChosenUnit>();
     }
 
     private string GetNumeral(int number)
@@ -68,7 +103,7 @@ public class UnitChoiceController : MonoBehaviour
         return result;
     }
 
-    private GameObject GetOpposingUnit(int lookForType)
+    private GameObject GetOpposingUnit(int lookForType, string unitName)
     {
         UnitController myUnitController;    
         if(_currentPlayer == 1)
@@ -76,7 +111,7 @@ public class UnitChoiceController : MonoBehaviour
             foreach(GameObject myGO in _player2UnitPrefabs)
             {
                 myUnitController = myGO.GetComponent<UnitController>();
-                if (myUnitController.GetUnitType() == lookForType) return myGO;
+                if (myUnitController.GetUnitType() == lookForType && myUnitController.GetUnitName() != unitName) return myGO;
             }
         }
         else
@@ -84,7 +119,7 @@ public class UnitChoiceController : MonoBehaviour
             foreach (GameObject myGO in _player1UnitPrefabs)
             {
                 myUnitController = myGO.GetComponent<UnitController>();
-                if (myUnitController.GetUnitType() == lookForType) return myGO;
+                if (myUnitController.GetUnitType() == lookForType && myUnitController.GetUnitName() != unitName) return myGO;
             }
         }
         return null;
@@ -95,15 +130,23 @@ public class UnitChoiceController : MonoBehaviour
         Text buttonText;
         UnitController currentUnitController;
         GameObject opposingUnit;
+        bool unitValid;
 
+        currentUnitController = _currentUnitPanel.GetUnitPrefab().GetComponent<UnitController>();
+        _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()));
         _myGameController.AddUnitPrefab(_currentUnitPanel.GetUnitPrefab(), _currentPlayer);
         _currentUnitPanel.DisableButtons();
-        if (_currentPanelIndex != 0)
+        if (_currentPanelIndex != 0)    // if minion was chosen
         {
+            currentUnitController = _currentOpponentUnitPanel.GetUnitPrefab().GetComponent<UnitController>();
+            _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()));
             _myGameController.AddUnitPrefab(_currentOpponentUnitPanel.GetUnitPrefab(), _currentPlayer == 1 ? 2 : 1);
             _currentOpponentUnitPanel.DisableButtons();
         }
         else
+        {
+            // if commander was chosen
+        }
         {
             _player2Panels[0].gameObject.SetActive(true);
             _player2InfoPanel.gameObject.SetActive(true);
@@ -120,14 +163,20 @@ public class UnitChoiceController : MonoBehaviour
         {
             _currentPlayer = 2;
             _currentUnitIndex = 1;
-            if (_currentPanelIndex != 0)
+            if (_currentPanelIndex != 0)    // if minion is being chosen
             {
-                currentUnitController = _player2UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
+                unitValid = false;
+                while (!unitValid)
+                {
+                    currentUnitController = _player2UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
+                    if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()))) unitValid = true;
+                    else _currentUnitIndex++;
+                }
                 _currentPanelIndex++;
                 _currentOpponentUnitPanel = _player1Panels[_currentPanelIndex];
                 _currentOpponentUnitPanel.EnableMe();
                 _currentOpponentUnitPanel.DisableButtons();
-                opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType());
+                opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType(), currentUnitController.GetUnitName());
                 _currentOpponentUnitPanel.SetUnit(opposingUnit);
                 _player1InfoPanel.DisplayUnit(opposingUnit.GetComponent<UnitController>());
                 _myDescription.text = "Player 2: Choose " + GetNumeral(_currentPanelIndex) + " unit.";
@@ -147,12 +196,18 @@ public class UnitChoiceController : MonoBehaviour
         {
             _currentPlayer = 1;
             _currentUnitIndex = 1;
-            currentUnitController = _player1UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
+            unitValid = false;
+            while (!unitValid)
+            {
+                currentUnitController = _player1UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
+                if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()))) unitValid = true;
+                else _currentUnitIndex++;
+            }
             _currentPanelIndex++;
             _currentOpponentUnitPanel = _player2Panels[_currentPanelIndex];
             _currentOpponentUnitPanel.EnableMe();
             _currentOpponentUnitPanel.DisableButtons();
-            opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType());
+            opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType(), currentUnitController.GetUnitName());
             _currentOpponentUnitPanel.SetUnit(opposingUnit);
             _currentUnitPanel = _player1Panels[_currentPanelIndex];
             _currentUnitPanel.SetUnit(_player1UnitPrefabs[_currentUnitIndex]);
@@ -172,39 +227,53 @@ public class UnitChoiceController : MonoBehaviour
     {
         GameObject opposingUnit;
         UnitController currentUnitController;
+        bool unitValid;
 
-        if (direction == "right")
+        unitValid = false;
+        while (!unitValid)
         {
-            if(_currentPlayer == 1)
+            if (direction == "right")
             {
-                if (_currentUnitIndex == _player1UnitPrefabs.Length - 1) _currentUnitIndex = 1;
-                else _currentUnitIndex++;
+                if (_currentPlayer == 1)
+                {
+                    if (_currentUnitIndex == _player1UnitPrefabs.Length - 1) _currentUnitIndex = 1;
+                    else _currentUnitIndex++;
+                }
+                else
+                {
+                    if (_currentUnitIndex == _player2UnitPrefabs.Length - 1) _currentUnitIndex = 1;
+                    else _currentUnitIndex++;
+                }
             }
             else
             {
-                if (_currentUnitIndex == _player2UnitPrefabs.Length - 1) _currentUnitIndex = 1;
-                else _currentUnitIndex++;
+                if (_currentPlayer == 1)
+                {
+                    if (_currentUnitIndex == 1) _currentUnitIndex = _player1UnitPrefabs.Length - 1;
+                    else _currentUnitIndex--;
+                }
+                else
+                {
+                    if (_currentUnitIndex == 1) _currentUnitIndex = _player2UnitPrefabs.Length - 1;
+                    else _currentUnitIndex--;
+                }
             }
-        }
-        else
-        {
-            if(_currentPlayer == 1)
+            if (_currentPlayer == 1)
             {
-                if (_currentUnitIndex == 1) _currentUnitIndex = _player1UnitPrefabs.Length - 1;
-                else _currentUnitIndex--;
+                currentUnitController = _player1UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
             }
             else
             {
-                if (_currentUnitIndex == 1) _currentUnitIndex = _player2UnitPrefabs.Length - 1;
-                else _currentUnitIndex--;
+                currentUnitController = _player2UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
             }
+            if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()))) unitValid = true;
         }
         if(_currentPlayer == 1)
         {
             _currentUnitPanel.SetUnit(_player1UnitPrefabs[_currentUnitIndex]);
             currentUnitController = _player1UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
             _player1InfoPanel.DisplayUnit(currentUnitController);
-            opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType());
+            opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType(), currentUnitController.GetUnitName());
             _currentOpponentUnitPanel.SetUnit(opposingUnit);
             _player2InfoPanel.DisplayUnit(opposingUnit.GetComponent<UnitController>()); 
         }
@@ -213,7 +282,7 @@ public class UnitChoiceController : MonoBehaviour
             _currentUnitPanel.SetUnit(_player2UnitPrefabs[_currentUnitIndex]);
             currentUnitController = _player2UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
             _player2InfoPanel.DisplayUnit(currentUnitController);
-            opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType());
+            opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType(), currentUnitController.GetUnitName());
             _currentOpponentUnitPanel.SetUnit(opposingUnit);
             _player1InfoPanel.DisplayUnit(opposingUnit.GetComponent<UnitController>());
         }

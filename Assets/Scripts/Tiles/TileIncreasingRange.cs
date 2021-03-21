@@ -17,7 +17,10 @@ public class TileIncreasingRange : MonoBehaviour, ITileBehaviour
     public void EnterTileAction(UnitController myUnit)
     {
         EffectIncreaseAttackRange myEffect;
-        myEffect = myUnit.gameObject.AddComponent<EffectIncreaseAttackRange>();
-        myEffect.InitializeEffect(_attackRangeBonus, _effectDescription);
+        if (myUnit.gameObject.GetComponent<EffectIncreaseAttackRange>() == null)
+        {
+            myEffect = myUnit.gameObject.AddComponent<EffectIncreaseAttackRange>();
+            myEffect.InitializeEffect(_attackRangeBonus, _effectDescription);
+        }
     }
 }

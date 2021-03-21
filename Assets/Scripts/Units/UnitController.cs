@@ -5,9 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class UnitController : MonoBehaviour, IClickable, IEndturnable
 {
+    [SerializeField] private Sprite unitSprite;
+    [SerializeField] private Sprite unitDesignerSprite;
     [SerializeField] private ScriptableUnit _unit;
     [SerializeField] private HealthController _myHealth;
     [SerializeField] private SpriteRenderer _myReticle;
+    [SerializeField] private int _myPlayerId;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
     public bool _isKilled { get; set; }
@@ -21,7 +24,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     void Start()
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
-        _mySpriteRenderer.sprite = _unit.unitDesignerSprite;
+        _mySpriteRenderer.sprite = unitDesignerSprite;
     }
 
     private void OnMouseEnter()
@@ -116,7 +119,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public void EndTurnAction(int playerId)
     {
-        if (_unit.playerId != playerId)
+        if (_myPlayerId != playerId)
         {
             _isAvailable = true;
             _hasMoved = false;
@@ -189,7 +192,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public int GetPlayerId()
     {
-        return _unit.playerId;
+        return _myPlayerId;
     }
 
     public int GetAttackRange()
@@ -255,7 +258,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         {
             if (!modifier.IsTargetValid(attackTarget)) return false;
         }
-        if (attackTarget.GetPlayerId() != _unit.playerId) return true;
+        if (attackTarget.GetPlayerId() != _myPlayerId) return true;
         else return false;
     }
 
@@ -329,7 +332,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public Sprite GetUnitImage()
     {
-        return _unit.unitDesignerSprite;
+        return unitDesignerSprite;
     }
 
     public int GetUnitType()

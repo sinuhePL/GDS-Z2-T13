@@ -10,18 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c041d6c9b97176846a88e42b2ec3d02e, type: 3}
-  m_Name: 1D
+  m_Name: C
   m_EditorClassIdentifier: 
-  unitSprite: {fileID: 0}
-  unitDesignerSprite: {fileID: 21300000, guid: 4bec9e0541dee5e44ad94760a10467ba, type: 3}
-  unitName: AbilityDPSRange1
-  unitHealth: 8
-  moveRange: 2
+  unitName: LowDPSRange1
+  unitHealth: 6
+  moveRange: 4
   attackDamage: 1
-  attackRange: 3
+  attackRange: 5
   armor: 0
   moveSpeed: 2
-  playerId: 1
   isKing: 0
-  attacksCount: 1
-  unitTypeId: 4
+  attacksCount: 2
+  unitTypeId: 3

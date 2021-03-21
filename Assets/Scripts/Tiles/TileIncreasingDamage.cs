@@ -17,7 +17,10 @@ public class TileIncreasingDamage : MonoBehaviour, ITileBehaviour
     public void EnterTileAction(UnitController myUnit)
     {
         EffectIncreaseDamage myEffect;
-        myEffect = myUnit.gameObject.AddComponent<EffectIncreaseDamage>();
-        myEffect.InitializeEffect(_attackBonus, _effectDescription);
+        if (myUnit.gameObject.GetComponent<EffectIncreaseDamage>() == null)
+        {
+            myEffect = myUnit.gameObject.AddComponent<EffectIncreaseDamage>();
+            myEffect.InitializeEffect(_attackBonus, _effectDescription);
+        }
     }
 }

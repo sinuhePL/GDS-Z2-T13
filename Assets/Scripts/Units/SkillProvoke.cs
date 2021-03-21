@@ -14,59 +14,42 @@ public class SkillProvoke : MonoBehaviour, IEndturnable, ISkill
         _myUnitController = GetComponent<UnitController>();
     }
 
+    private void AddEffect(TileController neighbourTile)
+    {
+        EffectProvoked myEffect;
+        UnitController neighbourUnit;
+
+        if (neighbourTile != null && neighbourTile._isOccupied)
+        {
+            neighbourUnit = neighbourTile._myUnit;
+            if (neighbourUnit.GetPlayerId() != _myUnitController.GetPlayerId() && neighbourUnit.gameObject.GetComponent<EffectProvoked>() == null)
+            {
+                myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
+                myEffect.InitializeEffect(_myUnitController, _effectDescription);
+            }
+        }
+    }
+
     public void EndTurnAction(int playerId)
     {
         TileController neighbourTile;
-        EffectProvoked myEffect;
 
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x - 1, _myUnitController.GetGridPosition().y - 1);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x - 1, _myUnitController.GetGridPosition().y);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x - 1, _myUnitController.GetGridPosition().y + 1);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x, _myUnitController.GetGridPosition().y - 1);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x, _myUnitController.GetGridPosition().y + 1);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x + 1, _myUnitController.GetGridPosition().y - 1);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x + 1, _myUnitController.GetGridPosition().y);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-        {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
         neighbourTile = _myUnitController._myTile.GetAnotherTile(_myUnitController.GetGridPosition().x + 1, _myUnitController.GetGridPosition().y + 1);
-        if (neighbourTile != null && neighbourTile._isOccupied && neighbourTile._myUnit.GetPlayerId() != _myUnitController.GetPlayerId())
-            {
-            myEffect = neighbourTile._myUnit.gameObject.AddComponent<EffectProvoked>();
-            myEffect.InitializeEffect(_myUnitController, _effectDescription);
-        }
+        AddEffect(neighbourTile);
     }
 
     public string GetDescription()

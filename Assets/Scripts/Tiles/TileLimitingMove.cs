@@ -20,7 +20,7 @@ public class TileLimitingMove : MonoBehaviour, IEndturnable
         EffectIncreaseMoveRange myEffect;
 
         myUnit = _myTileController._myUnit;
-        if (myUnit != null && myUnit.GetPlayerId() == playerId)
+        if (myUnit != null && myUnit.GetPlayerId() == playerId && myUnit.gameObject.GetComponent<EffectIncreaseMoveRange>() == null)
         {
             myEffect = myUnit.gameObject.AddComponent<EffectIncreaseMoveRange>();
             myEffect.InitializeEffect(_movementRangeBonus, _effectDescription);

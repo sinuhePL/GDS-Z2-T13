@@ -354,6 +354,7 @@ MonoBehaviour:
   _crosshairSprite: {fileID: 21300000, guid: 2965bfd4db679bf4a9afe1fe2ec953ba, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 73ea866a43004cf4dbb0b1d0283e1d01, type: 3}
   _moveRangeSprite: {fileID: 21300000, guid: a1fb04f9a4b801b4cbb4eddd3220a7e8, type: 3}
+  _deploySprite: {fileID: 21300000, guid: 3cb38952bef5cf54a9df069f055a01d9, type: 3}
   _inMoveRangeColor: {r: 0.031772893, g: 0.9622642, b: 0.94440687, a: 0.49019608}
   _pathColor: {r: 0, g: 0.5822619, b: 0.7830189, a: 0.49019608}
   _hoverColor: {r: 0.2028302, g: 1, b: 0.2423684, a: 0.49019608}

@@ -15,6 +15,7 @@ public class TileController : MonoBehaviour, IClickable
     [SerializeField] private Sprite _crosshairSprite;
     [SerializeField] private Sprite _hoverSprite;
     [SerializeField] private Sprite _moveRangeSprite;
+    [SerializeField] private Sprite _deploySprite;
     [SerializeField] private Color _inMoveRangeColor;
     [SerializeField] private Color _pathColor;
     [SerializeField] private Color _hoverColor;
@@ -138,6 +139,7 @@ public class TileController : MonoBehaviour, IClickable
                         break;
                     case HighlightType.Deployment:
                         _overlayColorSpriteRenderer.color = _deploymentZoneColor;
+                        if (!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _deploySprite;
                         break;
                 }
             }
