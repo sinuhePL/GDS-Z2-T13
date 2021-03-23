@@ -11,7 +11,7 @@ public class UnitSelectedState : IGameState
         _activeUnit = uc;
         _activeUnit.SetReticle(true);
         myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
-        myGrid.ShowAttackRange(uc.GetGridPosition(), uc.GetAttackRange(), _activeUnit.GetPlayerId());
+        myGrid.ShowAttackRange(uc, uc.GetAttackRange(), _activeUnit.GetPlayerId());
         ui.DisplayUnit(uc);
         ui.SelectUnit(uc);
         Debug.Log("Stan: Wybrana jednostka gracza: " + _activeUnit.GetPlayerId());
@@ -98,13 +98,13 @@ public class UnitSelectedState : IGameState
         myGrid = myGameController.GetGrid();
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);
-        if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
+        if (_activeUnit.IsTargetValid(hoveredUnit) && !myGrid.IsTileInAttackRange(_activeUnit, hoveredUnit._myTile))
         {
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
-            myGrid.ShowAttackRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
+            myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
         }
-        else if (hoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId()) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
+        else if (_activeUnit.IsTargetValid(hoveredUnit)) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
         return null;
     }
 
@@ -116,13 +116,13 @@ public class UnitSelectedState : IGameState
         ui = myGameController.GetUI();
         ui.ClearDisplay();
         myGrid = myGameController.GetGrid();
-        if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId() && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
+        if (_activeUnit.IsTargetValid(unhoveredUnit) && !myGrid.IsTileInAttackRange(_activeUnit, unhoveredUnit._myTile))
         {
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
-            myGrid.ShowAttackRange(_activeUnit.GetGridPosition(), _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
+            myGrid.ShowAttackRange(_activeUnit, _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
         }
-        else if (unhoveredUnit.GetPlayerId() != _activeUnit.GetPlayerId()) unhoveredUnit.StopShowingPotentialDamage();
+        else if (_activeUnit.IsTargetValid(unhoveredUnit)) unhoveredUnit.StopShowingPotentialDamage();
         return null;
     }
 

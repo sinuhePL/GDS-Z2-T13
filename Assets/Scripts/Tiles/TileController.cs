@@ -138,8 +138,11 @@ public class TileController : MonoBehaviour, IClickable
                         _overlayColorSpriteRenderer.color = _inAttackRangeColor;
                         break;
                     case HighlightType.Deployment:
-                        _overlayColorSpriteRenderer.color = _deploymentZoneColor;
-                        if (!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _deploySprite;
+                        if (!_isOccupied)
+                        {
+                            _overlayColorSpriteRenderer.color = _deploymentZoneColor;
+                            if (!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _deploySprite;
+                        }
                         break;
                 }
             }

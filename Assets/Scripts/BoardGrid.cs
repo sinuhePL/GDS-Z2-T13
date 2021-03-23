@@ -280,27 +280,47 @@ public class BoardGrid
         return _height;
     }
 
-    public void ShowAttackRange(GridPosition startingPosition, int range, int playerId)
+    public void ShowAttackRange(UnitController myUnit, int range, int playerId)
     {
-        // highlight melee attack range
-        HighlightSurroundingTiles(startingPosition, true, HighlightType.AttackRange, playerId);
-        if (range > 1) // highlight range attack range
+        GridPosition startingPosition;
+        startingPosition = myUnit.GetGridPosition();
+        if (myUnit.gameObject.GetComponent<IValidateTarget>() != null)
         {
-            for(int i=1; i<_width; i++)
+            IValidateTarget myValidator;
+            GridPosition targetPosition;
+            myValidator = myUnit.gameObject.GetComponent<IValidateTarget>();
+            targetPosition = myValidator.GetValidPosition();
+            _gridArray[targetPosition.x, targetPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
+        }
+        else
+        {
+            // highlight melee attack range
+            HighlightSurroundingTiles(startingPosition, true, HighlightType.AttackRange, playerId);
+            if (range > 1) // highlight range attack range
             {
-                if(startingPosition.x + i < _width && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x + i, startingPosition.y))) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
-                if (startingPosition.x - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x - i, startingPosition.y))) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
-            }
-            for (int i = 1; i < _height; i++)
-            {
-                if (startingPosition.y + i < _height && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y + i))) _gridArray[startingPosition.x, startingPosition.y+i].Highlight(HighlightType.AttackRange, true, playerId);
-                if (startingPosition.y - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y - i))) _gridArray[startingPosition.x, startingPosition.y-i].Highlight(HighlightType.AttackRange, true, playerId);
+                for (int i = 1; i < _width; i++)
+                {
+                    if (startingPosition.x + i < _width && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x + i, startingPosition.y))) _gridArray[startingPosition.x + i, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
+                    if (startingPosition.x - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x - i, startingPosition.y))) _gridArray[startingPosition.x - i, startingPosition.y].Highlight(HighlightType.AttackRange, true, playerId);
+                }
+                for (int i = 1; i < _height; i++)
+                {
+                    if (startingPosition.y + i < _height && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y + i))) _gridArray[startingPosition.x, startingPosition.y + i].Highlight(HighlightType.AttackRange, true, playerId);
+                    if (startingPosition.y - i >= 0 && i <= range && IsTileVisible(startingPosition, new GridPosition(startingPosition.x, startingPosition.y - i))) _gridArray[startingPosition.x, startingPosition.y - i].Highlight(HighlightType.AttackRange, true, playerId);
+                }
             }
         }
     }
 
     public bool IsTileInAttackRange(UnitController myUnit, TileController targetTile)
     {
+        if(myUnit.gameObject.GetComponent<IValidateTarget>() != null)
+        {
+            IValidateTarget myValidator;
+            myValidator = myUnit.gameObject.GetComponent<IValidateTarget>();
+            if (targetTile._isOccupied && myValidator.IsTargetValid(targetTile._myUnit)) return true;
+            else return false;
+        }
         if (Mathf.Abs(myUnit.GetGridPosition().x - targetTile.GetGridPosition().x) <= 1 && Mathf.Abs(myUnit.GetGridPosition().y - targetTile.GetGridPosition().y) <= 1) return true;
         if (myUnit.GetAttackRange() > 1)
         {
@@ -358,6 +378,8 @@ public class BoardGrid
             if (startingPosition.y > 0 && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
             if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x + 1, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
         }
+        if(startingPosition.y > 0 && _gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied && _gridArray[startingPosition.x, startingPosition.y - 1]._myUnit.GetPlayerId() != unitPlayer) return true;
+        if (startingPosition.y < _height - 1 && _gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied && _gridArray[startingPosition.x, startingPosition.y + 1]._myUnit.GetPlayerId() != unitPlayer) return true;
         if (range > 1)
         {
             for (int i = 1; i < _width; i++)

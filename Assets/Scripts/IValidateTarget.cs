@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IValidateTarget
 {
     bool IsTargetValid(UnitController targetUnit);
+    GridPosition GetValidPosition();
 }
