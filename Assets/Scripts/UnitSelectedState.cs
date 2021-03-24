@@ -57,8 +57,6 @@ public class UnitSelectedState : IGameState
             {
                 myGrid.HideHighlight();
                 _activeUnit.SetReticle(false);
-                _activeUnit._isAvailable = false;
-                ui.MarkUnitUnavailable(_activeUnit);
                 clickedUnit.StopShowingPotentialDamage();
                 _activeUnit.AttackUnit(clickedUnit);
                 if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;

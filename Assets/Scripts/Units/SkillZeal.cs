@@ -25,7 +25,7 @@ public class SkillZeal : MonoBehaviour, IAttackModifier, IEnterTile, ISkill
 
     private void OnExecutionEnded(UnitController unit)
     {
-        if(_isAdjacentToKing && unit.GetPlayerId() == _myUnitController.GetPlayerId() && unit.IsKing())
+        if(_myUnitController._isDeployed && unit.GetPlayerId() == _myUnitController.GetPlayerId() && unit.IsKing())
         {
             EnterTileAction(_myUnitController._myTile);
         }

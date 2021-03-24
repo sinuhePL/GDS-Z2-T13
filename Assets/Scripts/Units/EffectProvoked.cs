@@ -43,6 +43,7 @@ public class EffectProvoked : MonoBehaviour, IValidateTarget, IMoveRangeModifier
 
     public GridPosition GetValidPosition()
     {
-        return _instigator.GetGridPosition();
+        if (!_instigator._isKilled) return _instigator.GetGridPosition();
+        else return new GridPosition();
     }
 }

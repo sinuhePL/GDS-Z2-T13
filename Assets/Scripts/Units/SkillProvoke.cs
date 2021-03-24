@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitController))]
-public class SkillProvoke : MonoBehaviour, IEndturnable, ISkill
+public class SkillProvoke : MonoBehaviour, IEnterTile, ISkill
 {
     [SerializeField] private string _description;
     [SerializeField] private string _effectDescription;
@@ -30,7 +30,7 @@ public class SkillProvoke : MonoBehaviour, IEndturnable, ISkill
         }
     }
 
-    public void EndTurnAction(int playerId)
+    public void EnterTileAction(TileController newTile)
     {
         TileController neighbourTile;
 

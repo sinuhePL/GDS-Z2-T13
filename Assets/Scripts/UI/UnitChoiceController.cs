@@ -6,23 +6,23 @@ using UnityEngine.UI;
 public struct ChosenUnit
 {
     public int playerId;
-    public string unitName;
+    public int unitType;
 
-    public ChosenUnit(int p, string n)
+    public ChosenUnit(int p, int t)
     {
         playerId = p;
-        unitName = n;
+        unitType = t;
     }
 
     public static bool operator ==(ChosenUnit cu1, ChosenUnit cu2)
     {
-        if (cu1.playerId == cu2.playerId && cu1.unitName == cu2.unitName) return true;
+        if (cu1.playerId == cu2.playerId && cu1.unitType == cu2.unitType) return true;
         else return false;
     }
 
     public static bool operator !=(ChosenUnit cu1, ChosenUnit cu2)
     {
-        if (cu1.playerId != cu2.playerId || cu1.unitName != cu2.unitName) return true;
+        if (cu1.playerId != cu2.playerId || cu1.unitType != cu2.unitType) return true;
         else return false;
     }
 
@@ -133,13 +133,13 @@ public class UnitChoiceController : MonoBehaviour
         bool unitValid;
 
         currentUnitController = _currentUnitPanel.GetUnitPrefab().GetComponent<UnitController>();
-        _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()));
+        _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitType()));
         _myGameController.AddUnitPrefab(_currentUnitPanel.GetUnitPrefab(), _currentPlayer);
         _currentUnitPanel.DisableButtons();
         if (_currentPanelIndex != 0)    // if minion was chosen
         {
             currentUnitController = _currentOpponentUnitPanel.GetUnitPrefab().GetComponent<UnitController>();
-            _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()));
+            _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitType()));
             _myGameController.AddUnitPrefab(_currentOpponentUnitPanel.GetUnitPrefab(), _currentPlayer == 1 ? 2 : 1);
             _currentOpponentUnitPanel.DisableButtons();
         }
@@ -169,7 +169,7 @@ public class UnitChoiceController : MonoBehaviour
                 while (!unitValid)
                 {
                     currentUnitController = _player2UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
-                    if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()))) unitValid = true;
+                    if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitType()))) unitValid = true;
                     else _currentUnitIndex++;
                 }
                 _currentPanelIndex++;
@@ -200,7 +200,7 @@ public class UnitChoiceController : MonoBehaviour
             while (!unitValid)
             {
                 currentUnitController = _player1UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
-                if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()))) unitValid = true;
+                if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitType()))) unitValid = true;
                 else _currentUnitIndex++;
             }
             _currentPanelIndex++;
@@ -266,7 +266,7 @@ public class UnitChoiceController : MonoBehaviour
             {
                 currentUnitController = _player2UnitPrefabs[_currentUnitIndex].GetComponent<UnitController>();
             }
-            if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitName()))) unitValid = true;
+            if (!_chosenUnits.Contains(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitType()))) unitValid = true;
         }
         if(_currentPlayer == 1)
         {

@@ -40,8 +40,8 @@ public class DeploymentState : IGameState
         if (_unitToDeploy == null)
         {
             ui.EndDeployment();
-            if (_activeUnit._hasMoved) _activeUnit._isAvailable = false;
-            return new UnitSelectedState(_activeUnit, myGrid, ui);
+            if (_activeUnit._hasMoved) return new AttackSelectedState(_activeUnit, myGrid, ui);
+            else return new UnitSelectedState(_activeUnit, myGrid, ui);
         }
         else if (IsTileInDeploymentZone(_activeUnit._myTile, clickedTile) && !clickedTile._isOccupied)
         {
@@ -102,11 +102,9 @@ public class DeploymentState : IGameState
 
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)
     {
-        BoardGrid myGrid;
         UIController ui;
 
-        myGrid = myGameController.GetGrid();
-        myGrid.TileHovered(hoveredTile);
+        if (hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
         ui = myGameController.GetUI();
         ui.DisplayTile(hoveredTile);
         return null;

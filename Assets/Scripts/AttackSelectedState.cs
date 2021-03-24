@@ -35,8 +35,6 @@ public class AttackSelectedState : IGameState
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
-            _activeUnit._isAvailable = false;
-            ui.MarkUnitUnavailable(_activeUnit);
             clickedUnit.StopShowingPotentialDamage();
             _activeUnit.AttackUnit(clickedUnit);
             if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;
@@ -56,9 +54,7 @@ public class AttackSelectedState : IGameState
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)
     {
         //highlight tile
-        BoardGrid myGrid;
-        myGrid = myGameController.GetGrid();
-        myGrid.TileHovered(hoveredTile);
+        if (hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
         return null;
     }
 

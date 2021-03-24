@@ -71,7 +71,13 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     private IEnumerator MakeAttack(UnitController target)
     {
+        IAddEffect[] myEffectGivers;
         target.DamageUnit(CalculateAttack(target));
+        myEffectGivers = GetComponents<IAddEffect>();
+        foreach(IAddEffect giver in myEffectGivers)
+        {
+            giver.AddEffect(target);
+        }
         yield return 0;
         if (_freeAttacksCount < 1) _freeAttacksCount = _unit.attacksCount;
         EventManager._instance.ExecutionEnded(this);
@@ -128,12 +134,19 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public void DeployUnit(TileController initialTile)
     {
+        IEnterTile[] enterTileReactors;
+
         _myTile = initialTile;
         _myTile._myUnit = this;
         _myTile._isOccupied = true;
         transform.position = initialTile.transform.position;
         ITileBehaviour myTileBehaviour = initialTile.gameObject.GetComponent<ITileBehaviour>();
         if (myTileBehaviour != null) myTileBehaviour.EnterTileAction(this);
+        enterTileReactors = GetComponents<IEnterTile>();
+        foreach (IEnterTile reactor in enterTileReactors)
+        {
+            reactor.EnterTileAction(_myTile);
+        }
     }
 
     public void InitializeUnit()

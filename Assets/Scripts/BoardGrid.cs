@@ -254,11 +254,6 @@ public class BoardGrid
         else if (myTile.isWalkable()) myTile.Highlight(HighlightType.Hover, false);
     }
 
-    public void TileHovered(TileController hoveredTile)
-    {
-        if(hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
-    }
-
     public void HideHighlight()
     {
         for (int y = 0; y < _gridArray.GetLength(0); y++)

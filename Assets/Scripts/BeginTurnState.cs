@@ -36,11 +36,9 @@ public class BeginTurnState : IGameState
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)
     {
         //highlight tile
-        BoardGrid myGrid;
         UIController ui;
 
-        myGrid = myGameController.GetGrid();
-        myGrid.TileHovered(hoveredTile);
+        if (hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
         ui = myGameController.GetUI();
         ui.DisplayTile(hoveredTile);
         return null;
