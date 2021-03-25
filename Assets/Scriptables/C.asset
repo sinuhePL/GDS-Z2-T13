@@ -16,7 +16,7 @@ MonoBehaviour:
   unitHealth: 6
   moveRange: 4
   attackDamage: 1
-  attackRange: 5
+  attackRange: 3
   armor: 0
   moveSpeed: 2
   isKing: 0
