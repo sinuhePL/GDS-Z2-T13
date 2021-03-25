@@ -21,4 +21,5 @@ MonoBehaviour:
   moveSpeed: 2
   isKing: 0
   attacksCount: 1
+  summoningSickness: 1
   unitTypeId: 5

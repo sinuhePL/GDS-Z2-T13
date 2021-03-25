@@ -46,9 +46,12 @@ public class DeploymentState : IGameState
         else if (IsTileInDeploymentZone(_activeUnit._myTile, clickedTile) && !clickedTile._isOccupied)
         {
             _unitToDeploy.DeployUnit(clickedTile);
-            ui.MarkUnitUnavailable(_unitToDeploy);
+            if (_unitToDeploy.SummoningSickness())
+            {
+                ui.MarkUnitUnavailable(_unitToDeploy);
+                _unitToDeploy._isAvailable = false;
+            }
             _unitToDeploy._isDeployed = true;
-            _unitToDeploy._isAvailable = false;
             _activeUnit.SetReticle(false);
             _activeUnit._isAvailable = false;
             ui.MarkUnitUnavailable(_activeUnit);

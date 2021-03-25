@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c041d6c9b97176846a88e42b2ec3d02e, type: 3}
-  m_Name: C
+  m_Name: L
   m_EditorClassIdentifier: 
-  unitName: LowDPSRange1
-  unitHealth: 6
-  moveRange: 4
+  unitName: Assassin2
+  unitHealth: 7
+  moveRange: 1
   attackDamage: 1
-  attackRange: 5
+  attackRange: 1
   armor: 0
   moveSpeed: 2
   isKing: 0
-  attacksCount: 2
-  summoningSickness: 1
-  unitTypeId: 3
+  attacksCount: 1
+  summoningSickness: 0
+  unitTypeId: 6

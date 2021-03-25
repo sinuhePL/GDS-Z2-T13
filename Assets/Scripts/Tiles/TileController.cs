@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class TileController : MonoBehaviour, IClickable
@@ -51,6 +52,7 @@ public class TileController : MonoBehaviour, IClickable
             _overlayColorSpriteRenderer.color = _previousColor;
             _overlayMarkerSpriteRenderer.sprite = _previousMarker;
         }
+        //DOTween.KillAll();
     }
 
     public void InitializeTile(GridPosition position, BoardGrid myBoardGrid)
@@ -108,7 +110,6 @@ public class TileController : MonoBehaviour, IClickable
         _overlayMarkerSpriteRenderer.sprite = null;
         _previousColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         _previousMarker = null;
-
         _crosshairSpriteRenderer.enabled = false;
     }
 
@@ -132,7 +133,8 @@ public class TileController : MonoBehaviour, IClickable
                         break;
                     case HighlightType.Hover:
                         _overlayColorSpriteRenderer.color = _hoverColor;
-                        if(!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _hoverSprite;
+                        if(!_isDesignerMode && _overlayMarkerSpriteRenderer.sprite == null) _overlayMarkerSpriteRenderer.sprite = _hoverSprite;
+                        //_overlayMarkerSpriteRenderer.transform.DOScale(0.8f, 0.2f).SetEase(Ease.OutExpo).SetLoops(-1, LoopType.Yoyo);
                         break;
                     case HighlightType.AttackRange:
                         _overlayColorSpriteRenderer.color = _inAttackRangeColor;

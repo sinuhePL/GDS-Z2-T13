@@ -357,4 +357,9 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     {
         transform.position = newPosition;
     }
+
+    public bool SummoningSickness()
+    {
+        return _unit.summoningSickness;
+    }
 }

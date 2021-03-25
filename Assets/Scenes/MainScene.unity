@@ -7202,6 +7202,8 @@ MonoBehaviour:
   - {fileID: 3271249675414168807, guid: 800b6478e91f01f4f9950379ad136ac7, type: 3}
   - {fileID: 641729191399954979, guid: ef46b3e6c988658428b5258e8c0d8346, type: 3}
   - {fileID: 5760062941152983991, guid: 260f74c74962c6045b77a11563ac7032, type: 3}
+  - {fileID: 6766369339059023433, guid: 2accde74550e45d44939f0fb9de41c6f, type: 3}
+  - {fileID: 2496436970117801035, guid: 3c89b3ccdaa610d4e9119d3265d0ab43, type: 3}
   _player1InfoPanel: {fileID: 1575068839}
   _player2Panels:
   - {fileID: 1385820035}
@@ -7219,6 +7221,8 @@ MonoBehaviour:
   - {fileID: 4900415317148257838, guid: 51ee9fae9705c8b4fabe043e0aa022e8, type: 3}
   - {fileID: 5593241023611074686, guid: e67e8e9fb9ab54f4689b520a9ca753ae, type: 3}
   - {fileID: 8837546631030173672, guid: 22de99edd22b2d249821eaa19ba37103, type: 3}
+  - {fileID: 8539565853197993746, guid: d8c35d1da98542145bf860eb92d1f7ad, type: 3}
+  - {fileID: 5084057838685572778, guid: a4002fc5874ae67418a56d5bfa1dd47d, type: 3}
   _player2InfoPanel: {fileID: 388720054}
   _nextButton: {fileID: 1761513281}
   _myGameController: {fileID: 2060501877}

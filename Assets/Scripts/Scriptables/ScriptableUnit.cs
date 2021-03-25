@@ -14,5 +14,6 @@ public class ScriptableUnit : ScriptableObject
     public float moveSpeed;
     public bool isKing;
     public int attacksCount;
+    public bool summoningSickness;
     public int unitTypeId;
 }

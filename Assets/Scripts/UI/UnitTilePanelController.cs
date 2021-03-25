@@ -95,6 +95,12 @@ public class UnitTilePanelController : MonoBehaviour
             description += "Double (can attack twice in turn)";
             counter++;
         }
+        if (!myUnit.SummoningSickness())
+        {
+            if (counter > 0) description += "\n\n";
+            description += "Quick (Can moave and attack after deployment)";
+            counter++;
+        }
         _skills.text = description;
         unitEffects = myUnit.gameObject.GetComponents<IEffect>();
         description = "";
