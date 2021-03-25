@@ -51,6 +51,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject[] _tilePrefabs;
     [Tooltip("Starting player Id.")]
     [SerializeField] private int _startingPlayer;
+    [Tooltip("Turn limit in seconds")]
+    [SerializeField] private int _timeLimit;
 
     private static GameController _instance;
     private List<GameObject> _unitPrefabsPlayer1;
@@ -258,7 +260,7 @@ public class GameController : MonoBehaviour
             }
         }
         _myGrid.MakeEndTurnActions(playerId);
-        _myUIController.ChangePlayer(playerId==1?2:1);
+        _myUIController.StartPlayerTurn(playerId==1?2:1, this, _timeLimit);
     }
 
     public void AddUnitPrefab(GameObject unitPrefab, int playerId)
@@ -305,7 +307,7 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        _myUIController.InitializeUnitsPanel(_units, _startingPlayer);
+        _myUIController.InitializeUnitsPanel(_units, _startingPlayer, this, _timeLimit);
     }
 
     public void ChangeMode()

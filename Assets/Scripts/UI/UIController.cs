@@ -9,11 +9,28 @@ public class UIController : MonoBehaviour
     [SerializeField] private UnitTilePanelController _myInfoPanel;
     [SerializeField] private PlayerUnitsController _myUnitsPanel;
     [SerializeField] private Button _deployMinionButton;
+    [SerializeField] private Text _timerText;
+    private bool _turnEnded;
 
     private void Start()
     {
         _winnerText.enabled = false;
         _deployMinionButton.gameObject.SetActive(false);
+        _turnEnded = false;
+    }
+
+    private IEnumerator TurnTimer(int timeLimit, GameController myGameController)
+    {
+        int myTimer = 0;
+
+        _turnEnded = false;
+        while (!_turnEnded && myTimer < timeLimit)
+        {
+            _timerText.text = (timeLimit - myTimer).ToString();
+            myTimer += 1;
+            yield return new WaitForSeconds(1.0f);
+        }
+        myGameController.EndTurnAction();
     }
 
     public void DisplayWinner(int winnerId)
@@ -23,9 +40,10 @@ public class UIController : MonoBehaviour
         else _winnerText.text = "Winner: second player";
     }
 
-    public void InitializeUnitsPanel(List<UnitController> units, int startingPlayer)
+    public void InitializeUnitsPanel(List<UnitController> units, int startingPlayer, GameController myGameController, int timeLimit)
     {
         _myUnitsPanel.InitializePanel(units, startingPlayer);
+        StartCoroutine(TurnTimer(timeLimit, myGameController));
     }
 
     public void DisplayTile(TileController tile)
@@ -43,9 +61,11 @@ public class UIController : MonoBehaviour
         _myInfoPanel.ClearDisplay();
     }
 
-    public void ChangePlayer(int playerId)
+    public void StartPlayerTurn(int playerId, GameController myGameController, int timeLimit)
     {
+        _turnEnded = true;
         _myUnitsPanel.SetNewPlayer(playerId);
+        StartCoroutine(TurnTimer(timeLimit, myGameController));
     }
 
     public void SelectUnit(UnitController unit)
