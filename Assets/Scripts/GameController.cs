@@ -260,7 +260,7 @@ public class GameController : MonoBehaviour
             }
         }
         _myGrid.MakeEndTurnActions(playerId);
-        _myUIController.StartPlayerTurn(playerId==1?2:1, this, _timeLimit);
+        _myUIController.StartPlayerTurn(playerId==1?2:1);
     }
 
     public void AddUnitPrefab(GameObject unitPrefab, int playerId)

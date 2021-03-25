@@ -10,27 +10,29 @@ public class UIController : MonoBehaviour
     [SerializeField] private PlayerUnitsController _myUnitsPanel;
     [SerializeField] private Button _deployMinionButton;
     [SerializeField] private Text _timerText;
-    private bool _turnEnded;
+    private int _myTimer;
+
 
     private void Start()
     {
         _winnerText.enabled = false;
         _deployMinionButton.gameObject.SetActive(false);
-        _turnEnded = false;
+        _myTimer = 0;
     }
 
     private IEnumerator TurnTimer(int timeLimit, GameController myGameController)
     {
-        int myTimer = 0;
-
-        _turnEnded = false;
-        while (!_turnEnded && myTimer < timeLimit)
+        while (true)
         {
-            _timerText.text = (timeLimit - myTimer).ToString();
-            myTimer += 1;
+            if (_myTimer >= timeLimit)
+            {
+                myGameController.EndTurnAction();
+                _myTimer = 0;
+            }
+            _timerText.text = (timeLimit - _myTimer).ToString();
+            _myTimer += 1;
             yield return new WaitForSeconds(1.0f);
         }
-        myGameController.EndTurnAction();
     }
 
     public void DisplayWinner(int winnerId)
@@ -61,11 +63,10 @@ public class UIController : MonoBehaviour
         _myInfoPanel.ClearDisplay();
     }
 
-    public void StartPlayerTurn(int playerId, GameController myGameController, int timeLimit)
+    public void StartPlayerTurn(int playerId)
     {
-        _turnEnded = true;
+        _myTimer = 0;
         _myUnitsPanel.SetNewPlayer(playerId);
-        StartCoroutine(TurnTimer(timeLimit, myGameController));
     }
 
     public void SelectUnit(UnitController unit)
