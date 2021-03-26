@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Assassin2
   unitHealth: 7
-  moveRange: 1
+  moveRange: 4
   attackDamage: 1
   attackRange: 1
   armor: 0
