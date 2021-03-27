@@ -11532,6 +11532,7 @@ MonoBehaviour:
   - {fileID: 7911118921417346494, guid: 5b7fcd68e850a2f468db3f96390cb67b, type: 3}
   - {fileID: 8680984657296568090, guid: e475562040e0d0e479b36e9bd9701735, type: 3}
   - {fileID: 6481853959282163824, guid: 5ebb496eaa41c044280126a353438a0a, type: 3}
+  - {fileID: 896049843150573263, guid: 218e4360bc8cfff4aa531469d7937a9b, type: 3}
   _startingPlayer: 1
   _timeLimit: 60
 --- !u!4 &2060501878
