@@ -157,6 +157,15 @@ public class UnitSelectedState : IGameState
         return new DeploymentState(_activeUnit, myGrid, ui);
     }
 
+    public IGameState AbilityPressed(GameController myGameController)
+    {
+        UIController ui;
+        BoardGrid myGrid;
+        ui = myGameController.GetUI();
+        myGrid = myGameController.GetGrid();
+        return new AbilityState(_activeUnit, myGrid, ui);
+    }
+
     public void ChangeMode(GameController myGameController)
     {
         BoardGrid myGrid;

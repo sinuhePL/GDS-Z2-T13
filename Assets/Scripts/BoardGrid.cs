@@ -342,15 +342,11 @@ public class BoardGrid
         }
     }
 
-    public void ShowDeploymentZone(TileController startingTile)
+    public void ShowZone(TileController startingTile, HighlightType zoneType)
     {
         GridPosition startingPosition;
         startingPosition = startingTile.GetGridPosition();
-        HighlightSurroundingTiles(startingPosition, false, HighlightType.Deployment);
-        /*if (startingPosition.x > 0 && !_gridArray[startingPosition.x - 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x - 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
-        if(startingPosition.x < _width - 1 && !_gridArray[startingPosition.x + 1, startingPosition.y]._isOccupied) _gridArray[startingPosition.x + 1, startingPosition.y].Highlight(HighlightType.Deployment, false);
-        if (startingPosition.y > 0 && !_gridArray[startingPosition.x, startingPosition.y - 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y - 1].Highlight(HighlightType.Deployment, false);
-        if (startingPosition.y < _height - 1 && !_gridArray[startingPosition.x, startingPosition.y + 1]._isOccupied) _gridArray[startingPosition.x, startingPosition.y + 1].Highlight(HighlightType.Deployment, false);*/
+        HighlightSurroundingTiles(startingPosition, false, zoneType);
     }
 
     public bool HasPossibleAttack(UnitController unit)

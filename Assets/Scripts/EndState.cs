@@ -59,6 +59,12 @@ public class EndState : IGameState
         return null;
     }
 
+    public IGameState AbilityPressed(GameController myGameController)
+    {
+        //nothing happens
+        return null;
+    }
+
     public void ChangeMode(GameController myGameController)
     {
         BoardGrid myGrid;

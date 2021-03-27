@@ -12,7 +12,7 @@ public class DeploymentState : IGameState
         GridPosition startingPosition, checkedPosition;
         startingPosition = startingTile.GetGridPosition();
         checkedPosition = checkedTile.GetGridPosition();
-        if (Mathf.Abs(startingPosition.x - checkedPosition.x) <= 1 && Mathf.Abs(startingPosition.y - checkedPosition.y) <= 1 && !checkedTile._isOccupied) return true;
+        if (Mathf.Abs(startingPosition.x - checkedPosition.x) <= 1 && Mathf.Abs(startingPosition.y - checkedPosition.y) <= 1 && !checkedTile._isOccupied && checkedTile.isWalkable()) return true;
         else return false;
     }
 
@@ -98,7 +98,7 @@ public class DeploymentState : IGameState
             _unitToDeploy = clickedUnit;
             ui.DisplayUnit(_unitToDeploy);
             ui.SelectUnit(_unitToDeploy);
-            myGrid.ShowDeploymentZone(_activeUnit._myTile);
+            myGrid.ShowZone(_activeUnit._myTile, HighlightType.Deployment);
         }
         return null;
     }
@@ -160,6 +160,15 @@ public class DeploymentState : IGameState
     {
         //nothing happens
         return null;
+    }
+
+    public IGameState AbilityPressed(GameController myGameController)
+    {
+        UIController ui;
+        BoardGrid myGrid;
+        ui = myGameController.GetUI();
+        myGrid = myGameController.GetGrid();
+        return new AbilityState(_activeUnit, myGrid, ui);
     }
 
     public void ChangeMode(GameController myGameController)

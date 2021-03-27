@@ -244,6 +244,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void AbilityAction()
+    {
+        IGameState newState;
+
+        newState = _myGameState.AbilityPressed(this);
+        if (newState != null)
+        {
+            _myGameState = newState;
+        }
+    }
+
     public void EndPlayerTurn(int playerId)
     {
         IEndturnable[] endturnableList;

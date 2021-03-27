@@ -85,6 +85,12 @@ public class ExecutionState : IGameState
         return null;
     }
 
+    public IGameState AbilityPressed(GameController myGameController)
+    {
+        //nothing happens
+        return null;
+    }
+
     public void ChangeMode(GameController myGameController)
     {
 

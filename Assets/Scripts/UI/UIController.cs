@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private UnitTilePanelController _myInfoPanel;
     [SerializeField] private PlayerUnitsController _myUnitsPanel;
     [SerializeField] private Button _deployMinionButton;
+    [SerializeField] private Button _abilityButton;
     [SerializeField] private Text _timerText;
     private int _myTimer;
 
@@ -17,6 +18,7 @@ public class UIController : MonoBehaviour
     {
         _winnerText.enabled = false;
         _deployMinionButton.gameObject.SetActive(false);
+        _abilityButton.gameObject.SetActive(false);
         _myTimer = 0;
     }
 
@@ -71,9 +73,17 @@ public class UIController : MonoBehaviour
 
     public void SelectUnit(UnitController unit)
     {
+        IAbility unitAbility;
         if(unit.IsKing() && !_myUnitsPanel.AllUnitsDeployed()) _deployMinionButton.gameObject.SetActive(true);
         else _deployMinionButton.gameObject.SetActive(false);
         _myUnitsPanel.UnitSelected(unit);
+        unitAbility = unit.gameObject.GetComponent<IAbility>();
+        if (unitAbility != null && unitAbility.IsAvailableThisTurn())
+        {
+            _abilityButton.GetComponentInChildren<Text>().text = unitAbility.GetButtonDescription();
+            _abilityButton.gameObject.SetActive(true);
+        }
+        else _abilityButton.gameObject.SetActive(false);
     }
 
     public void KillUnit(UnitController unit)

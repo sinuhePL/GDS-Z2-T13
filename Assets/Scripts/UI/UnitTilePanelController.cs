@@ -48,6 +48,7 @@ public class UnitTilePanelController : MonoBehaviour
     {
         IEffect[] unitEffects;
         ISkill[] unitSkills;
+        IAbility unitAbility;
         string description;
         int counter;
 
@@ -63,12 +64,19 @@ public class UnitTilePanelController : MonoBehaviour
         _moveRange.text = myUnit.GetBaseMoveRange().ToString();
         _attackStrength.text = myUnit.GetAttackStrength().ToString();
         unitSkills = myUnit.gameObject.GetComponents<ISkill>();
+        unitAbility = myUnit.gameObject.GetComponent<IAbility>();
         description = "";
         counter = 0;
         foreach(ISkill skill in unitSkills)
         {
             if (counter > 0) description += "\n\n";
             description += skill.GetDescription();
+            counter++;
+        }
+        if(unitAbility != null)
+        {
+            if (counter > 0) description += "\n\n";
+            description += unitAbility.GetDescription();
             counter++;
         }
         if (myUnit.IsKing())
