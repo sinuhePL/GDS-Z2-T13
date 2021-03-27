@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7999c2d43aea1174c80db7c1e5e3bc1b, type: 3}
   m_Name: TilePlain 1
   m_EditorClassIdentifier: 
-  letter: PP
+  letter: 1
   tileSprite: {fileID: 21300000, guid: 36f1fe1ead624754a8bf392fac6970f6, type: 3}
   tileDesignerSprite: {fileID: 21300000, guid: e9e02423c5a6306488434dd9cac67166, type: 3}
   isWalkable: 1

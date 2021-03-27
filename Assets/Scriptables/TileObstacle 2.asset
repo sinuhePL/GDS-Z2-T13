@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7999c2d43aea1174c80db7c1e5e3bc1b, type: 3}
-  m_Name: TileArmoring 1
+  m_Name: TileObstacle 2
   m_EditorClassIdentifier: 
-  letter: AA
-  tileSprite: {fileID: 21300000, guid: 3e856f524f3c8994594cf1ca535f5045, type: 3}
-  tileDesignerSprite: {fileID: 21300000, guid: 1e2231bb5566fef44b8c81580c8bf469, type: 3}
-  isWalkable: 1
-  tileName: Armorer
-  tileDescription: +1 Armor
+  letter: 2
+  tileSprite: {fileID: 21300000, guid: 70c7a6006723b08459fece8947521f77, type: 3}
+  tileDesignerSprite: {fileID: 21300000, guid: 6899eca2fb85f0b4aabc3b78feff9ef3, type: 3}
+  isWalkable: 0
+  tileName: Obstacle
+  tileDescription: Impassable

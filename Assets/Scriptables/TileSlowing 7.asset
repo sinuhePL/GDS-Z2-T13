@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7999c2d43aea1174c80db7c1e5e3bc1b, type: 3}
-  m_Name: TileDamaging 1
+  m_Name: TileSlowing 7
   m_EditorClassIdentifier: 
-  letter: DD
-  tileSprite: {fileID: 21300000, guid: dfb80182c0688c74bb5d64561001720f, type: 3}
-  tileDesignerSprite: {fileID: 21300000, guid: c12e5f899ac338740afaece45c82d066, type: 3}
+  letter: 7
+  tileSprite: {fileID: 21300000, guid: b8336fbf319c22943afbac82e9548f6e, type: 3}
+  tileDesignerSprite: {fileID: 21300000, guid: 6e9d6bf17e2d56e408ac9ee4850ba4a4, type: 3}
   isWalkable: 1
-  tileName: Kolce
-  tileDescription: -1 HP/Turn
+  tileName: Mud
+  tileDescription: -1 Move Range
