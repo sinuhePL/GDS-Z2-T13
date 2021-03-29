@@ -61,21 +61,42 @@ public class UnitChoiceController : MonoBehaviour
         int i = 0;
         foreach(UnitPanelController unitPanel in _player1Panels)
         {
-            if (i == 0) _currentUnitPanel = unitPanel;
+            if (i <= 1)
+            {
+                if (i == 0)
+                {
+                    unitPanel.SetUnit(_player1UnitPrefabs[0]);
+                    unitPanel.DisableButtons();
+                    _myGameController.AddUnitPrefab(unitPanel.GetUnitPrefab(), 1);
+                }
+                else _currentUnitPanel = unitPanel;
+            }
             else unitPanel.DisableMe();
             i++;
         }
+        i = 0;
         foreach (UnitPanelController unitPanel in _player2Panels)
         {
-            unitPanel.DisableMe();
+            if (i <= 1)
+            {
+                if (i == 0)
+                {
+                    unitPanel.SetUnit(_player2UnitPrefabs[0]);
+                    _myGameController.AddUnitPrefab(unitPanel.GetUnitPrefab(), 2);
+                }
+                else _currentOpponentUnitPanel = unitPanel;
+                unitPanel.DisableButtons();
+            }
+            else unitPanel.DisableMe();
+            i++;
         }
-        _player2InfoPanel.gameObject.SetActive(false);
-        _currentOpponentUnitPanel = null;
-        _currentPanelIndex = 0;
+        _currentPanelIndex = 1;
         _currentPlayer = 1;
-        _currentUnitIndex = 0;
-        _currentUnitPanel.SetUnit(_player1UnitPrefabs[0]);
-        _player1InfoPanel.DisplayUnit(_player1UnitPrefabs[0].GetComponent<UnitController>());
+        _currentUnitIndex = 1;
+        _currentUnitPanel.SetUnit(_player1UnitPrefabs[1]);
+        _currentOpponentUnitPanel.SetUnit(_player2UnitPrefabs[1]);
+        _player1InfoPanel.DisplayUnit(_player1UnitPrefabs[1].GetComponent<UnitController>());
+        _player2InfoPanel.DisplayUnit(_player2UnitPrefabs[1].GetComponent<UnitController>());
         _chosenUnits = new List<ChosenUnit>();
     }
 

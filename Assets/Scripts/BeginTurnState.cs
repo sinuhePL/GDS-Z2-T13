@@ -52,7 +52,7 @@ public class BeginTurnState : IGameState
 
         myGrid = myGameController.GetGrid();
         myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
-        myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
+        if(hoveredUnit._freeAttacksCount > 0) myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);
         return null;

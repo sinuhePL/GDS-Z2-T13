@@ -12130,7 +12130,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Player 1: Choose your commander'
+  m_Text: 'Player 1: Choose first unit'
 --- !u!222 &2109146431
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -354,6 +354,7 @@ public class BoardGrid
         GridPosition startingPosition;
         int unitPlayer, range;
 
+        if (unit._freeAttacksCount < 1) return false;
         startingPosition = unit.GetGridPosition();
         unitPlayer = unit.GetPlayerId();
         range = unit.GetAttackRange();

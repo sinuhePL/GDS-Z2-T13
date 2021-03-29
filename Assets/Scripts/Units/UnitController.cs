@@ -16,8 +16,8 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public bool _isKilled { get; set; }
     public bool _isDeployed { get; set; }
     public bool _hasMoved { get; set; }
+    public int _freeAttacksCount { get; set; }
     private SpriteRenderer _mySpriteRenderer;
-    private int _freeAttacksCount;
     private bool _showingPotentialDamage;
 
     // Start is called before the first frame update
@@ -292,11 +292,6 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     {
         _myHealth.StopShowingPotentialDamage();
         _showingPotentialDamage = false;
-    }
-
-    public int GetFreeAttackNumber()
-    {
-        return _freeAttacksCount;
     }
 
     public string GetUnitName()

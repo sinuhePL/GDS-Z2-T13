@@ -11,7 +11,7 @@ public class UnitSelectedState : IGameState
         _activeUnit = uc;
         _activeUnit.SetReticle(true);
         myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
-        myGrid.ShowAttackRange(uc, uc.GetAttackRange(), _activeUnit.GetPlayerId());
+        if(_activeUnit._freeAttacksCount > 0) myGrid.ShowAttackRange(uc, uc.GetAttackRange(), _activeUnit.GetPlayerId());
         ui.DisplayUnit(uc);
         ui.SelectUnit(uc);
         Debug.Log("Stan: Wybrana jednostka gracza: " + _activeUnit.GetPlayerId());
@@ -48,10 +48,11 @@ public class UnitSelectedState : IGameState
         {
             myGrid.HideHighlight();
             _activeUnit.SetReticle(false);
-            if (clickedUnit._hasMoved) return new AttackSelectedState(clickedUnit, myGrid, ui);
-            else return new UnitSelectedState(clickedUnit, myGrid, ui);
+            if (clickedUnit._hasMoved && clickedUnit._freeAttacksCount > 0) return new AttackSelectedState(clickedUnit, myGrid, ui);
+            else if (clickedUnit._freeAttacksCount > 0) return new UnitSelectedState(clickedUnit, myGrid, ui);
+            else return null;
         }
-        else if(_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId())
+        else if(_activeUnit.GetPlayerId() != clickedUnit.GetPlayerId() && _activeUnit._freeAttacksCount > 0)
         {
             if (_activeUnit.IsTargetValid(clickedUnit) && myGrid.IsTileInAttackRange(_activeUnit, clickedUnit._myTile))
             {
@@ -59,7 +60,7 @@ public class UnitSelectedState : IGameState
                 _activeUnit.SetReticle(false);
                 clickedUnit.StopShowingPotentialDamage();
                 _activeUnit.AttackUnit(clickedUnit);
-                if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;
+                if (_activeUnit._freeAttacksCount < 1) attackEndsTurn = true;
                 else attackEndsTurn = false;
                 return new ExecutionState(_activeUnit, attackEndsTurn);
             }
@@ -100,9 +101,9 @@ public class UnitSelectedState : IGameState
         {
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
-            myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
+            if (hoveredUnit._freeAttacksCount > 0) myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
         }
-        else if (_activeUnit.IsTargetValid(hoveredUnit)) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
+        else if (_activeUnit.IsTargetValid(hoveredUnit) && _activeUnit._freeAttacksCount > 0) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
         return null;
     }
 

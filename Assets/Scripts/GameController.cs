@@ -71,6 +71,8 @@ public class GameController : MonoBehaviour
         {
             Destroy(this);
         }
+        _unitPrefabsPlayer1 = new List<GameObject>();
+        _unitPrefabsPlayer2 = new List<GameObject>();
     }
 
     private void OnUnitClicked(UnitController clickedUnit)
@@ -149,8 +151,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         _myCamera = Camera.main;
-        _unitPrefabsPlayer1 = new List<GameObject>();
-        _unitPrefabsPlayer2 = new List<GameObject>();
         _units = new List<UnitController>();
         _gameEnded = false;
         EventManager._instance.OnUnitClicked += OnUnitClicked;

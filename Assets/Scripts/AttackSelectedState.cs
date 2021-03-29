@@ -37,7 +37,7 @@ public class AttackSelectedState : IGameState
             _activeUnit.SetReticle(false);
             clickedUnit.StopShowingPotentialDamage();
             _activeUnit.AttackUnit(clickedUnit);
-            if (_activeUnit.GetFreeAttackNumber() < 1) attackEndsTurn = true;
+            if (_activeUnit._freeAttacksCount < 1) attackEndsTurn = true;
             else attackEndsTurn = false;
             return new ExecutionState(_activeUnit, attackEndsTurn);
         }
@@ -71,9 +71,9 @@ public class AttackSelectedState : IGameState
         {
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
-            myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
+            if (hoveredUnit._freeAttacksCount > 0) myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());
         }
-        else if(_activeUnit.IsTargetValid(hoveredUnit)) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
+        else if(_activeUnit.IsTargetValid(hoveredUnit) && _activeUnit._freeAttacksCount > 0) hoveredUnit.ShowPotentialDamage(_activeUnit.GetCalculatedAttack(hoveredUnit));
         return null;
     }
 
