@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackBonus: 2
-  _description: Backstab (+2 attack strength when attacking from behind)
+  _description: BACKSTAB [+2 attack strength when attacking from behind]
 --- !u!1001 &1978159215317319645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 6772823374680011127, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}
       propertyPath: m_Name
-      value: unitPrefab
+      value: unitPrefab Variant2L
       objectReference: {fileID: 0}
     - target: {fileID: 8681854827919751523, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}

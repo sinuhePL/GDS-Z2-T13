@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c041d6c9b97176846a88e42b2ec3d02e, type: 3}
   m_Name: F
   m_EditorClassIdentifier: 
-  unitName: Commander2
+  unitName: Super Cold
   unitHealth: 10
   moveRange: 2
   attackDamage: 2

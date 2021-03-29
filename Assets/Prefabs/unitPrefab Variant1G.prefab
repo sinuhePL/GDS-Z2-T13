@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackBonus: 1
   _healthBonus: 2
-  _description: Spy (+1 attack strength and +2 HP when on opponent's star
+  _description: SPY [+1 attack strength and +2 HP when on opponent's starting side
+    of the batt
 --- !u!1001 &3127569079741961568
 PrefabInstance:
   m_ObjectHideFlags: 0

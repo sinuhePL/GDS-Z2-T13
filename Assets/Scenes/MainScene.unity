@@ -3438,7 +3438,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Skills:'
+  m_Text: 'Tags:'
 --- !u!222 &558597061
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6912,7 +6912,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Skills:'
+  m_Text: 'Tags:'
 --- !u!222 &1139493673
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11249,7 +11249,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Skills:'
+  m_Text: 'Tags:'
 --- !u!222 &1989491060
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11742,7 +11742,7 @@ MonoBehaviour:
   - {fileID: 7911118921417346494, guid: 5b7fcd68e850a2f468db3f96390cb67b, type: 3}
   - {fileID: 8680984657296568090, guid: e475562040e0d0e479b36e9bd9701735, type: 3}
   - {fileID: 6481853959282163824, guid: 5ebb496eaa41c044280126a353438a0a, type: 3}
-  _startingPlayer: 1
+  _startingPlayer: 2
   _timeLimit: 60
 --- !u!4 &2060501878
 Transform:

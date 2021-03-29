@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c041d6c9b97176846a88e42b2ec3d02e, type: 3}
   m_Name: C
   m_EditorClassIdentifier: 
-  unitName: LowDPSRange1
+  unitName: Repeater
   unitHealth: 6
   moveRange: 4
   attackDamage: 1

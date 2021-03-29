@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaknessAmount: 1
   _weaknessTurns: 2
-  _description: Poisoner (+1 damage on attacked unit for 2 turns)
-  _effectDescription: Poisoned (+1 damage when attacked)
+  _description: IMPAIR [attacked units takes additional +1 damage for 2 turns]
+  _effectDescription: Impaired (+1 damage when attacked)
 --- !u!1001 &3766661226754692600
 PrefabInstance:
   m_ObjectHideFlags: 0

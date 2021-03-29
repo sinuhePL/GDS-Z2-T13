@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _recoveryRate: 1
-  _description: Recovery (+1 HP/Turn)
+  _description: RECOVERY [Heals 1 HP/Turn]
 --- !u!114 &2002423384410496636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d5fb36e5854cf43a60e16abd5a6085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _description: Piercing (ignores enemy's armor)
+  _description: PIERCING [Ignores enemy's armor]
 --- !u!1001 &4161188797496934982
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d5fb36e5854cf43a60e16abd5a6085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _description: Piercing (ignores enemy's armor)
+  _description: PIERCING [Ignores enemy's armor]
 --- !u!1001 &8113294956311860624
 PrefabInstance:
   m_ObjectHideFlags: 0
