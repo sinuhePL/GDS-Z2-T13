@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackRangeBonus: 1
-  _effectDescription: Eagle Eye (+1 attack range)
+  _effectDescription: Long reach (+1 attack range in a straight line)
 --- !u!1001 &1056839502982160120
 PrefabInstance:
   m_ObjectHideFlags: 0

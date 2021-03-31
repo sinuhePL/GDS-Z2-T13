@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb131bec989f0bb4a9f1c5feaee37be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myButtonDescription: Confuse Unit
+  _myButtonDescription: Confuse enemy
   _myDescription: Confuse (-1 Attack next turn)
   _myEffectDescription: Confused (-1 Attack this turn)
 --- !u!1001 &8086132133589025259

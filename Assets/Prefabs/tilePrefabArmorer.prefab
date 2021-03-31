@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _armorBonus: 1
-  _effectDescription: Armored (+1 armor)
+  _effectDescription: Covered (Reduce received damage by 1)
 --- !u!1001 &1952971101205101660
 PrefabInstance:
   m_ObjectHideFlags: 0

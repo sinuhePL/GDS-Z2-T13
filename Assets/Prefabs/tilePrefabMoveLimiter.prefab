@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementRangeBonus: -1
-  _effectDescription: Slowed (-1 move range)
+  _effectDescription: Under restriction (-1 move range)
 --- !u!1001 &3397829259734299026
 PrefabInstance:
   m_ObjectHideFlags: 0

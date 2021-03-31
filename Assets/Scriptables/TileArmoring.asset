@@ -17,4 +17,4 @@ MonoBehaviour:
   tileDesignerSprite: {fileID: 21300000, guid: 1e2231bb5566fef44b8c81580c8bf469, type: 3}
   isWalkable: 1
   tileName: Cover
-  tileDescription: +1 Armor
+  tileDescription: Reduce recived damage by 1
