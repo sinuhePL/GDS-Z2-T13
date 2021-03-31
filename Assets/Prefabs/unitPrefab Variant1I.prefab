@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _burnAmount: 1
   _burnTurns: 2
-  _description: Incendiary (gives enemy 1 damage for 2 turns)
-  _effectDescription: Burn (1 damage/turn)
+  _description: IMPALE (gives enemy 1 damage for 2 turns)
+  _effectDescription: Impaled (1 damage/turn)
 --- !u!1001 &6132222316608170836
 PrefabInstance:
   m_ObjectHideFlags: 0

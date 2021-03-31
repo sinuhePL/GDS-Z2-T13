@@ -16,5 +16,5 @@ MonoBehaviour:
   tileSprite: {fileID: 21300000, guid: 59136bd4208485d40bb53aef24bd2624, type: 3}
   tileDesignerSprite: {fileID: 21300000, guid: 13a68a08182fbf141bc760c190685b14, type: 3}
   isWalkable: 1
-  tileName: Healing
+  tileName: Safe Zone
   tileDescription: +1 HP/Turn

@@ -16,5 +16,5 @@ MonoBehaviour:
   tileSprite: {fileID: 21300000, guid: 922c4fe869015d34194f5b88c11cd709, type: 3}
   tileDesignerSprite: {fileID: 21300000, guid: c12e5f899ac338740afaece45c82d066, type: 3}
   isWalkable: 1
-  tileName: Kolce
+  tileName: Dead Zone
   tileDescription: -1 HP/Turn
