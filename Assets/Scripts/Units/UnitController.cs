@@ -11,6 +11,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     [SerializeField] private HealthController _myHealth;
     [SerializeField] private SpriteRenderer _myReticle;
     [SerializeField] private int _myPlayerId;
+    [SerializeField] private Vector3 _spriteShift;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
     public bool _isKilled { get; set; }
@@ -19,12 +20,23 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public int _freeAttacksCount { get; set; }
     private SpriteRenderer _mySpriteRenderer;
     private bool _showingPotentialDamage;
+    private bool _isDesignerMode;
+    private CapsuleCollider2D _myCollider;
+    private BoxCollider2D _myDesignerCollider;
+    private Animator _myAnimator;
+    private UnitController _myTarget;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _mySpriteRenderer = GetComponent<SpriteRenderer>();
-        _mySpriteRenderer.sprite = unitDesignerSprite;
+        _myCollider = GetComponent<CapsuleCollider2D>();
+        _myDesignerCollider = GetComponent<BoxCollider2D>();
+        _myAnimator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if(!_isDesignerMode) _mySpriteRenderer.sprite = unitSprite;
     }
 
     private void OnMouseEnter()
@@ -43,15 +55,20 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         IEnterTile[] enterTileReactors;
         TileController currentNode;
         float step;
+        Vector3 shift;
+
         _myTile._myUnit = null;
         _myTile._isOccupied = false;
+        if (!_isDesignerMode) shift = _spriteShift;
+        else shift = Vector3.zero;
         while (movePath.Count > 0)
         {
             currentNode = movePath[0];
-            while (Vector3.Distance(currentNode.transform.position, transform.position) > 0.001f)
+
+            while (Vector3.Distance(currentNode.transform.position + shift, transform.position) > 0.001f)
             {
                 step = _unit.moveSpeed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, currentNode.transform.position, step);
+                transform.position = Vector3.MoveTowards(transform.position, currentNode.transform.position + shift, step);
                 yield return 0;
             }
             _myTile = currentNode;
@@ -66,20 +83,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         {
             reactor.EnterTileAction(_myTile);
         }
-        EventManager._instance.ExecutionEnded(this);
-    }
-
-    private IEnumerator MakeAttack(UnitController target)
-    {
-        IAddEffect[] myEffectGivers;
-        target.DamageUnit(CalculateAttack(target));
-        myEffectGivers = GetComponents<IAddEffect>();
-        foreach(IAddEffect giver in myEffectGivers)
-        {
-            giver.AddEffect(target);
-        }
-        yield return 0;
-        if (_freeAttacksCount < 1) _freeAttacksCount = _unit.attacksCount;
+        _mySpriteRenderer.sortingOrder = _myTile.GetGridPosition().y;
         EventManager._instance.ExecutionEnded(this);
     }
 
@@ -147,11 +151,17 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         {
             reactor.EnterTileAction(_myTile);
         }
+        if(_myTile.IsDesignerMode()) ChangeMode("designer");
+        else ChangeMode("player");
+        _mySpriteRenderer.sortingOrder = _myTile.GetGridPosition().y;
+
     }
 
     public void InitializeUnit()
     {
+        _isDesignerMode = false;
         _myHealth.InitializeHealth(_unit.unitHealth);
+        _myHealth.SetMode("player");
         _myReticle.enabled = false;
         _isAvailable = true;
         _hasMoved = false;
@@ -160,6 +170,8 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         if (_unit.isKing) _isDeployed = true;
         else _isDeployed = false;
         _showingPotentialDamage = false;
+        _myDesignerCollider.enabled = false;
+
     }
 
     public void Click()
@@ -198,10 +210,25 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     }
 
 
-    public void AttackUnit(UnitController targetUnit)
+    public void AttackUnit(UnitController target)
     {
+
         _freeAttacksCount--;
-        StartCoroutine(MakeAttack(targetUnit));
+        _myAnimator.SetTrigger("Attack");
+        _myTarget = target;
+    }
+
+    public void AttackEnded()
+    {
+        IAddEffect[] myEffectGivers;
+        _myTarget.DamageUnit(CalculateAttack(_myTarget));
+        myEffectGivers = GetComponents<IAddEffect>();
+        foreach (IAddEffect giver in myEffectGivers)
+        {
+            giver.AddEffect(_myTarget);
+        }
+        if (_freeAttacksCount < 1) _freeAttacksCount = _unit.attacksCount;
+        EventManager._instance.ExecutionEnded(this);
     }
 
     public int GetPlayerId()
@@ -227,14 +254,17 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
         damageTaken = CalculateDamage(damage);
         _isKilled = _myHealth.ChangeHealth(-damageTaken);
-        if (_isKilled)
-        {
-            _myTile._isOccupied = false;
-            _myTile._myUnit = null;
-            _myTile = null;
-            gameObject.SetActive(false);
-            EventManager._instance.UnitKilled(this);
-        }
+        if (_isKilled) _myAnimator.SetTrigger("Die");
+        else _myAnimator.SetTrigger("TakeDamage");
+    }
+
+    public void DeathEnded()
+    {
+        _myTile._isOccupied = false;
+        _myTile._myUnit = null;
+        _myTile = null;
+        gameObject.SetActive(false);
+        EventManager._instance.UnitKilled(this);
     }
 
     public void HealUnit(int healPoints)
@@ -357,5 +387,30 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public bool SummoningSickness()
     {
         return _unit.summoningSickness;
+    }
+
+    public void HighlighUnitTile(HighlightType hType)
+    {
+        _myTile.Highlight(hType, false);
+    }
+
+    public void ChangeMode(string newMode)
+    {
+        if (newMode == "designer")
+        {
+            _isDesignerMode = true;
+            _mySpriteRenderer.sprite = unitDesignerSprite;
+            transform.position = _myTile.transform.position;
+            _myDesignerCollider.enabled = true;
+            _myCollider.enabled = false;
+        }
+        else
+        {
+            _isDesignerMode = false;
+            _mySpriteRenderer.sprite = unitSprite;
+            transform.position = _myTile.transform.position + _spriteShift;
+            _myDesignerCollider.enabled = false;
+            _myCollider.enabled = true;
+        }
     }
 }

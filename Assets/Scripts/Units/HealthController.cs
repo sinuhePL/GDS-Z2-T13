@@ -5,12 +5,14 @@ using UnityEngine;
 public class HealthController : MonoBehaviour
 {
     [SerializeField] GameObject _healthPointPrefab;
-    [SerializeField] Sprite _healthSprite;
-    [SerializeField] Sprite _lostHealthSprite;
+    [SerializeField] Sprite _healthDesignerSprite;
+    [SerializeField] Sprite _lostHealthDesignerSprite;
 
+    private List<SpriteRenderer> _designerHealthPointsList;
     private List<SpriteRenderer> _healthPointsList;
     private int _healthPoints, _initialHealthPoints;
     private bool _showPotentialDamage;
+    private bool _isDesignerMode;
 
     private void CreateHealthBar()
     {
@@ -22,17 +24,17 @@ public class HealthController : MonoBehaviour
             if (i < 5) newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * i, 0.8f, 0.0f);
             else if (i < 10) newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * (i - 5), 0.6f, 0.0f);
             else newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * (i - 10), 0.4f, 0.0f);
-            _healthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
+            _designerHealthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
         }
     }
 
     private void UpdateHealthBar()
     {
         int i = 0;
-        foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
+        foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
         {
-            if (i < _healthPoints) healthPointRenderer.sprite = _healthSprite;
-            else healthPointRenderer.sprite = _lostHealthSprite;
+            if (i < _healthPoints) healthPointRenderer.sprite = _healthDesignerSprite;
+            else healthPointRenderer.sprite = _lostHealthDesignerSprite;
             i++;
         }
     }
@@ -41,6 +43,7 @@ public class HealthController : MonoBehaviour
     {
         _healthPoints = health;
         _initialHealthPoints = health;
+        _designerHealthPointsList = new List<SpriteRenderer>();
         _healthPointsList = new List<SpriteRenderer>();
         _showPotentialDamage = false;
         CreateHealthBar();   
@@ -60,11 +63,11 @@ public class HealthController : MonoBehaviour
     // returns true if unit dead
     public bool ChangeHPNumber(int change)
     {
-        for(int i=_healthPointsList.Count-1; i>=0; i--)
+        for(int i=_designerHealthPointsList.Count-1; i>=0; i--)
         {
-            Destroy(_healthPointsList[i]);
+            Destroy(_designerHealthPointsList[i]);
         }
-        _healthPointsList.Clear();
+        _designerHealthPointsList.Clear();
         _initialHealthPoints += change;
         if (_initialHealthPoints <= 0) return true;
         _healthPoints += change;
@@ -98,11 +101,39 @@ public class HealthController : MonoBehaviour
             {
                 for (int i = _healthPoints - 1; i >= minHealth; i--)
                 {
-                    _healthPointsList[i].sprite = _lostHealthSprite;
+                    _designerHealthPointsList[i].sprite = _lostHealthDesignerSprite;
                 }
                 yield return new WaitForSeconds(0.25f);
-                for (int i = _healthPoints - 1; i >= minHealth; i--) _healthPointsList[i].sprite = _healthSprite;
+                for (int i = _healthPoints - 1; i >= minHealth; i--) _designerHealthPointsList[i].sprite = _healthDesignerSprite;
                 yield return new WaitForSeconds(0.5f);
+            }
+        }
+    }
+
+    public void SetMode(string newMode)
+    {
+        if(newMode == "designer")
+        {
+            _isDesignerMode = true;
+            foreach(SpriteRenderer healthPointRenderer in _designerHealthPointsList)
+            {
+                healthPointRenderer.gameObject.SetActive(true);
+            }
+            foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
+            {
+                healthPointRenderer.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            _isDesignerMode = false;
+            foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
+            {
+                healthPointRenderer.gameObject.SetActive(false);
+            }
+            foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
+            {
+                healthPointRenderer.gameObject.SetActive(true);
             }
         }
     }

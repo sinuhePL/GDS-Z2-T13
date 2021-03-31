@@ -12,14 +12,16 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button _abilityButton;
     [SerializeField] private Text _timerText;
     private int _myTimer;
+    private bool _unitDeployedThisTurn;
 
 
     private void Start()
     {
         _winnerText.enabled = false;
-        _deployMinionButton.gameObject.SetActive(false);
+        _deployMinionButton.gameObject.SetActive(true);
         _abilityButton.gameObject.SetActive(false);
         _myTimer = 0;
+        _unitDeployedThisTurn = false;
     }
 
     private IEnumerator TurnTimer(int timeLimit, GameController myGameController)
@@ -69,13 +71,14 @@ public class UIController : MonoBehaviour
     {
         _myTimer = 0;
         _myUnitsPanel.SetNewPlayer(playerId);
+        if (!_myUnitsPanel.AllUnitsDeployed()) _deployMinionButton.gameObject.SetActive(true);
+        else _deployMinionButton.gameObject.SetActive(false);
+        _unitDeployedThisTurn = false;
     }
 
     public void SelectUnit(UnitController unit)
     {
         IAbility unitAbility;
-        if(unit.IsKing() && !_myUnitsPanel.AllUnitsDeployed()) _deployMinionButton.gameObject.SetActive(true);
-        else _deployMinionButton.gameObject.SetActive(false);
         _myUnitsPanel.UnitSelected(unit);
         unitAbility = unit.gameObject.GetComponent<IAbility>();
         if (unitAbility != null && unitAbility.IsAvailableThisTurn())
@@ -99,6 +102,8 @@ public class UIController : MonoBehaviour
     public void EndDeployment()
     {
         _myUnitsPanel.EndDeployment();
+        _deployMinionButton.gameObject.SetActive(false);
+        _unitDeployedThisTurn = true;
     }
 
     public void MarkUnitUnavailable(UnitController unit)
@@ -109,5 +114,10 @@ public class UIController : MonoBehaviour
     public bool AllUnitsDeployed()
     {
         return _myUnitsPanel.AllUnitsDeployed();
+    }
+
+    public bool DeployedThisTurn()
+    {
+        return _unitDeployedThisTurn;
     }
 }

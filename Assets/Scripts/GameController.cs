@@ -325,4 +325,18 @@ public class GameController : MonoBehaviour
     {
         _myGameState.ChangeMode(this);
     }
+
+    public UnitController GetCommander(int playerId)
+    {
+        foreach(UnitController unit in _units)
+        {
+            if (unit.IsKing() && unit.GetPlayerId() == playerId) return unit;
+        }
+        return null;
+    }
+
+    public bool DeployedThisTurn()
+    {
+        return _myUIController.DeployedThisTurn();
+    }
 }

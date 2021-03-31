@@ -123,9 +123,11 @@ public class AttackSelectedState : IGameState
     {
         UIController ui;
         BoardGrid myGrid;
+        UnitController king;
         ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
-        return new DeploymentState(_activeUnit, myGrid, ui);
+        king = myGameController.GetCommander(_activeUnit.GetPlayerId());
+        return new DeploymentState(_activeUnit, king, myGrid, ui);
     }
 
     public IGameState AbilityPressed(GameController myGameController)

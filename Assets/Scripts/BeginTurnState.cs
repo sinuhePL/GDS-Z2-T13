@@ -85,8 +85,13 @@ public class BeginTurnState : IGameState
 
     public IGameState DeploymentPressed(GameController myGameController)
     {
-        //nothing happens
-        return null;
+        UIController ui;
+        BoardGrid myGrid;
+        UnitController king;
+        ui = myGameController.GetUI();
+        myGrid = myGameController.GetGrid();
+        king = myGameController.GetCommander(_activePlayerId);
+        return new DeploymentState(null, king, myGrid, ui);
     }
 
     public IGameState AbilityPressed(GameController myGameController)

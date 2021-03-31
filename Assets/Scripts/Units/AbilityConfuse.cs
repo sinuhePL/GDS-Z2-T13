@@ -56,6 +56,8 @@ public class AbilityConfuse : MonoBehaviour, IAbility, IEndturnable
             myEffectConfused = clickedUnit.gameObject.AddComponent<EffectConfused>();
             myEffectConfused.InitializeEffect(_myEffectDescription);
             _isAvailableThisTurn = false;
+            if (_myUnit._hasMoved) return new AttackSelectedState(_myUnit, myGrid, ui);
+            else return new UnitSelectedState(_myUnit, myGrid, ui);
         }
         return null;
     }
@@ -76,6 +78,7 @@ public class AbilityConfuse : MonoBehaviour, IAbility, IEndturnable
 
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);
+        if (hoveredUnit._isDeployed && hoveredUnit.GetPlayerId() != _myUnit.GetPlayerId() && _isAvailableThisTurn) hoveredUnit.HighlighUnitTile(HighlightType.Hover);
         return null;
     }
 

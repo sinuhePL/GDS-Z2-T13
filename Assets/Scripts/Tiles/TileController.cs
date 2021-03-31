@@ -205,6 +205,15 @@ public class TileController : MonoBehaviour, IClickable
             _myCollider.enabled = true;
         }
         transform.position = newPosition;
-        if (_isOccupied) _myUnit.ChangePosition(newPosition);
+        if (_isOccupied)
+        {
+            _myUnit.ChangePosition(newPosition);
+            _myUnit.ChangeMode(newMode);
+        }
+    }
+
+    public bool IsDesignerMode()
+    {
+        return _isDesignerMode;
     }
 }

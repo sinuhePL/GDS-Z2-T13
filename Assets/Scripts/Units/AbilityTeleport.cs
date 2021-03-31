@@ -102,6 +102,7 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
 
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);
+        if (hoveredUnit._isDeployed && hoveredUnit.GetPlayerId() == _myUnit.GetPlayerId() && hoveredUnit != _myUnit) hoveredUnit.HighlighUnitTile(HighlightType.Hover);
         return null;
     }
 

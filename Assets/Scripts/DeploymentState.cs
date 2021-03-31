@@ -5,6 +5,7 @@ using UnityEngine;
 public class DeploymentState : IGameState
 {
     private UnitController _activeUnit;
+    private UnitController _kingUnit;
     private UnitController _unitToDeploy;
 
     private bool IsTileInDeploymentZone(TileController startingTile, TileController checkedTile)
@@ -16,15 +17,13 @@ public class DeploymentState : IGameState
         else return false;
     }
 
-    public DeploymentState(UnitController unit, BoardGrid myGrid, UIController ui)
+    public DeploymentState(UnitController unit, UnitController king, BoardGrid myGrid, UIController ui)
     {
         _unitToDeploy = null;
         _activeUnit = unit;
+        _kingUnit = king;
         myGrid.HideHighlight();
-        if(unit.IsKing())
-        {
-            ui.ShowDeployableUnits();
-        }
+        ui.ShowDeployableUnits();
     }
 
     public IGameState TileClicked(GameController myGameController, TileController clickedTile)
@@ -40,10 +39,31 @@ public class DeploymentState : IGameState
         if (_unitToDeploy == null)
         {
             ui.EndDeployment();
-            if (_activeUnit._hasMoved) return new AttackSelectedState(_activeUnit, myGrid, ui);
-            else return new UnitSelectedState(_activeUnit, myGrid, ui);
+            if (_activeUnit == null) return new BeginTurnState(_kingUnit.GetPlayerId());
+            else
+            {
+                if (_activeUnit._hasMoved)
+                {
+                    if (!myGrid.HasPossibleAttack(_activeUnit))
+                    {
+                        _activeUnit._isAvailable = false;
+                        myGrid.HideHighlight();
+                        _activeUnit.SetReticle(false);
+                        ui.MarkUnitUnavailable(_activeUnit);
+                    }
+                    else return new AttackSelectedState(_activeUnit, myGrid, ui);
+                    if(myGameController.MovesDepleted(_activeUnit.GetPlayerId()))
+                    {
+                        myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
+                        newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
+                        return new BeginTurnState(newPlayer);
+                    }
+                    else return new BeginTurnState(_activeUnit.GetPlayerId());
+                }
+                else return new UnitSelectedState(_activeUnit, myGrid, ui);
+            }
         }
-        else if (IsTileInDeploymentZone(_activeUnit._myTile, clickedTile) && !clickedTile._isOccupied)
+        else if (IsTileInDeploymentZone(_kingUnit._myTile, clickedTile) && !clickedTile._isOccupied)
         {
             _unitToDeploy.DeployUnit(clickedTile);
             if (_unitToDeploy.SummoningSickness())
@@ -52,22 +72,32 @@ public class DeploymentState : IGameState
                 _unitToDeploy._isAvailable = false;
             }
             _unitToDeploy._isDeployed = true;
-            _activeUnit.SetReticle(false);
-            _activeUnit._isAvailable = false;
-            ui.MarkUnitUnavailable(_activeUnit);
             clickedTile.ClearTile();
             ui.EndDeployment();
             myGrid.HideHighlight();
-            if (myGameController.MovesDepleted(_activeUnit.GetPlayerId()))
-            {
-                myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
-                newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
-            }
+            if (_activeUnit == null) return new BeginTurnState(_kingUnit.GetPlayerId());
             else
             {
-                newPlayer = _activeUnit.GetPlayerId();
+                if (_activeUnit._hasMoved)
+                {
+                    if (!myGrid.HasPossibleAttack(_activeUnit))
+                    {
+                        _activeUnit._isAvailable = false;
+                        myGrid.HideHighlight();
+                        _activeUnit.SetReticle(false);
+                        ui.MarkUnitUnavailable(_activeUnit);
+                    }
+                    else return new AttackSelectedState(_activeUnit, myGrid, ui);
+                    if (myGameController.MovesDepleted(_activeUnit.GetPlayerId()))
+                    {
+                        myGameController.EndPlayerTurn(_activeUnit.GetPlayerId());
+                        newPlayer = (_activeUnit.GetPlayerId() == 1 ? 2 : 1);
+                        return new BeginTurnState(newPlayer);
+                    }
+                    else return new BeginTurnState(_activeUnit.GetPlayerId());
+                }
+                else return new UnitSelectedState(_activeUnit, myGrid, ui);
             }
-            return new BeginTurnState(newPlayer);
         }
         return null;
     }
@@ -80,15 +110,11 @@ public class DeploymentState : IGameState
         myGrid = myGameController.GetGrid();
         if (clickedUnit._isDeployed)
         {
-            _activeUnit.SetReticle(false);
             myGrid.HideHighlight();
             ui.EndDeployment();
-            if (_activeUnit == clickedUnit && _activeUnit._hasMoved)
+            if (_activeUnit != null)
             {
-                _activeUnit._isAvailable = false;
-                ui.MarkUnitUnavailable(_activeUnit);
-                ui.SelectUnit(_activeUnit);
-                return null;
+                _activeUnit.SetReticle(false);
             }
             if (clickedUnit._hasMoved) return new AttackSelectedState(clickedUnit, myGrid, ui);
             else return new UnitSelectedState(clickedUnit, myGrid, ui);
@@ -98,7 +124,7 @@ public class DeploymentState : IGameState
             _unitToDeploy = clickedUnit;
             ui.DisplayUnit(_unitToDeploy);
             ui.SelectUnit(_unitToDeploy);
-            myGrid.ShowZone(_activeUnit._myTile, HighlightType.Deployment);
+            myGrid.ShowZone(_kingUnit._myTile, HighlightType.Deployment);
         }
         return null;
     }
@@ -168,7 +194,8 @@ public class DeploymentState : IGameState
         BoardGrid myGrid;
         ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
-        return new AbilityState(_activeUnit, myGrid, ui);
+        if (_activeUnit != null) return new AbilityState(_activeUnit, myGrid, ui);
+        else return null;
     }
 
     public void ChangeMode(GameController myGameController)

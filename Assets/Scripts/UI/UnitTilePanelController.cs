@@ -88,25 +88,25 @@ public class UnitTilePanelController : MonoBehaviour
         if (myUnit.GetArmor() > 0)
         {
             if (counter > 0) description += "\n\n";
-            description += "Armored (ignores 1 damage)";
+            description += "TOUGH [reduce received damage by 1]";
             counter++;
         }
         if (myUnit.GetAttackRange() > 1)
         {
             if (counter > 0) description += "\n\n";
-            description += "Ranged (attacks distant targets)";
+            description += "GUNMAN [range of attack extended by 2 tiles in a straight line]";
             counter++;
         }
         if (myUnit.GetBaseAttacksCount() > 1)
         {
             if (counter > 0) description += "\n\n";
-            description += "Double (can attack twice in turn)";
+            description += "BINARY [can attack twice in turn]";
             counter++;
         }
         if (!myUnit.SummoningSickness())
         {
             if (counter > 0) description += "\n\n";
-            description += "Quick (Can moave and attack after deployment)";
+            description += "SWIFT [can move in the turn it was called]";
             counter++;
         }
         _skills.text = description;
