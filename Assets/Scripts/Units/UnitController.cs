@@ -12,6 +12,9 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     [SerializeField] private SpriteRenderer _myReticle;
     [SerializeField] private int _myPlayerId;
     [SerializeField] private Vector3 _spriteShift;
+    [SerializeField] private AudioClip _myAttackClip;
+    [SerializeField] private AudioClip _myDamageClip;
+    [SerializeField] private AudioClip _myDeathClip;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
     public bool _isKilled { get; set; }
@@ -25,6 +28,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     private BoxCollider2D _myDesignerCollider;
     private Animator _myAnimator;
     private UnitController _myTarget;
+    private AudioSource _myAudioSource;
 
     private void Awake()
     {
@@ -32,6 +36,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         _myCollider = GetComponent<CapsuleCollider2D>();
         _myDesignerCollider = GetComponent<BoxCollider2D>();
         _myAnimator = GetComponent<Animator>();
+        _myAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -217,6 +222,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         _myTarget = target;
         if (!_isDesignerMode) _myAnimator.SetTrigger("Attack");
         else AttackEnded();
+        if(SoundController._instance._soundOn) _myAudioSource.PlayOneShot(_myAttackClip);
     }
 
     public void AttackEnded()
@@ -257,10 +263,15 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         _isKilled = _myHealth.ChangeHealth(-damageTaken);
         if (_isKilled)
         {
+            if (SoundController._instance._soundOn) _myAudioSource.PlayOneShot(_myDeathClip);
             if (!_isDesignerMode) _myAnimator.SetTrigger("Die");
             else DeathEnded();
         }
-        else if(!_isDesignerMode) _myAnimator.SetTrigger("TakeDamage");
+        else
+        {
+            if (SoundController._instance._soundOn) _myAudioSource.PlayOneShot(_myDamageClip);
+            if (!_isDesignerMode) _myAnimator.SetTrigger("TakeDamage");
+        }
     }
 
     public void DeathEnded()

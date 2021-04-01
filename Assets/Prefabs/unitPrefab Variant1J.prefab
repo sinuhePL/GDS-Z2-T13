@@ -49,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}
+      propertyPath: _myAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bb9f711c2a3dc14aa8a342af72c1672, type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
       propertyPath: unitDesignerSprite
       value: 
       objectReference: {fileID: 21300000, guid: 35e40a7ae17191341bc132771a482bc0,

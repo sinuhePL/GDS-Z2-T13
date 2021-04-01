@@ -14,14 +14,19 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Button _backButton;
     [SerializeField] private Image _barImage;
     [SerializeField] private Image _creditsImage;
+    [SerializeField] private GameObject _optionsPanel;
+    [SerializeField] private Toggle _soundToggle;
+    [SerializeField] private Toggle _musicToggle;
 
     public void StartGame()
     {
+        DOTween.KillAll(false);
         SceneManager.LoadScene("MainScene");
     }
 
     public void DisplayCredits()
     {
+        SoundController._instance.PlayClick();
         _playButton.gameObject.SetActive(false);
         _optionsButton.gameObject.SetActive(false);
         _creditsButton.gameObject.SetActive(false);
@@ -33,6 +38,7 @@ public class MainMenuController : MonoBehaviour
 
     public void HideCredits()
     {
+        SoundController._instance.PlayClick();
         _playButton.gameObject.SetActive(true);
         _optionsButton.gameObject.SetActive(true);
         _creditsButton.gameObject.SetActive(true);
@@ -42,13 +48,39 @@ public class MainMenuController : MonoBehaviour
         _barImage.transform.position = new Vector3(-1920.0f, 0.0f, 0.0f);
     }
 
+    public void DisplayOptions()
+    {
+        SoundController._instance.PlayClick();
+        _playButton.gameObject.SetActive(false);
+        _optionsButton.gameObject.SetActive(false);
+        _creditsButton.gameObject.SetActive(false);
+        _exitButton.gameObject.SetActive(false);
+        _optionsPanel.SetActive(true);
+        _barImage.transform.position = new Vector3(-1920.0f, 0.0f, 0.0f);
+        _soundToggle.isOn = SoundController._instance._soundOn;
+        _musicToggle.isOn = SoundController._instance._musicOn;
+    }
+
+    public void HideOptions()
+    {
+        SoundController._instance.PlayClick();
+        _playButton.gameObject.SetActive(true);
+        _optionsButton.gameObject.SetActive(true);
+        _creditsButton.gameObject.SetActive(true);
+        _exitButton.gameObject.SetActive(true);
+        _optionsPanel.SetActive(false);
+        _barImage.transform.position = new Vector3(-1920.0f, 0.0f, 0.0f);
+    }
+
     public void QuitGame()
     {
+        SoundController._instance.PlayClick();
         Application.Quit();
     }
 
     public void OnMybuttonEnter(Button myButton)
     {
+        SoundController._instance.PlayHover();
         _barImage.transform.position = new Vector3(-1920.0f, myButton.transform.position.y, 0.0f);
         DOTween.KillAll();
         _barImage.transform.DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutExpo);
@@ -58,5 +90,17 @@ public class MainMenuController : MonoBehaviour
     {
         DOTween.KillAll();
         _barImage.transform.DOLocalMoveX(-1920.0f, 1.0f).SetEase(Ease.OutExpo);
+    }
+
+    public void SoundToggleClicked()
+    {
+        SoundController._instance.PlayClick();
+        SoundController._instance._soundOn = _soundToggle.isOn;
+    }
+
+    public void MusicToggleClicked()
+    {
+        SoundController._instance.PlayClick();
+        SoundController._instance._musicOn = _musicToggle.isOn;
     }
 }
