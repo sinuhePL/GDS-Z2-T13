@@ -18,6 +18,8 @@ public class UnitTilePanelController : MonoBehaviour
     [SerializeField] Text _effectsText;
     [SerializeField] Text _effects;
 
+    private UnitController _myUnit;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -52,6 +54,7 @@ public class UnitTilePanelController : MonoBehaviour
         string description;
         int counter;
 
+        _myUnit = myUnit;
         _hpText.enabled = true;
         _moveRangeText.enabled = true;
         _attackStrengthText.enabled = true;
@@ -136,5 +139,10 @@ public class UnitTilePanelController : MonoBehaviour
         _attackStrength.text = "";
         _skills.text = "";
         _effects.text = "";
+    }
+
+    public UnitController GetDisplayedUnit()
+    {
+        return _myUnit;
     }
 }

@@ -214,8 +214,9 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     {
 
         _freeAttacksCount--;
-        _myAnimator.SetTrigger("Attack");
         _myTarget = target;
+        if (!_isDesignerMode) _myAnimator.SetTrigger("Attack");
+        else AttackEnded();
     }
 
     public void AttackEnded()
@@ -254,8 +255,12 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
         damageTaken = CalculateDamage(damage);
         _isKilled = _myHealth.ChangeHealth(-damageTaken);
-        if (_isKilled) _myAnimator.SetTrigger("Die");
-        else _myAnimator.SetTrigger("TakeDamage");
+        if (_isKilled)
+        {
+            if (!_isDesignerMode) _myAnimator.SetTrigger("Die");
+            else DeathEnded();
+        }
+        else if(!_isDesignerMode) _myAnimator.SetTrigger("TakeDamage");
     }
 
     public void DeathEnded()

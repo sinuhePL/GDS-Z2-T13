@@ -9,8 +9,22 @@ public class UnitPanelController : MonoBehaviour
     [SerializeField] private Text _myUnitText;
     [SerializeField] private Button _myLeftButton;
     [SerializeField] private Button _myRightButton;
+    [SerializeField] private UnitTilePanelController _myInfoPanel;
 
     private GameObject _myUnitPrefab;
+    private UnitController _previousUnit;
+    private bool _isButtonActive;
+
+    public void ShowUnitInfo()
+    {
+        _previousUnit = _myInfoPanel.GetDisplayedUnit();
+        _myInfoPanel.DisplayUnit(_myUnitPrefab.GetComponent<UnitController>());
+    }
+
+    public void ShowPreviousUnit()
+    {
+        if(_previousUnit != null && !_isButtonActive) _myInfoPanel.DisplayUnit(_previousUnit);
+    }
 
     public void SetUnit(GameObject myUnit)
     {
@@ -25,6 +39,7 @@ public class UnitPanelController : MonoBehaviour
     {
         _myLeftButton.gameObject.SetActive(false);
         _myRightButton.gameObject.SetActive(false);
+        _isButtonActive = false;
     }
 
     public GameObject GetUnitPrefab()
@@ -40,5 +55,6 @@ public class UnitPanelController : MonoBehaviour
     public void EnableMe()
     {
         gameObject.SetActive(true);
+        _isButtonActive = true;
     }
 }

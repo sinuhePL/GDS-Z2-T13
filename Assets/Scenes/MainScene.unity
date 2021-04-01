@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 23667591}
   - component: {fileID: 23667590}
   - component: {fileID: 23667592}
+  - component: {fileID: 23667593}
   m_Layer: 5
   m_Name: UnitPanel8
   m_TagString: Untagged
@@ -294,6 +295,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 1337861015}
   _myLeftButton: {fileID: 527403531}
   _myRightButton: {fileID: 906096525}
+  _myInfoPanel: {fileID: 388720054}
+--- !u!114 &23667593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23667588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 23667592}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 23667592}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &30015420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1694,7 @@ GameObject:
   - component: {fileID: 214833937}
   - component: {fileID: 214833936}
   - component: {fileID: 214833938}
+  - component: {fileID: 214833939}
   m_Layer: 5
   m_Name: UnitPanel1
   m_TagString: Untagged
@@ -1733,6 +1779,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 114470863}
   _myLeftButton: {fileID: 809155233}
   _myRightButton: {fileID: 988521018}
+  _myInfoPanel: {fileID: 1575068839}
+--- !u!114 &214833939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214833934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 214833938}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 214833938}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &223124959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2688,6 +2778,7 @@ GameObject:
   - component: {fileID: 420665877}
   - component: {fileID: 420665876}
   - component: {fileID: 420665878}
+  - component: {fileID: 420665879}
   m_Layer: 5
   m_Name: UnitPanel7
   m_TagString: Untagged
@@ -2771,6 +2862,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 92972201}
   _myLeftButton: {fileID: 700029537}
   _myRightButton: {fileID: 1061618695}
+  _myInfoPanel: {fileID: 388720054}
+--- !u!114 &420665879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420665874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 420665878}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 420665878}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &439039420
 GameObject:
   m_ObjectHideFlags: 0
@@ -4280,6 +4415,7 @@ GameObject:
   - component: {fileID: 694039256}
   - component: {fileID: 694039255}
   - component: {fileID: 694039257}
+  - component: {fileID: 694039258}
   m_Layer: 5
   m_Name: UnitPanel4
   m_TagString: Untagged
@@ -4363,6 +4499,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 173588891}
   _myLeftButton: {fileID: 340385984}
   _myRightButton: {fileID: 121454309}
+  _myInfoPanel: {fileID: 1575068839}
+--- !u!114 &694039258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694039253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 694039257}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 694039257}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &700029535
 GameObject:
   m_ObjectHideFlags: 0
@@ -7630,6 +7810,7 @@ GameObject:
   - component: {fileID: 1259776952}
   - component: {fileID: 1259776951}
   - component: {fileID: 1259776953}
+  - component: {fileID: 1259776954}
   m_Layer: 5
   m_Name: UnitPanel3
   m_TagString: Untagged
@@ -7713,6 +7894,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 1209111198}
   _myLeftButton: {fileID: 851488399}
   _myRightButton: {fileID: 2099425812}
+  _myInfoPanel: {fileID: 1575068839}
+--- !u!114 &1259776954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259776949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1259776953}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1259776953}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1294214701
 GameObject:
   m_ObjectHideFlags: 0
@@ -7959,6 +8184,7 @@ GameObject:
   - component: {fileID: 1385820034}
   - component: {fileID: 1385820033}
   - component: {fileID: 1385820035}
+  - component: {fileID: 1385820036}
   m_Layer: 5
   m_Name: UnitPanel6
   m_TagString: Untagged
@@ -8043,6 +8269,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 203056907}
   _myLeftButton: {fileID: 1147148989}
   _myRightButton: {fileID: 1163182899}
+  _myInfoPanel: {fileID: 388720054}
+--- !u!114 &1385820036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385820031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1385820035}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1385820035}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1396252407
 GameObject:
   m_ObjectHideFlags: 0
@@ -8426,6 +8696,7 @@ GameObject:
   - component: {fileID: 1458606433}
   - component: {fileID: 1458606432}
   - component: {fileID: 1458606434}
+  - component: {fileID: 1458606435}
   m_Layer: 5
   m_Name: UnitPanel9
   m_TagString: Untagged
@@ -8509,6 +8780,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 1608062028}
   _myLeftButton: {fileID: 665725478}
   _myRightButton: {fileID: 30015422}
+  _myInfoPanel: {fileID: 388720054}
+--- !u!114 &1458606435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458606430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1458606434}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1458606434}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1480517079
 GameObject:
   m_ObjectHideFlags: 0
@@ -8521,6 +8836,7 @@ GameObject:
   - component: {fileID: 1480517082}
   - component: {fileID: 1480517081}
   - component: {fileID: 1480517083}
+  - component: {fileID: 1480517084}
   m_Layer: 5
   m_Name: UnitPanel2
   m_TagString: Untagged
@@ -8604,6 +8920,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 1742863150}
   _myLeftButton: {fileID: 768324591}
   _myRightButton: {fileID: 156870023}
+  _myInfoPanel: {fileID: 1575068839}
+--- !u!114 &1480517084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480517079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1480517083}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1480517083}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1484753550
 GameObject:
   m_ObjectHideFlags: 0
@@ -9605,6 +9965,7 @@ GameObject:
   - component: {fileID: 1651037553}
   - component: {fileID: 1651037552}
   - component: {fileID: 1651037554}
+  - component: {fileID: 1651037555}
   m_Layer: 5
   m_Name: UnitPanel10
   m_TagString: Untagged
@@ -9688,6 +10049,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 1646535072}
   _myLeftButton: {fileID: 1992395899}
   _myRightButton: {fileID: 521383606}
+  _myInfoPanel: {fileID: 388720054}
+--- !u!114 &1651037555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651037550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1651037554}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1651037554}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1701162969
 GameObject:
   m_ObjectHideFlags: 0
@@ -11928,6 +12333,7 @@ GameObject:
   - component: {fileID: 2086458286}
   - component: {fileID: 2086458285}
   - component: {fileID: 2086458287}
+  - component: {fileID: 2086458288}
   m_Layer: 5
   m_Name: UnitPanel5
   m_TagString: Untagged
@@ -12011,6 +12417,50 @@ MonoBehaviour:
   _myUnitText: {fileID: 2063911825}
   _myLeftButton: {fileID: 844526896}
   _myRightButton: {fileID: 1554290844}
+  _myInfoPanel: {fileID: 1575068839}
+--- !u!114 &2086458288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086458283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2086458287}
+          m_MethodName: ShowUnitInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2086458287}
+          m_MethodName: ShowPreviousUnit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2093524762
 GameObject:
   m_ObjectHideFlags: 0
