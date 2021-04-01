@@ -8,6 +8,8 @@ public class HealthController : MonoBehaviour
     [SerializeField] GameObject _healthPointPrefab;
     [SerializeField] Sprite _healthDesignerSprite;
     [SerializeField] Sprite _lostHealthDesignerSprite;
+    [SerializeField] Sprite _healthPlayer1Point;
+    [SerializeField] Sprite _healthPlayer2Point;
 
 
     private List<SpriteRenderer> _designerHealthPointsList;
@@ -20,6 +22,7 @@ public class HealthController : MonoBehaviour
     private void CreateHealthBar()
     {
         GameObject newPoint;
+        SpriteRenderer pointRenderer;
         for (int i = 0; i < _initialHealthPoints; i++)
         {
             newPoint = Instantiate(_healthPointDesignerPrefab, Vector3.zero, Quaternion.identity);
@@ -30,9 +33,18 @@ public class HealthController : MonoBehaviour
             _designerHealthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
             newPoint = Instantiate(_healthPointPrefab, Vector3.zero, Quaternion.identity);
             newPoint.transform.SetParent(this.transform);
-            if (_playerId == 1) newPoint.transform.localPosition = new Vector3(-0.8f, -0.7f + i * 0.25f, 0.0f);
-            else newPoint.transform.localPosition = new Vector3(0.8f, -0.7f + i * 0.25f, 0.0f);
-            _healthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
+            pointRenderer = newPoint.GetComponent<SpriteRenderer>();
+            if (_playerId == 1)
+            {
+                newPoint.transform.localPosition = new Vector3(-0.8f, -0.7f + i * 0.1f, 0.0f);
+                pointRenderer.sprite = _healthPlayer1Point;
+            }
+            else
+            {
+                newPoint.transform.localPosition = new Vector3(0.8f, -0.7f + i * 0.1f, 0.0f);
+                pointRenderer.sprite = _healthPlayer2Point;
+            }
+            _healthPointsList.Add(pointRenderer);
         }
     }
 

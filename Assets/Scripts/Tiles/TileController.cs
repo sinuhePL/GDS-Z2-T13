@@ -14,14 +14,17 @@ public class TileController : MonoBehaviour, IClickable
     [SerializeField] private Sprite _plainTileSprite;
     [SerializeField] private Sprite _designerCrosshairSprite;
     [SerializeField] private Sprite _crosshairSprite;
-    [SerializeField] private Sprite _hoverSprite;
+    //[SerializeField] private Sprite _hoverSprite;
     [SerializeField] private Sprite _moveRangeSprite;
     [SerializeField] private Sprite _deploySprite;
+    [SerializeField] private Sprite _currentUnitSprite;
     [SerializeField] private Color _inMoveRangeColor;
     [SerializeField] private Color _pathColor;
     [SerializeField] private Color _hoverColor;
     [SerializeField] private Color _inAttackRangeColor;
     [SerializeField] private Color _deploymentZoneColor;
+    [SerializeField] private Color _player1Color;
+    [SerializeField] private Color _player2Color;
     public UnitController _myUnit { get; set; }
     public bool _isOccupied { get; set; }
     public int _gCost { get; set; }
@@ -52,7 +55,6 @@ public class TileController : MonoBehaviour, IClickable
             _overlayColorSpriteRenderer.color = _previousColor;
             _overlayMarkerSpriteRenderer.sprite = _previousMarker;
         }
-        //DOTween.KillAll();
     }
 
     public void InitializeTile(GridPosition position, BoardGrid myBoardGrid)
@@ -111,6 +113,7 @@ public class TileController : MonoBehaviour, IClickable
         _previousColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         _previousMarker = null;
         _crosshairSpriteRenderer.enabled = false;
+        _overlayMarkerSpriteRenderer.transform.DOKill(false);
     }
 
     public void Highlight(HighlightType hType, bool showAttackRange, int playerId = 0)
@@ -133,8 +136,7 @@ public class TileController : MonoBehaviour, IClickable
                         break;
                     case HighlightType.Hover:
                         _overlayColorSpriteRenderer.color = _hoverColor;
-                        if(!_isDesignerMode && _overlayMarkerSpriteRenderer.sprite == null) _overlayMarkerSpriteRenderer.sprite = _hoverSprite;
-                        //_overlayMarkerSpriteRenderer.transform.DOScale(0.8f, 0.2f).SetEase(Ease.OutExpo).SetLoops(-1, LoopType.Yoyo);
+                        //if(!_isDesignerMode && _overlayMarkerSpriteRenderer.sprite == null) _overlayMarkerSpriteRenderer.sprite = _hoverSprite;
                         break;
                     case HighlightType.AttackRange:
                         _overlayColorSpriteRenderer.color = _inAttackRangeColor;
@@ -143,8 +145,18 @@ public class TileController : MonoBehaviour, IClickable
                         if (!_isOccupied)
                         {
                             _overlayColorSpriteRenderer.color = _deploymentZoneColor;
-                            if (!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _deploySprite;
+                            if (!_isDesignerMode)
+                            {
+                                _overlayMarkerSpriteRenderer.sprite = _deploySprite;
+                                _overlayMarkerSpriteRenderer.transform.DOScale(0.8f, 0.5f).SetEase(Ease.OutQuart).SetLoops(-1, LoopType.Yoyo);
+                            }
                         }
+                        break;
+                    case HighlightType.Unit:
+                        if (!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _currentUnitSprite;
+                        if(_myUnit.GetPlayerId() == 1) _overlayColorSpriteRenderer.color = _player1Color;
+                        else _overlayColorSpriteRenderer.color = _player2Color;
+                        _overlayMarkerSpriteRenderer.transform.DOScale(0.8f, 0.5f).SetEase(Ease.OutQuart).SetLoops(-1, LoopType.Yoyo);
                         break;
                 }
             }

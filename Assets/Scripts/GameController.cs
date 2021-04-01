@@ -36,7 +36,7 @@ public struct GridPosition
     }
 }
 
-public enum HighlightType { MoveRange, Path, Hover, AttackRange, Deployment}
+public enum HighlightType { MoveRange, Path, Hover, AttackRange, Deployment, Unit}
 
 public class GameController : MonoBehaviour
 {

@@ -223,7 +223,7 @@ public class BoardGrid
                     // skip unwalkable tiles
                     if (!_gridArray[x, y].isWalkable()) continue;
                     pathNodeList = FindPath(startingPosition, _gridArray[x, y].GetGridPosition());
-                    if (pathNodeList != null && pathNodeList.Count-1 <= range) _gridArray[x, y].Highlight(HighlightType.MoveRange, false);
+                    if (pathNodeList != null && pathNodeList.Count-1 <= range && _gridArray[x, y].GetGridPosition() != startingPosition) _gridArray[x, y].Highlight(HighlightType.MoveRange, false);
                 }
             }
         }

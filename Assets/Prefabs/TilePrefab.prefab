@@ -352,14 +352,16 @@ MonoBehaviour:
   _designerCrosshairSprite: {fileID: 21300000, guid: ddd6ad4a69e9f3543b5e6bfe8ab1cbd4,
     type: 3}
   _crosshairSprite: {fileID: 21300000, guid: 2965bfd4db679bf4a9afe1fe2ec953ba, type: 3}
-  _hoverSprite: {fileID: 21300000, guid: 73ea866a43004cf4dbb0b1d0283e1d01, type: 3}
   _moveRangeSprite: {fileID: 21300000, guid: a1fb04f9a4b801b4cbb4eddd3220a7e8, type: 3}
-  _deploySprite: {fileID: 21300000, guid: 3cb38952bef5cf54a9df069f055a01d9, type: 3}
+  _deploySprite: {fileID: 21300000, guid: 73ea866a43004cf4dbb0b1d0283e1d01, type: 3}
+  _currentUnitSprite: {fileID: 21300000, guid: 3cb38952bef5cf54a9df069f055a01d9, type: 3}
   _inMoveRangeColor: {r: 0.031772893, g: 0.9622642, b: 0.94440687, a: 0.49019608}
   _pathColor: {r: 0, g: 0.5822619, b: 0.7830189, a: 0.49019608}
   _hoverColor: {r: 0.2028302, g: 1, b: 0.2423684, a: 0.49019608}
   _inAttackRangeColor: {r: 1, g: 0.07075471, b: 0.07075471, a: 0.49019608}
   _deploymentZoneColor: {r: 0.9749056, g: 1, b: 0.033018887, a: 0.49019608}
+  _player1Color: {r: 0.80784315, g: 0.09019608, b: 0.2784314, a: 0.5019608}
+  _player2Color: {r: 0.07058824, g: 0.7294118, b: 0.7490196, a: 0.49803922}
 --- !u!61 &1037132767376044327
 BoxCollider2D:
   m_ObjectHideFlags: 0

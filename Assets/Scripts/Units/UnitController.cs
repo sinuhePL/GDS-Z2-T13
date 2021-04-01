@@ -274,7 +274,12 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public void SetReticle(bool visible)
     {
-        _myReticle.enabled = visible;
+        if (_isDesignerMode) _myReticle.enabled = visible;
+        else
+        {
+            if (visible) _myTile.Highlight(HighlightType.Unit, false);
+            else _myTile.ClearTile();
+        }
     }
 
     public bool IsKing()

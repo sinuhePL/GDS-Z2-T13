@@ -51,6 +51,10 @@ MonoBehaviour:
     type: 3}
   _lostHealthDesignerSprite: {fileID: 21300000, guid: 3ab62ae71d916d7479b7231fccc0d0dd,
     type: 3}
+  _healthPlayer1Point: {fileID: 21300000, guid: ad83a4ce63cdf56428ff2889e653c4f7,
+    type: 3}
+  _healthPlayer2Point: {fileID: 21300000, guid: 955896e070f7dcf46a0030293569da30,
+    type: 3}
 --- !u!1 &6348808088864589875
 GameObject:
   m_ObjectHideFlags: 0
