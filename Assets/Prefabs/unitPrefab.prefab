@@ -43,10 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e16e67bce037b547838622ebc5520da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPointPrefab: {fileID: 5861211883244968899, guid: efe7e61995706624cad975c91891b68e,
+  _healthPointDesignerPrefab: {fileID: 5861211883244968899, guid: efe7e61995706624cad975c91891b68e,
     type: 3}
-  _healthDesignerSprite: {fileID: 0}
-  _lostHealthDesignerSprite: {fileID: 0}
+  _healthPointPrefab: {fileID: 9069953590892866438, guid: 3654291cab4d85d44bfe52016999f6df,
+    type: 3}
+  _healthDesignerSprite: {fileID: 21300000, guid: b4d988a4e9b321243994978a63e71d86,
+    type: 3}
+  _lostHealthDesignerSprite: {fileID: 21300000, guid: 3ab62ae71d916d7479b7231fccc0d0dd,
+    type: 3}
 --- !u!1 &6348808088864589875
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +296,6 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004781832, y: -0.028691093}
-  m_Size: {x: 0.7964741, y: 2.071131}
+  m_Offset: {x: -0.004781832, y: -0.11976977}
+  m_Size: {x: 0.7964741, y: 1.8889737}
   m_Direction: 0

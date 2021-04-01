@@ -4,49 +4,72 @@ using UnityEngine;
 
 public class HealthController : MonoBehaviour
 {
+    [SerializeField] GameObject _healthPointDesignerPrefab;
     [SerializeField] GameObject _healthPointPrefab;
     [SerializeField] Sprite _healthDesignerSprite;
     [SerializeField] Sprite _lostHealthDesignerSprite;
+
 
     private List<SpriteRenderer> _designerHealthPointsList;
     private List<SpriteRenderer> _healthPointsList;
     private int _healthPoints, _initialHealthPoints;
     private bool _showPotentialDamage;
     private bool _isDesignerMode;
+    private int _playerId;
 
     private void CreateHealthBar()
     {
         GameObject newPoint;
         for (int i = 0; i < _initialHealthPoints; i++)
         {
-            newPoint = Instantiate(_healthPointPrefab, Vector3.zero, Quaternion.identity);
+            newPoint = Instantiate(_healthPointDesignerPrefab, Vector3.zero, Quaternion.identity);
             newPoint.transform.SetParent(this.transform);
             if (i < 5) newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * i, 0.8f, 0.0f);
             else if (i < 10) newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * (i - 5), 0.6f, 0.0f);
             else newPoint.transform.localPosition = new Vector3(-0.3f + 0.2f * (i - 10), 0.4f, 0.0f);
             _designerHealthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
+            newPoint = Instantiate(_healthPointPrefab, Vector3.zero, Quaternion.identity);
+            newPoint.transform.SetParent(this.transform);
+            if (_playerId == 1) newPoint.transform.localPosition = new Vector3(-0.8f, -0.7f + i * 0.25f, 0.0f);
+            else newPoint.transform.localPosition = new Vector3(0.8f, -0.7f + i * 0.25f, 0.0f);
+            _healthPointsList.Add(newPoint.GetComponent<SpriteRenderer>());
         }
     }
 
     private void UpdateHealthBar()
     {
         int i = 0;
-        foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
+        if (_isDesignerMode)
         {
-            if (i < _healthPoints) healthPointRenderer.sprite = _healthDesignerSprite;
-            else healthPointRenderer.sprite = _lostHealthDesignerSprite;
-            i++;
+            foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
+            {
+                if (i < _healthPoints) healthPointRenderer.sprite = _healthDesignerSprite;
+                else healthPointRenderer.sprite = _lostHealthDesignerSprite;
+                i++;
+            }
+        }
+        else
+        {
+            foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
+            {
+                if (i < _healthPoints) healthPointRenderer.enabled = true;
+                else healthPointRenderer.enabled = false;
+                i++;
+            }
         }
     }
 
-    public void InitializeHealth(int health)
+    public void InitializeHealth(int health, int myPlayerId)
     {
         _healthPoints = health;
         _initialHealthPoints = health;
         _designerHealthPointsList = new List<SpriteRenderer>();
         _healthPointsList = new List<SpriteRenderer>();
         _showPotentialDamage = false;
-        CreateHealthBar();   
+        _isDesignerMode = false;
+        _playerId = myPlayerId;
+        CreateHealthBar();
+        SetMode("player");
     }
 
     // returns true if unit dead
@@ -101,10 +124,15 @@ public class HealthController : MonoBehaviour
             {
                 for (int i = _healthPoints - 1; i >= minHealth; i--)
                 {
-                    _designerHealthPointsList[i].sprite = _lostHealthDesignerSprite;
+                    if (_isDesignerMode) _designerHealthPointsList[i].sprite = _lostHealthDesignerSprite;
+                    else _healthPointsList[i].enabled = false;
                 }
                 yield return new WaitForSeconds(0.25f);
-                for (int i = _healthPoints - 1; i >= minHealth; i--) _designerHealthPointsList[i].sprite = _healthDesignerSprite;
+                for (int i = _healthPoints - 1; i >= minHealth; i--)
+                {
+                    if(_isDesignerMode) _designerHealthPointsList[i].sprite = _healthDesignerSprite;
+                    else _healthPointsList[i].enabled = true;
+                }
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -117,11 +145,11 @@ public class HealthController : MonoBehaviour
             _isDesignerMode = true;
             foreach(SpriteRenderer healthPointRenderer in _designerHealthPointsList)
             {
-                healthPointRenderer.gameObject.SetActive(true);
+                healthPointRenderer.enabled = true;
             }
             foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
             {
-                healthPointRenderer.gameObject.SetActive(false);
+                healthPointRenderer.enabled = false;
             }
         }
         else
@@ -129,11 +157,11 @@ public class HealthController : MonoBehaviour
             _isDesignerMode = false;
             foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
             {
-                healthPointRenderer.gameObject.SetActive(false);
+                healthPointRenderer.enabled = false;
             }
             foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
             {
-                healthPointRenderer.gameObject.SetActive(true);
+                healthPointRenderer.enabled = true;
             }
         }
     }

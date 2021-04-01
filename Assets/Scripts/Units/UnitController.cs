@@ -160,7 +160,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public void InitializeUnit()
     {
         _isDesignerMode = false;
-        _myHealth.InitializeHealth(_unit.unitHealth);
+        _myHealth.InitializeHealth(_unit.unitHealth, _myPlayerId);
         _myHealth.SetMode("player");
         _myReticle.enabled = false;
         _isAvailable = true;
@@ -403,6 +403,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
             transform.position = _myTile.transform.position;
             _myDesignerCollider.enabled = true;
             _myCollider.enabled = false;
+            _myHealth.SetMode("designer");
         }
         else
         {
@@ -411,6 +412,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
             transform.position = _myTile.transform.position + _spriteShift;
             _myDesignerCollider.enabled = false;
             _myCollider.enabled = true;
+            _myHealth.SetMode("player");
         }
     }
 }

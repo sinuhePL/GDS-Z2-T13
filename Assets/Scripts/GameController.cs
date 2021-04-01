@@ -293,7 +293,7 @@ public class GameController : MonoBehaviour
         {
             newUnit = Instantiate(unitPrefab, new Vector3(100.0f, 100.0f, 0.0f), Quaternion.identity).GetComponent<UnitController>();
             newUnit.InitializeUnit();
-            if (newUnit.IsKing()) newUnit.DeployUnit(_myGrid.GetTile(0, i));
+            if (newUnit.IsKing()) newUnit.DeployUnit(_myGrid.GetTile(0, _myGrid.GetBoardHeight() - 1));
             _units.Add(newUnit);
             i++;
         }
@@ -302,7 +302,7 @@ public class GameController : MonoBehaviour
         {
             newUnit = Instantiate(unitPrefab, new Vector3(100.0f, 100.0f, 0.0f), Quaternion.identity).GetComponent<UnitController>();
             newUnit.InitializeUnit();
-            if (newUnit.IsKing()) newUnit.DeployUnit(_myGrid.GetTile(_myGrid.GetBoardWidth() - 1, _myGrid.GetBoardHeight() - 1 - i));
+            if (newUnit.IsKing()) newUnit.DeployUnit(_myGrid.GetTile(_myGrid.GetBoardWidth() - 1, 0));
             _units.Add(newUnit);
             i++;
         }
