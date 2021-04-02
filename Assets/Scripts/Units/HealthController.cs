@@ -98,11 +98,22 @@ public class HealthController : MonoBehaviour
     // returns true if unit dead
     public bool ChangeHPNumber(int change)
     {
-        for(int i=_designerHealthPointsList.Count-1; i>=0; i--)
+        if (_isDesignerMode)
         {
-            Destroy(_designerHealthPointsList[i]);
+            for (int i = _designerHealthPointsList.Count - 1; i >= 0; i--)
+            {
+                Destroy(_designerHealthPointsList[i]);
+            }
+            _designerHealthPointsList.Clear();
         }
-        _designerHealthPointsList.Clear();
+        else
+        {
+            for (int i = _healthPointsList.Count - 1; i >= 0; i--)
+            {
+                Destroy(_healthPointsList[i]);
+            }
+            _healthPointsList.Clear();
+        }
         _initialHealthPoints += change;
         if (_initialHealthPoints <= 0) return true;
         _healthPoints += change;

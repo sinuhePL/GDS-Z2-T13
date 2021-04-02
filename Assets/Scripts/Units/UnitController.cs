@@ -7,6 +7,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 {
     [SerializeField] private Sprite unitSprite;
     [SerializeField] private Sprite _unitPortrait;
+    [SerializeField] private Sprite _unitCard;
     [SerializeField] private Sprite _unitDesignerSprite;
     [SerializeField] private ScriptableUnit _unit;
     [SerializeField] private HealthController _myHealth;
@@ -400,6 +401,12 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public Sprite GetUnitPortrait()
     {
         return _unitPortrait;
+    }
+
+    public Sprite GetUnitCard()
+    {
+        if (_isDesignerMode) return _unitDesignerSprite;
+        else return _unitCard;
     }
 
     public int GetUnitType()

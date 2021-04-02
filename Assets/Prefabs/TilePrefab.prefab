@@ -360,8 +360,8 @@ MonoBehaviour:
   _hoverColor: {r: 0.2028302, g: 1, b: 0.2423684, a: 0.49019608}
   _inAttackRangeColor: {r: 1, g: 0.07075471, b: 0.07075471, a: 0.49019608}
   _deploymentZoneColor: {r: 0.9749056, g: 1, b: 0.033018887, a: 0.49019608}
-  _player1Color: {r: 0.80784315, g: 0.09019608, b: 0.2784314, a: 0.5019608}
-  _player2Color: {r: 0.07058824, g: 0.7294118, b: 0.7490196, a: 0.49803922}
+  _player1Color: {r: 0.80784315, g: 0.09019608, b: 0.2784314, a: 1}
+  _player2Color: {r: 0.07058824, g: 0.7294118, b: 0.7490196, a: 1}
 --- !u!61 &1037132767376044327
 BoxCollider2D:
   m_ObjectHideFlags: 0

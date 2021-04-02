@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private Text _winnerText;
+    [SerializeField] private Image _winnerImage;
     [SerializeField] private UnitTilePanelController _myInfoPanel;
     [SerializeField] private PlayerUnitsController _myUnitsPanel;
     [SerializeField] private Button _deployMinionButton;
@@ -18,6 +19,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         _winnerText.enabled = false;
+        _winnerImage.enabled = false;
         _deployMinionButton.gameObject.SetActive(true);
         _abilityButton.gameObject.SetActive(false);
         _myTimer = 0;
@@ -42,8 +44,9 @@ public class UIController : MonoBehaviour
     public void DisplayWinner(int winnerId)
     {
         _winnerText.enabled = true;
-        if (winnerId == 1) _winnerText.text = "Winner: first player";
-        else _winnerText.text = "Winner: second player";
+        _winnerImage.enabled = true;
+        if (winnerId == 1) _winnerText.text = "Winner: Super Hot";
+        else _winnerText.text = "Winner: Super Cold";
     }
 
     public void InitializeUnitsPanel(List<UnitController> units, int startingPlayer, GameController myGameController, int timeLimit)

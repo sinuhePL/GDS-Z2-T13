@@ -42,6 +42,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}
+      propertyPath: _unitCard
+      value: 
+      objectReference: {fileID: 21300000, guid: 20ae72eab1dcc89458a6f77fe85ea8e2,
+        type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
       propertyPath: _myPlayerId
       value: 2
       objectReference: {fileID: 0}

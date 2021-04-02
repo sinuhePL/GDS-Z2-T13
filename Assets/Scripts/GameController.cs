@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public struct GridPosition
 {
@@ -338,5 +340,11 @@ public class GameController : MonoBehaviour
     public bool DeployedThisTurn()
     {
         return _myUIController.DeployedThisTurn();
+    }
+
+    public void QuitPressed()
+    {
+        DOTween.KillAll(false);
+        SceneManager.LoadScene("MenuScene");
     }
 }

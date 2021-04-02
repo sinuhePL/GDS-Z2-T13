@@ -7,6 +7,7 @@ using DG.Tweening;
 public class ButtonUnitController : MonoBehaviour
 {
     [SerializeField] private Image _killedImage;
+    [SerializeField] private Text _unitText;
     private UnitController _myUnit;
     private Image _myImage;
 
@@ -26,7 +27,8 @@ public class ButtonUnitController : MonoBehaviour
     public void SetUnit(UnitController unit)
     {
         _myUnit = unit;
-        _myImage.sprite = unit.GetUnitImage();
+        _myImage.sprite = unit.GetUnitCard();
+        _unitText.text = unit.GetUnitName();
         if (unit._isAvailable) _myImage.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         else _myImage.color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
         if (unit._isKilled) _killedImage.enabled = true;
@@ -41,7 +43,7 @@ public class ButtonUnitController : MonoBehaviour
         }
         else
         {
-            transform.DOScale(0.6f, 0.3f).SetEase(Ease.InOutBack);
+            transform.DOScale(0.8f, 0.3f).SetEase(Ease.InOutBack);
         }
     }
 
