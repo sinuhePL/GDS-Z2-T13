@@ -14,7 +14,7 @@ public class BoardGrid
     private Vector3 GetWorldPosition(GridPosition gp)
     {
         float x, y;
-        if (_isDesignerMode) return new Vector3((gp.x) * _designerTileSize - 2.0f, gp.y * -_designerTileSize, 0.0f);
+        if (_isDesignerMode) return new Vector3((gp.x) * _designerTileSize - 3.5f, gp.y * -_designerTileSize, 0.0f);
         else
         {
             x = (gp.x - gp.y) * _tileWidth/2;

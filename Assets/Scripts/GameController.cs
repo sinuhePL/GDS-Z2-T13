@@ -44,6 +44,9 @@ public class GameController : MonoBehaviour
 {
     [Header("Technical:")]
     [SerializeField] private UIController _myUIController;
+    [SerializeField] private SpriteRenderer _backgroundImage;
+    [SerializeField] private SpriteRenderer _shadowImage;
+    [SerializeField] private SpriteRenderer _lineImage;
     [Header("For designers:")]
     [Tooltip("Size of square board Tile, depends on tile sprote size.")]
     [SerializeField] private float _designerTileSize;
@@ -325,6 +328,18 @@ public class GameController : MonoBehaviour
 
     public void ChangeMode()
     {
+        if(_backgroundImage.enabled)
+        {
+            _backgroundImage.enabled = false;
+            _shadowImage.enabled = false;
+            _lineImage.enabled = false;
+        }
+        else
+        {
+            _backgroundImage.enabled = true;
+            _shadowImage.enabled = true;
+            _lineImage.enabled = true;
+        }
         _myGameState.ChangeMode(this);
     }
 

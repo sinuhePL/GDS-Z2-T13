@@ -1768,7 +1768,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Change Mode
+  m_Text: Mode
 --- !u!222 &305948303
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10873,6 +10873,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myUIController: {fileID: 1828386047}
+  _backgroundImage: {fileID: 1367840900}
+  _shadowImage: {fileID: 1806568232}
+  _lineImage: {fileID: 558671998}
   _designerTileSize: 0.64
   _tileWidth: 1.5
   _tileHeight: 0.87

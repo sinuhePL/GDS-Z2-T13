@@ -405,8 +405,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public Sprite GetUnitCard()
     {
-        if (_isDesignerMode) return _unitDesignerSprite;
-        else return _unitCard;
+         return _unitCard;
     }
 
     public int GetUnitType()
