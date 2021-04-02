@@ -19,11 +19,16 @@ public class UnitPanelController : MonoBehaviour
     {
         _previousUnit = _myInfoPanel.GetDisplayedUnit();
         _myInfoPanel.DisplayUnit(_myUnitPrefab.GetComponent<UnitController>());
+        _myUnitImage.sprite = _myUnitPrefab.GetComponent<UnitController>().GetUnitPortrait();
     }
 
     public void ShowPreviousUnit()
     {
-        if(_previousUnit != null && !_isButtonActive) _myInfoPanel.DisplayUnit(_previousUnit);
+        if (_previousUnit != null && !_isButtonActive)
+        {
+            _myInfoPanel.DisplayUnit(_previousUnit);
+            _myUnitImage.sprite = _previousUnit.GetUnitPortrait();
+        }
     }
 
     public void SetUnit(GameObject myUnit)
@@ -31,7 +36,7 @@ public class UnitPanelController : MonoBehaviour
         UnitController myUnitController;
         myUnitController = myUnit.GetComponent<UnitController>();
         _myUnitPrefab = myUnit;
-        _myUnitImage.sprite = myUnitController.GetUnitImage();
+        _myUnitImage.sprite = myUnitController.GetUnitPortrait();
         _myUnitText.text = myUnitController.GetUnitName();
     }
 

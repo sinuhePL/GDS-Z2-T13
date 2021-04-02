@@ -42,7 +42,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}
+      propertyPath: _myAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 62f82b68e246f654ea97b7503e3b9abd, type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: _unitPortrait
+      value: 
+      objectReference: {fileID: 21300000, guid: f8f1cff3948916b4c9b16b4d3936c876,
+        type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
       propertyPath: unitDesignerSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 88be777ea1ada4640a1e122468fa251f,
+        type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: _unitDesignerSprite
       value: 
       objectReference: {fileID: 21300000, guid: 88be777ea1ada4640a1e122468fa251f,
         type: 3}

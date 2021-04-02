@@ -6,7 +6,8 @@ using UnityEngine;
 public class UnitController : MonoBehaviour, IClickable, IEndturnable
 {
     [SerializeField] private Sprite unitSprite;
-    [SerializeField] private Sprite unitDesignerSprite;
+    [SerializeField] private Sprite _unitPortrait;
+    [SerializeField] private Sprite _unitDesignerSprite;
     [SerializeField] private ScriptableUnit _unit;
     [SerializeField] private HealthController _myHealth;
     [SerializeField] private SpriteRenderer _myReticle;
@@ -392,7 +393,13 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public Sprite GetUnitImage()
     {
-        return unitDesignerSprite;
+        if (_isDesignerMode) return _unitDesignerSprite;
+        else return _unitPortrait;
+    }
+
+    public Sprite GetUnitPortrait()
+    {
+        return _unitPortrait;
     }
 
     public int GetUnitType()
@@ -420,7 +427,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         if (newMode == "designer")
         {
             _isDesignerMode = true;
-            _mySpriteRenderer.sprite = unitDesignerSprite;
+            _mySpriteRenderer.sprite = _unitDesignerSprite;
             transform.position = _myTile.transform.position;
             _myDesignerCollider.enabled = true;
             _myCollider.enabled = false;

@@ -42,7 +42,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
         type: 3}
+      propertyPath: _myAttackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b30864182e959a94898c6f0e89933a60, type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: _myDamageClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bfbc2256f08c6f8419c6b71ba3c0e997, type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: _unitPortrait
+      value: 
+      objectReference: {fileID: 21300000, guid: b24f0ae6329f76b4380c7dbcedcc462a,
+        type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
       propertyPath: unitDesignerSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 925439bef8289c14ea30ab06c68077b5,
+        type: 3}
+    - target: {fileID: 3020609109976059396, guid: 73353b8f86c09054a9c26c5810d071a8,
+        type: 3}
+      propertyPath: _unitDesignerSprite
       value: 
       objectReference: {fileID: 21300000, guid: 925439bef8289c14ea30ab06c68077b5,
         type: 3}
