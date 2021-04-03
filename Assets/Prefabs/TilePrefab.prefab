@@ -357,7 +357,7 @@ MonoBehaviour:
   _currentUnitSprite: {fileID: 21300000, guid: 3cb38952bef5cf54a9df069f055a01d9, type: 3}
   _inMoveRangeColor: {r: 0.031772893, g: 0.9622642, b: 0.94440687, a: 0.49019608}
   _pathColor: {r: 0, g: 0.5822619, b: 0.7830189, a: 0.49019608}
-  _hoverColor: {r: 0.2028302, g: 1, b: 0.2423684, a: 0.49019608}
+  _hoverColor: {r: 0.98039216, g: 0.08627451, b: 0.24705882, a: 0.09803922}
   _inAttackRangeColor: {r: 1, g: 0.07075471, b: 0.07075471, a: 0.49019608}
   _deploymentZoneColor: {r: 0.9749056, g: 1, b: 0.033018887, a: 0.49019608}
   _player1Color: {r: 0.80784315, g: 0.09019608, b: 0.2784314, a: 1}

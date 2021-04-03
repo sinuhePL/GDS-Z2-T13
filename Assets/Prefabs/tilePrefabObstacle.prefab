@@ -13,6 +13,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a65cf78b1daf22b49a9dfaf6a584f4ac,
         type: 2}
+    - target: {fileID: 8562372451011211745, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
+        type: 3}
+      propertyPath: _hoverColor.a
+      value: 0.09803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562372451011211745, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
+        type: 3}
+      propertyPath: _hoverColor.b
+      value: 0.24705882
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562372451011211745, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
+        type: 3}
+      propertyPath: _hoverColor.g
+      value: 0.08627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562372451011211745, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
+        type: 3}
+      propertyPath: _hoverColor.r
+      value: 0.98039216
+      objectReference: {fileID: 0}
     - target: {fileID: 8562372451011211746, guid: 95ae773d2ec3a8345aa1cea4e55b2bd1,
         type: 3}
       propertyPath: m_Name
