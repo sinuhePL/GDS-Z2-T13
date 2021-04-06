@@ -21,6 +21,7 @@ public class UnitSelectedState : IGameState
     {
         BoardGrid myGrid;
         // if tile in move range change state to execution, if not go back to begin turn state
+        SoundController._instance.PlayClick();
         myGrid = myGameController.GetGrid();
         if (myGrid.IsTileInMoveRange(_activeUnit, clickedTile))
         {
@@ -42,6 +43,7 @@ public class UnitSelectedState : IGameState
         UIController ui;
         bool attackEndsTurn;
         // if it's active player's unit, change state to selected unit if not go back to begin turn state
+        SoundController._instance.PlayClick();
         myGrid = myGameController.GetGrid();
         ui = myGameController.GetUI();
         if (_activeUnit.GetPlayerId() == clickedUnit.GetPlayerId() && _activeUnit != clickedUnit && clickedUnit._isAvailable && clickedUnit._isDeployed)
@@ -80,6 +82,7 @@ public class UnitSelectedState : IGameState
         BoardGrid myGrid;
         UIController ui;
 
+        SoundController._instance.PlayHover();
         myGrid = myGameController.GetGrid();
         myGrid.ShowPath(_activeUnit, hoveredTile);
         ui = myGameController.GetUI();
@@ -94,6 +97,7 @@ public class UnitSelectedState : IGameState
         BoardGrid myGrid;
         UIController ui;
 
+        SoundController._instance.PlayHover();
         myGrid = myGameController.GetGrid();
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);

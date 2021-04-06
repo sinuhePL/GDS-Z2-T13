@@ -335,6 +335,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
         if (!_showingPotentialDamage)
         {
+            _myTile.AnimateHighlight();
             _showingPotentialDamage = true;
             damageTaken = CalculateDamage(damage);
             StartCoroutine(_myHealth.ShowPotentialDamage(damageTaken));
@@ -343,6 +344,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
 
     public void StopShowingPotentialDamage()
     {
+        _myTile.StopAnimatingHighlight();
         _myHealth.StopShowingPotentialDamage();
         _showingPotentialDamage = false;
     }

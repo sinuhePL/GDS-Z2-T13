@@ -153,6 +153,7 @@ public class UnitChoiceController : MonoBehaviour
         GameObject opposingUnit;
         bool unitValid;
 
+        SoundController._instance.PlayClick();
         currentUnitController = _currentUnitPanel.GetUnitPrefab().GetComponent<UnitController>();
         _chosenUnits.Add(new ChosenUnit(currentUnitController.GetPlayerId(), currentUnitController.GetUnitType()));
         _myGameController.AddUnitPrefab(_currentUnitPanel.GetUnitPrefab(), _currentPlayer);
@@ -250,6 +251,7 @@ public class UnitChoiceController : MonoBehaviour
         UnitController currentUnitController;
         bool unitValid;
 
+        SoundController._instance.PlayClick();
         unitValid = false;
         while (!unitValid)
         {

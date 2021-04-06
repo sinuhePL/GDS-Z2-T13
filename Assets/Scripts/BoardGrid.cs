@@ -250,8 +250,14 @@ public class BoardGrid
             {
                 myNode.Highlight(HighlightType.Path, false);
             }
+            myTile.AnimateHighlight();
+            myUnit._myTile.StopAnimatingHighlight();
         }
-        else if (myTile.isWalkable()) myTile.Highlight(HighlightType.Hover, false);
+        else
+        {
+            myUnit._myTile.AnimateHighlight();
+            if (myTile.isWalkable()) myTile.Highlight(HighlightType.Hover, false);
+        }
     }
 
     public void HideHighlight()

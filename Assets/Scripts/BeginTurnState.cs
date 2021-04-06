@@ -15,6 +15,7 @@ public class BeginTurnState : IGameState
     public IGameState TileClicked(GameController myGameController, TileController clickedTile)  
     {
         //nothing happens
+        SoundController._instance.PlayClick();
         return null;
     }
 
@@ -23,6 +24,7 @@ public class BeginTurnState : IGameState
         //if it's active player's unit and this unit is available, change state to selected unit 
         BoardGrid myGrid;
         UIController ui;
+        SoundController._instance.PlayClick();
         if (clickedUnit.GetPlayerId() == _activePlayerId && clickedUnit._isAvailable && clickedUnit._isDeployed)
         {
             myGrid = myGameController.GetGrid();
@@ -38,6 +40,7 @@ public class BeginTurnState : IGameState
         //highlight tile
         UIController ui;
 
+        SoundController._instance.PlayHover();
         if (hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
         ui = myGameController.GetUI();
         ui.DisplayTile(hoveredTile);
@@ -50,6 +53,7 @@ public class BeginTurnState : IGameState
         BoardGrid myGrid;
         UIController ui;
 
+        SoundController._instance.PlayHover();
         myGrid = myGameController.GetGrid();
         myGrid.ShowMoveRange(hoveredUnit.GetGridPosition(), hoveredUnit.GetMoveRange());
         if(hoveredUnit._freeAttacksCount > 0) myGrid.ShowAttackRange(hoveredUnit, hoveredUnit.GetAttackRange(), hoveredUnit.GetPlayerId());

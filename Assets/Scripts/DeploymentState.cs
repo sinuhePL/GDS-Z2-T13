@@ -32,6 +32,7 @@ public class DeploymentState : IGameState
         BoardGrid myGrid;
         int newPlayer;
 
+        SoundController._instance.PlayClick();
         ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
         GridPosition tilePosition;
@@ -106,6 +107,8 @@ public class DeploymentState : IGameState
     {
         UIController ui;
         BoardGrid myGrid;
+
+        SoundController._instance.PlayClick();
         ui = myGameController.GetUI();
         myGrid = myGameController.GetGrid();
         if (clickedUnit._isDeployed)
@@ -133,6 +136,7 @@ public class DeploymentState : IGameState
     {
         UIController ui;
 
+        SoundController._instance.PlayHover();
         if (hoveredTile.isWalkable()) hoveredTile.Highlight(HighlightType.Hover, false);
         ui = myGameController.GetUI();
         ui.DisplayTile(hoveredTile);
@@ -143,6 +147,7 @@ public class DeploymentState : IGameState
     {
         UIController ui;
 
+        SoundController._instance.PlayHover();
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);
         return null;

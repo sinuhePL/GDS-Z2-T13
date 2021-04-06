@@ -352,6 +352,7 @@ MonoBehaviour:
   _designerCrosshairSprite: {fileID: 21300000, guid: ddd6ad4a69e9f3543b5e6bfe8ab1cbd4,
     type: 3}
   _crosshairSprite: {fileID: 21300000, guid: 2965bfd4db679bf4a9afe1fe2ec953ba, type: 3}
+  _attackSprite: {fileID: 21300000, guid: 06db6d05251b8924da877d683a117e30, type: 3}
   _moveRangeSprite: {fileID: 21300000, guid: a1fb04f9a4b801b4cbb4eddd3220a7e8, type: 3}
   _deploySprite: {fileID: 21300000, guid: 73ea866a43004cf4dbb0b1d0283e1d01, type: 3}
   _currentUnitSprite: {fileID: 21300000, guid: 3cb38952bef5cf54a9df069f055a01d9, type: 3}

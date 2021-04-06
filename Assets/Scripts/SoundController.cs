@@ -40,7 +40,7 @@ public class SoundController : MonoBehaviour
         _myAudioSource = gameObject.AddComponent<AudioSource>(); 
         _myMusicSource = gameObject.AddComponent<AudioSource>();
         _myMusicSource.loop = false;
-        _myMusicSource.volume = 0.3f;
+        _myMusicSource.volume = 0.2f;
         _soundOn = true;
         _musicOn = true;
     }

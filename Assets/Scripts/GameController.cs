@@ -231,6 +231,8 @@ public class GameController : MonoBehaviour
     public void EndTurnAction()
     {
         IGameState newState;
+
+        SoundController._instance.PlayClick();
         newState = _myGameState.EndTurnPressed(this);
         if (newState != null)
         {
@@ -242,6 +244,7 @@ public class GameController : MonoBehaviour
     {
         IGameState newState;
 
+        SoundController._instance.PlayClick();
         newState = _myGameState.DeploymentPressed(this);
         if (newState != null)
         {
@@ -253,6 +256,7 @@ public class GameController : MonoBehaviour
     {
         IGameState newState;
 
+        SoundController._instance.PlayClick();
         newState = _myGameState.AbilityPressed(this);
         if (newState != null)
         {
@@ -328,7 +332,8 @@ public class GameController : MonoBehaviour
 
     public void ChangeMode()
     {
-        if(_backgroundImage.enabled)
+        SoundController._instance.PlayClick();
+        if (_backgroundImage.enabled)
         {
             _backgroundImage.enabled = false;
             _shadowImage.enabled = false;
@@ -359,6 +364,7 @@ public class GameController : MonoBehaviour
 
     public void QuitPressed()
     {
+        SoundController._instance.PlayClick();
         DOTween.KillAll(false);
         SceneManager.LoadScene("MenuScene");
     }
