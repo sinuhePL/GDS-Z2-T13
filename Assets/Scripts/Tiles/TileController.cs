@@ -25,6 +25,7 @@ public class TileController : MonoBehaviour, IClickable
     [SerializeField] private Color _deploymentZoneColor;
     [SerializeField] private Color _player1Color;
     [SerializeField] private Color _player2Color;
+    [SerializeField] private Color _abilityColor;
     public UnitController _myUnit { get; set; }
     public bool _isOccupied { get; set; }
     public int _gCost { get; set; }
@@ -163,6 +164,10 @@ public class TileController : MonoBehaviour, IClickable
                         if(_myUnit.GetPlayerId() == 1) _overlayColorSpriteRenderer.color = _player1Color;
                         else _overlayColorSpriteRenderer.color = _player2Color;
                         AnimateHighlight();
+                        break;
+                    case HighlightType.Ability:
+                        if (!_isDesignerMode) _overlayMarkerSpriteRenderer.sprite = _attackSprite;
+                        _overlayColorSpriteRenderer.color = _abilityColor;
                         break;
                 }
             }

@@ -51,23 +51,18 @@ public class HealthController : MonoBehaviour
     private void UpdateHealthBar()
     {
         int i = 0;
-        if (_isDesignerMode)
+        foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
         {
-            foreach (SpriteRenderer healthPointRenderer in _designerHealthPointsList)
-            {
-                if (i < _healthPoints) healthPointRenderer.sprite = _healthDesignerSprite;
-                else healthPointRenderer.sprite = _lostHealthDesignerSprite;
-                i++;
-            }
+            if (i < _healthPoints) healthPointRenderer.sprite = _healthDesignerSprite;
+            else healthPointRenderer.sprite = _lostHealthDesignerSprite;
+            i++;
         }
-        else
+        i = 0;
+        foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
         {
-            foreach (SpriteRenderer healthPointRenderer in _healthPointsList)
-            {
-                if (i < _healthPoints) healthPointRenderer.enabled = true;
-                else healthPointRenderer.enabled = false;
-                i++;
-            }
+            if (i < _healthPoints) healthPointRenderer.enabled = true;
+            else healthPointRenderer.enabled = false;
+            i++;
         }
     }
 
@@ -98,27 +93,23 @@ public class HealthController : MonoBehaviour
     // returns true if unit dead
     public bool ChangeHPNumber(int change)
     {
-        if (_isDesignerMode)
+        for (int i = _designerHealthPointsList.Count - 1; i >= 0; i--)
         {
-            for (int i = _designerHealthPointsList.Count - 1; i >= 0; i--)
-            {
-                Destroy(_designerHealthPointsList[i]);
-            }
-            _designerHealthPointsList.Clear();
+            Destroy(_designerHealthPointsList[i]);
         }
-        else
+        _designerHealthPointsList.Clear();
+        for (int i = _healthPointsList.Count - 1; i >= 0; i--)
         {
-            for (int i = _healthPointsList.Count - 1; i >= 0; i--)
-            {
-                Destroy(_healthPointsList[i]);
-            }
-            _healthPointsList.Clear();
+            Destroy(_healthPointsList[i]);
         }
+        _healthPointsList.Clear();
         _initialHealthPoints += change;
         if (_initialHealthPoints <= 0) return true;
         _healthPoints += change;
         CreateHealthBar();
         UpdateHealthBar();
+        if(_isDesignerMode) SetMode("designer");
+        else SetMode("player");
         if (_healthPoints <= 0) return true;
         else return false;
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IAbility 
 {
+    void StartAction(GameController myGameController);
     string GetButtonDescription();
     string GetDescription();
     bool IsAvailableThisTurn();

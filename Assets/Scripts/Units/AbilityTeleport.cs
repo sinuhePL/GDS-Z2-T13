@@ -18,11 +18,6 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
         _isAvailableThisTurn = true;
     }
 
-    public bool IsAvailableThisTurn()
-    {
-        return _isAvailableThisTurn;
-    }
-
     private bool IsTileInTeleportZone(TileController startingTile, TileController checkedTile)
     {
         GridPosition startingPosition, checkedPosition;
@@ -30,6 +25,16 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
         checkedPosition = checkedTile.GetGridPosition();
         if (Mathf.Abs(startingPosition.x - checkedPosition.x) <= 1 && Mathf.Abs(startingPosition.y - checkedPosition.y) <= 1 && !checkedTile._isOccupied && checkedTile.isWalkable()) return true;
         else return false;
+    }
+
+    public bool IsAvailableThisTurn()
+    {
+        return _isAvailableThisTurn;
+    }
+
+    public void StartAction(GameController myGameController)
+    {
+        myGameController.HighlightUnits(_myUnit.GetPlayerId(), false);
     }
 
     public string GetButtonDescription()
@@ -62,9 +67,6 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
             unitTile._isOccupied = false;
             unitTile._myUnit = null;
             myGrid.HideHighlight();
-            _myUnit.SetReticle(false);
-            _myUnit._isAvailable = false;
-            ui.MarkUnitUnavailable(_myUnit);
             _isAvailableThisTurn = false;
             if (_myUnit._hasMoved) return new AttackSelectedState(_myUnit, myGrid, ui);
             else return new UnitSelectedState(_myUnit, myGrid, ui);
@@ -102,7 +104,6 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
 
         ui = myGameController.GetUI();
         ui.DisplayUnit(hoveredUnit);
-        if (hoveredUnit._isDeployed && hoveredUnit.GetPlayerId() == _myUnit.GetPlayerId() && hoveredUnit != _myUnit) hoveredUnit.HighlighUnitTile(HighlightType.Hover);
         return null;
     }
 
@@ -112,6 +113,7 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
 
         ui = myGameController.GetUI();
         ui.ClearDisplay();
+        unhoveredUnit._myTile.StopAnimatingHighlight();
         return null;
     }
 

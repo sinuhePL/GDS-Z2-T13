@@ -363,6 +363,7 @@ MonoBehaviour:
   _deploymentZoneColor: {r: 0.9749056, g: 1, b: 0.033018887, a: 0.49019608}
   _player1Color: {r: 0.80784315, g: 0.09019608, b: 0.2784314, a: 1}
   _player2Color: {r: 0.07058824, g: 0.7294118, b: 0.7490196, a: 1}
+  _abilityColor: {r: 0, g: 1, b: 0.0013723373, a: 0.105882354}
 --- !u!61 &1037132767376044327
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public struct GridPosition
     }
 }
 
-public enum HighlightType { MoveRange, Path, Hover, AttackRange, Deployment, Unit}
+public enum HighlightType { MoveRange, Path, Hover, AttackRange, Deployment, Unit, Ability}
 
 public class GameController : MonoBehaviour
 {
@@ -367,5 +367,16 @@ public class GameController : MonoBehaviour
         SoundController._instance.PlayClick();
         DOTween.KillAll(false);
         SceneManager.LoadScene("MenuScene");
+    }
+
+    public void HighlightUnits(int playerId, bool highlightKing)
+    {
+        foreach(UnitController unit in _units)
+        {
+            if(unit.GetPlayerId() == playerId && unit._isDeployed && !unit._isKilled)
+            {
+                if (!unit.IsKing() || (unit.IsKing() && highlightKing)) unit._myTile.Highlight(HighlightType.Ability, false);
+            }
+        }
     }
 }

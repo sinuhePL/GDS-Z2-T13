@@ -224,7 +224,11 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         _myTarget = target;
         if (!_isDesignerMode) _myAnimator.SetTrigger("Attack");
         else AttackEnded();
-        if(SoundController._instance._soundOn) _myAudioSource.PlayOneShot(_myAttackClip);
+    }
+
+    public void PlayAttackSound()
+    {
+        if (SoundController._instance._soundOn) _myAudioSource.PlayOneShot(_myAttackClip);
     }
 
     public void AttackEnded()

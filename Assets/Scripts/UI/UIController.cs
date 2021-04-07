@@ -77,6 +77,7 @@ public class UIController : MonoBehaviour
         if (!_myUnitsPanel.AllUnitsDeployed()) _deployMinionButton.gameObject.SetActive(true);
         else _deployMinionButton.gameObject.SetActive(false);
         _unitDeployedThisTurn = false;
+        _abilityButton.gameObject.SetActive(false);
     }
 
     public void SelectUnit(UnitController unit)

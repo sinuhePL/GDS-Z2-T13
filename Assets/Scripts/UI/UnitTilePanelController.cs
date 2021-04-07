@@ -63,7 +63,8 @@ public class UnitTilePanelController : MonoBehaviour
         _name.text = myUnit.GetUnitName();
         if (myUnit.IsKing()) _description.text = "Commander";
         else _description.text = "Minion";
-        _hp.text = myUnit.GetHP().ToString() + "/" + myUnit.GetMaxHP().ToString();
+        if(myUnit._isDeployed) _hp.text = myUnit.GetHP().ToString() + "/" + myUnit.GetMaxHP().ToString();
+        else _hp.text = myUnit.GetMaxHP().ToString();
         _moveRange.text = myUnit.GetBaseMoveRange().ToString();
         _attackStrength.text = myUnit.GetAttackStrength().ToString();
         unitSkills = myUnit.gameObject.GetComponents<ISkill>();

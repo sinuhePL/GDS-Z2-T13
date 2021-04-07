@@ -124,6 +124,7 @@ public class UnitSelectedState : IGameState
             myGrid.HideHighlight();
             myGrid.ShowMoveRange(_activeUnit.GetGridPosition(), _activeUnit.GetMoveRange());
             myGrid.ShowAttackRange(_activeUnit, _activeUnit.GetAttackRange(), _activeUnit.GetPlayerId());
+            _activeUnit.HighlighUnitTile(HighlightType.Unit);
         }
         else if (_activeUnit.IsTargetValid(unhoveredUnit)) unhoveredUnit.StopShowingPotentialDamage();
         return null;
@@ -166,11 +167,7 @@ public class UnitSelectedState : IGameState
 
     public IGameState AbilityPressed(GameController myGameController)
     {
-        UIController ui;
-        BoardGrid myGrid;
-        ui = myGameController.GetUI();
-        myGrid = myGameController.GetGrid();
-        return new AbilityState(_activeUnit, myGrid, ui);
+        return new AbilityState(myGameController, _activeUnit);
     }
 
     public void ChangeMode(GameController myGameController)

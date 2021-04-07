@@ -7,30 +7,38 @@ public class AbilityState : IGameState
     private UnitController _activeUnit;
     private IAbility _activeAbility;
 
-    public AbilityState(UnitController unit, BoardGrid myGrid, UIController ui)
+    public AbilityState(GameController myGameController, UnitController unit)
     {
+        BoardGrid myGrid;
+        myGrid = myGameController.GetGrid();
         _activeUnit = unit;
         myGrid.HideHighlight();
         _activeAbility = _activeUnit.GetComponent<IAbility>();
+        _activeAbility.StartAction(myGameController);
     }
 
     public IGameState TileClicked(GameController myGameController, TileController clickedTile)
     {
+        SoundController._instance.PlayClick();
         return _activeAbility.TileClicked(myGameController, clickedTile);
     }
 
     public IGameState UnitClicked(GameController myGameController, UnitController clickedUnit)
     {
+        SoundController._instance.PlayClick();
         return _activeAbility.UnitClicked(myGameController, clickedUnit);
     }
 
     public IGameState TileHovered(GameController myGameController, TileController hoveredTile)
     {
+        SoundController._instance.PlayHover();
         return _activeAbility.TileHovered(myGameController, hoveredTile);
     }
 
     public IGameState UnitHovered(GameController myGameController, UnitController hoveredUnit)
     {
+        SoundController._instance.PlayHover();
+        hoveredUnit._myTile.AnimateHighlight();
         return _activeAbility.UnitHovered(myGameController, hoveredUnit);
     }
 

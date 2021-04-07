@@ -195,11 +195,7 @@ public class DeploymentState : IGameState
 
     public IGameState AbilityPressed(GameController myGameController)
     {
-        UIController ui;
-        BoardGrid myGrid;
-        ui = myGameController.GetUI();
-        myGrid = myGameController.GetGrid();
-        if (_activeUnit != null) return new AbilityState(_activeUnit, myGrid, ui);
+        if (_activeUnit != null) return new AbilityState(myGameController, _activeUnit);
         else return null;
     }
 
