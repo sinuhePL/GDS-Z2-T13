@@ -26,6 +26,7 @@ public class SoundController : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         DontDestroyOnLoad(this.gameObject);
         if (_instance == null)
             _instance = this;
