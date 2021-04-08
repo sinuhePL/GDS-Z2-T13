@@ -237,7 +237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitSprite: {fileID: 0}
-  unitDesignerSprite: {fileID: 0}
+  _unitPortrait: {fileID: 0}
+  _unitCard: {fileID: 0}
+  _unitDesignerSprite: {fileID: 0}
   _unit: {fileID: 11400000, guid: 57119ed5635904f40a574dcf7bd845b7, type: 2}
   _myHealth: {fileID: 9149214578921399519}
   _myReticle: {fileID: 8087428553125980239}
@@ -246,6 +248,7 @@ MonoBehaviour:
   _myAttackClip: {fileID: 8300000, guid: 50510c17062e8be43a7b2394931e4f29, type: 3}
   _myDamageClip: {fileID: 8300000, guid: 8c0c2c409ceb0bc48a560ae54717abeb, type: 3}
   _myDeathClip: {fileID: 8300000, guid: e658034c9fc2e0b4e9e0e8ae4f4a4b1d, type: 3}
+  _myCallClip: {fileID: 8300000, guid: 0c6f25e679d6a464d8079f68f6e35a3a, type: 3}
 --- !u!61 &962571111288106279
 BoxCollider2D:
   m_ObjectHideFlags: 0

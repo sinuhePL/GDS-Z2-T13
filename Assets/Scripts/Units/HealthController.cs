@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class HealthController : MonoBehaviour
 {
-    [SerializeField] GameObject _healthPointDesignerPrefab;
-    [SerializeField] GameObject _healthPointPrefab;
-    [SerializeField] Sprite _healthDesignerSprite;
-    [SerializeField] Sprite _lostHealthDesignerSprite;
-    [SerializeField] Sprite _healthPlayer1Point;
-    [SerializeField] Sprite _healthPlayer2Point;
+    [SerializeField] private GameObject _healthPointDesignerPrefab;
+    [SerializeField] private GameObject _healthPointPrefab;
+    [SerializeField] private Sprite _healthDesignerSprite;
+    [SerializeField] private Sprite _lostHealthDesignerSprite;
+    [SerializeField] private Sprite _healthPlayer1Point;
+    [SerializeField] private Sprite _healthPlayer2Point;
+    private CommanderBarController _myBar;
 
 
     private List<SpriteRenderer> _designerHealthPointsList;
@@ -66,7 +67,7 @@ public class HealthController : MonoBehaviour
         }
     }
 
-    public void InitializeHealth(int health, int myPlayerId)
+    public void InitializeHealth(int health, int myPlayerId, bool isKing)
     {
         _healthPoints = health;
         _initialHealthPoints = health;
@@ -77,6 +78,12 @@ public class HealthController : MonoBehaviour
         _playerId = myPlayerId;
         CreateHealthBar();
         SetMode("player");
+        if (isKing)
+        {
+            if (_playerId == 1) _myBar = GameObject.Find("RedBarImage").GetComponent<CommanderBarController>();
+            else _myBar = GameObject.Find("BlueBarImage").GetComponent<CommanderBarController>();
+        }
+        else _myBar = null;
     }
 
     // returns true if unit dead
@@ -86,6 +93,7 @@ public class HealthController : MonoBehaviour
         if (_healthPoints < 0) _healthPoints = 0;
         if (_healthPoints > _initialHealthPoints) _healthPoints = _initialHealthPoints;
         UpdateHealthBar();
+        if (_myBar != null) _myBar.SetNewValue(_healthPoints);
         if (_healthPoints == 0) return true;
         else return false;   
     }
@@ -110,6 +118,7 @@ public class HealthController : MonoBehaviour
         UpdateHealthBar();
         if(_isDesignerMode) SetMode("designer");
         else SetMode("player");
+        if (_myBar != null) _myBar.SetNewValue(_healthPoints);
         if (_healthPoints <= 0) return true;
         else return false;
     }

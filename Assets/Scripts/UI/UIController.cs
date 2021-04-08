@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIController : MonoBehaviour
 {
@@ -18,12 +19,11 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        _winnerText.enabled = false;
-        _winnerImage.enabled = false;
         _deployMinionButton.gameObject.SetActive(true);
         _abilityButton.gameObject.SetActive(false);
         _myTimer = 0;
         _unitDeployedThisTurn = false;
+        _winnerText.text = "Turn: Super Cold";
     }
 
     private IEnumerator TurnTimer(int timeLimit, GameController myGameController)
@@ -43,8 +43,7 @@ public class UIController : MonoBehaviour
 
     public void DisplayWinner(int winnerId)
     {
-        _winnerText.enabled = true;
-        _winnerImage.enabled = true;
+        _winnerImage.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.0f), 0.5f);
         if (winnerId == 1) _winnerText.text = "Winner: Super Hot";
         else _winnerText.text = "Winner: Super Cold";
     }
@@ -78,6 +77,9 @@ public class UIController : MonoBehaviour
         else _deployMinionButton.gameObject.SetActive(false);
         _unitDeployedThisTurn = false;
         _abilityButton.gameObject.SetActive(false);
+        if (playerId == 1) _winnerText.text = "Turn: Super Hot";
+        else _winnerText.text = "Turn: Super Cold";
+        _winnerImage.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.0f), 0.5f);
     }
 
     public void SelectUnit(UnitController unit)

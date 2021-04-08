@@ -17,6 +17,7 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     [SerializeField] private AudioClip _myAttackClip;
     [SerializeField] private AudioClip _myDamageClip;
     [SerializeField] private AudioClip _myDeathClip;
+    [SerializeField] private AudioClip _myCallClip;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
     public bool _isKilled { get; set; }
@@ -161,13 +162,13 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         if(_myTile.IsDesignerMode()) ChangeMode("designer");
         else ChangeMode("player");
         _mySpriteRenderer.sortingOrder = _myTile.GetGridPosition().y;
-
+        if (SoundController._instance._soundOn && !_unit.isKing) _myAudioSource.PlayOneShot(_myCallClip);
     }
 
     public void InitializeUnit()
     {
         _isDesignerMode = false;
-        _myHealth.InitializeHealth(_unit.unitHealth, _myPlayerId);
+        _myHealth.InitializeHealth(_unit.unitHealth, _myPlayerId, _unit.isKing);
         _myHealth.SetMode("player");
         _myReticle.enabled = false;
         _isAvailable = true;
