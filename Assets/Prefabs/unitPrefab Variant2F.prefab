@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myButtonDescription: Confuse enemy
-  _myDescription: Confuse (-1 Attack next turn)
+  _myDescription: Confuser (Selected enemy have -1 Attack untill your next turn)
   _myEffectDescription: Confused (-1 Attack this turn)
 --- !u!1001 &8086132133589025259
 PrefabInstance:
