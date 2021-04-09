@@ -15,7 +15,7 @@ MonoBehaviour:
   _attackBonus: 1
   _healthBonus: 2
   _description: SPY [+1 attack strength and +2 HP when on opponent's starting side
-    of the batt
+    of the battlefield]
 --- !u!1001 &8715787243796504472
 PrefabInstance:
   m_ObjectHideFlags: 0

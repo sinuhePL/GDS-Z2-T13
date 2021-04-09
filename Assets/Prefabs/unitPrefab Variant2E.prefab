@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackBonus: 1
   _healthBonus: 1
-  _description: ZEAL [+1 attack strength and +1 HP when adjacent to Commander]
+  _description: ZEAL [+1 attack strength and +1 HP when adjacent to Superior]
 --- !u!1001 &2835195390956101279
 PrefabInstance:
   m_ObjectHideFlags: 0

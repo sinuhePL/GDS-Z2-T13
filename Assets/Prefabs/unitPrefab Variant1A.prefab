@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myButtonDescription: Teleport ally
-  _myDescription: Teleport ally (move friendly unit 1 tile)
+  _myDescription: Teleporter (can move friendly unit 1 tile)
 --- !u!1001 &7013128006876680992
 PrefabInstance:
   m_ObjectHideFlags: 0
