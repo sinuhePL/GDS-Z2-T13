@@ -5953,7 +5953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -839.7, y: 442.9}
+  m_AnchoredPosition: {x: 835, y: 366}
   m_SizeDelta: {x: 230.24426, y: 59.99993}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &987011059
@@ -10280,7 +10280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 546.5, y: 980.4}
+  m_AnchoredPosition: {x: 546, y: 980.4}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1761513279
@@ -10779,6 +10779,8 @@ MonoBehaviour:
   _myUnitsPanel: {fileID: 517265438}
   _deployMinionButton: {fileID: 1540363601}
   _abilityButton: {fileID: 1751093343}
+  _endTurnButton: {fileID: 1913486474}
+  _timerImage: {fileID: 987011059}
   _timerText: {fileID: 867578111}
 --- !u!1 &1854353746
 GameObject:
@@ -12108,8 +12110,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 41.1, y: -454}
-  m_SizeDelta: {x: 691.04486, y: 56.95114}
+  m_AnchoredPosition: {x: -18, y: -448.5}
+  m_SizeDelta: {x: 858.08026, y: 95.31691}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2109146430
 MonoBehaviour:
@@ -12132,7 +12134,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 6bb8219c2d3792c4f8490fef2d8089b3, type: 3}
-    m_FontSize: 40
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -12143,7 +12145,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Player 1: Choose first unit'
+  m_Text: 'Super Hot: Choose doppelganger. By choosing one, you also make a choice
+    for your enemy.'
 --- !u!222 &2109146431
 CanvasRenderer:
   m_ObjectHideFlags: 0

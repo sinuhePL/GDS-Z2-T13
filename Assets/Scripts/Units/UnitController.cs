@@ -17,7 +17,6 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     [SerializeField] private AudioClip _myAttackClip;
     [SerializeField] private AudioClip _myDamageClip;
     [SerializeField] private AudioClip _myDeathClip;
-    [SerializeField] private AudioClip _myCallClip;
     public TileController _myTile { get; set; }
     public bool _isAvailable { get; set; }
     public bool _isKilled { get; set; }
@@ -162,7 +161,6 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         if(_myTile.IsDesignerMode()) ChangeMode("designer");
         else ChangeMode("player");
         _mySpriteRenderer.sortingOrder = _myTile.GetGridPosition().y;
-        if (SoundController._instance._soundOn && !_unit.isKing) _myAudioSource.PlayOneShot(_myCallClip);
     }
 
     public void InitializeUnit()
@@ -230,6 +228,11 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
     public void PlayAttackSound()
     {
         if (SoundController._instance._soundOn) _myAudioSource.PlayOneShot(_myAttackClip);
+    }
+
+    public void StartAnimation(string animationName)
+    {
+        if (!_isDesignerMode) _myAnimator.SetTrigger(animationName);
     }
 
     public void AttackEnded()

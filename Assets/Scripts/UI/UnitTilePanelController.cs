@@ -61,8 +61,8 @@ public class UnitTilePanelController : MonoBehaviour
         _skillsText.enabled = true;
         if (_effectsText != null) _effectsText.enabled = true;
         _name.text = myUnit.GetUnitName();
-        if (myUnit.IsKing()) _description.text = "Commander";
-        else _description.text = "Minion";
+        if (myUnit.IsKing()) _description.text = "Superior";
+        else _description.text = "Doppelganger";
         if(myUnit._isDeployed) _hp.text = myUnit.GetHP().ToString() + "/" + myUnit.GetMaxHP().ToString();
         else _hp.text = myUnit.GetMaxHP().ToString();
         _moveRange.text = myUnit.GetBaseMoveRange().ToString();
@@ -86,7 +86,7 @@ public class UnitTilePanelController : MonoBehaviour
         if (myUnit.IsKing())
         {
             if (counter > 0) description += "\n\n";
-            description += "Summon (summons minions)";
+            description += "Caller [can call Doppelgangers]";
             counter++;
         }
         if (myUnit.GetArmor() > 0)

@@ -100,30 +100,6 @@ public class UnitChoiceController : MonoBehaviour
         _chosenUnits = new List<ChosenUnit>();
     }
 
-    private string GetNumeral(int number)
-    {
-        string result;
-        switch(number)
-        {
-            case 1:
-                result = "first";
-                break;
-            case 2:
-                result = "second";
-                break;
-            case 3:
-                result = "third";
-                break;
-            case 4:
-                result = "forth";
-                break;
-            default:
-                result = "next";
-                break;
-        }
-        return result;
-    }
-
     private GameObject GetOpposingUnit(int lookForType, string unitName)
     {
         UnitController myUnitController;    
@@ -165,7 +141,7 @@ public class UnitChoiceController : MonoBehaviour
             _myGameController.AddUnitPrefab(_currentOpponentUnitPanel.GetUnitPrefab(), _currentPlayer == 1 ? 2 : 1);
             _currentOpponentUnitPanel.DisableButtons();
         }
-        else
+        /*else
         {
             // if commander was chosen
         }
@@ -174,7 +150,7 @@ public class UnitChoiceController : MonoBehaviour
             _player2InfoPanel.gameObject.SetActive(true);
             _player2InfoPanel.DisplayUnit(_player2UnitPrefabs[0].GetComponent<UnitController>());
             _myDescription.text = "Player 2: Choose your commander";
-        }
+        }*/
         if (_currentPlayer == 2 && _currentPanelIndex >= _player1Panels.Length-1)
         {
             gameObject.SetActive(false);
@@ -201,7 +177,7 @@ public class UnitChoiceController : MonoBehaviour
                 opposingUnit = GetOpposingUnit(currentUnitController.GetUnitType(), currentUnitController.GetUnitName());
                 _currentOpponentUnitPanel.SetUnit(opposingUnit);
                 _player1InfoPanel.DisplayUnit(opposingUnit.GetComponent<UnitController>());
-                _myDescription.text = "Player 2: Choose " + GetNumeral(_currentPanelIndex) + " unit.";
+                _myDescription.text = "Super Cold: Choose doppelganger.";
                 _currentUnitPanel = _player2Panels[_currentPanelIndex];
                 _currentUnitPanel.SetUnit(_player2UnitPrefabs[_currentUnitIndex]);
                 _player2InfoPanel.DisplayUnit(currentUnitController);
@@ -235,7 +211,7 @@ public class UnitChoiceController : MonoBehaviour
             _currentUnitPanel.SetUnit(_player1UnitPrefabs[_currentUnitIndex]);
             _player2InfoPanel.DisplayUnit(opposingUnit.GetComponent<UnitController>());
             _player1InfoPanel.DisplayUnit(currentUnitController);
-            _myDescription.text = "Player 1: Choose " + GetNumeral(_currentPanelIndex) + " unit.";
+            _myDescription.text = "Super Hot: Choose doppelganger.";
         }
         if (_currentPlayer == 2 && _currentPanelIndex + 1 == _player2Panels.Length)
         {

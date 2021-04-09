@@ -58,6 +58,7 @@ public class AbilityConfuse : MonoBehaviour, IAbility, IEndturnable
         myGrid = myGameController.GetGrid();
         if (clickedUnit._isDeployed && clickedUnit.GetPlayerId() != _myUnit.GetPlayerId() && _isAvailableThisTurn)
         {
+            _myUnit.StartAnimation("UseAbility");
             myEffectConfused = clickedUnit.gameObject.AddComponent<EffectConfused>();
             myEffectConfused.InitializeEffect(_myEffectDescription);
             _isAvailableThisTurn = false;

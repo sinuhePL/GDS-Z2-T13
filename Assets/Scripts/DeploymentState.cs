@@ -67,6 +67,7 @@ public class DeploymentState : IGameState
         else if (IsTileInDeploymentZone(_kingUnit._myTile, clickedTile) && !clickedTile._isOccupied)
         {
             _unitToDeploy.DeployUnit(clickedTile);
+            SoundController._instance.PlayCall();
             if (_unitToDeploy.SummoningSickness())
             {
                 ui.MarkUnitUnavailable(_unitToDeploy);

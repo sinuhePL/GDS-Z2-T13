@@ -62,6 +62,7 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
         }
         else if(IsTileInTeleportZone(_unitToTeleport._myTile, clickedTile) && !clickedTile._isOccupied)
         {
+            _myUnit.StartAnimation("UseAbility");
             unitTile = _unitToTeleport._myTile;
             _unitToTeleport.DeployUnit(clickedTile);
             unitTile._isOccupied = false;

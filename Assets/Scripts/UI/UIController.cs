@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private PlayerUnitsController _myUnitsPanel;
     [SerializeField] private Button _deployMinionButton;
     [SerializeField] private Button _abilityButton;
+    [SerializeField] private Button _endTurnButton;
+    [SerializeField] private Image _timerImage;
     [SerializeField] private Text _timerText;
     private int _myTimer;
     private bool _unitDeployedThisTurn;
@@ -77,9 +79,24 @@ public class UIController : MonoBehaviour
         else _deployMinionButton.gameObject.SetActive(false);
         _unitDeployedThisTurn = false;
         _abilityButton.gameObject.SetActive(false);
-        if (playerId == 1) _winnerText.text = "Turn: Super Hot";
-        else _winnerText.text = "Turn: Super Cold";
+        if (playerId == 1)
+        {
+            _winnerText.text = "Turn: Super Hot";
+            _timerImage.transform.Translate(new Vector3(-1670.0f, 0.0f, 0.0f));
+            _endTurnButton.transform.Translate(new Vector3(-1750.0f, 0.0f, 0.0f));
+            _deployMinionButton.transform.Translate(new Vector3(-1420.0f, 0.0f, 0.0f));
+            _abilityButton.transform.Translate(new Vector3(-1092.0f, 0.0f, 0.0f));
+        }
+        else
+        {
+            _winnerText.text = "Turn: Super Cold";
+            _timerImage.transform.Translate(new Vector3(1670.0f, 0.0f, 0.0f));
+            _endTurnButton.transform.Translate(new Vector3(1750.0f, 0.0f, 0.0f));
+            _deployMinionButton.transform.Translate(new Vector3(1420.0f, 0.0f, 0.0f));
+            _abilityButton.transform.Translate(new Vector3(1092.0f, 0.0f, 0.0f));
+        }
         _winnerImage.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.0f), 0.5f);
+
     }
 
     public void SelectUnit(UnitController unit)
