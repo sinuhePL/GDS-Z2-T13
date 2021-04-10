@@ -423,6 +423,11 @@ public class UnitController : MonoBehaviour, IClickable, IEndturnable
         return _unit.unitTypeId;
     }
 
+    public void PlaySound(AudioClip soundToPlay)
+    {
+        _myAudioSource.PlayOneShot(soundToPlay);
+    }
+
     public void ChangePosition(Vector3 newPosition)
     {
         transform.position = newPosition;

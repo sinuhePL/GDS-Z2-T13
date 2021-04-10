@@ -1864,6 +1864,7 @@ MonoBehaviour:
   _clickClip: {fileID: 8300000, guid: da6f3439e1c77b644aac2bda7fdd362b, type: 3}
   _hoverClip: {fileID: 8300000, guid: 7f95d81c292dca348bd1628bbdfb2978, type: 3}
   _callUnitClip: {fileID: 8300000, guid: 0c6f25e679d6a464d8079f68f6e35a3a, type: 3}
+  _endTurnClip: {fileID: 8300000, guid: 60c2d181b30a70640ae229f1e5ebd11b, type: 3}
   _gameMusic:
   - {fileID: 8300000, guid: 5d2b065c40066914d8be89f60a787f21, type: 3}
   - {fileID: 8300000, guid: 6eeb80eea90e52f4ca52bab74c991970, type: 3}

@@ -8,6 +8,7 @@ public class SoundController : MonoBehaviour
     [SerializeField] private AudioClip _clickClip;
     [SerializeField] private AudioClip _hoverClip;
     [SerializeField] private AudioClip _callUnitClip;
+    [SerializeField] private AudioClip _endTurnClip;
     [SerializeField] private AudioClip[] _gameMusic;
     private AudioSource _myAudioSource;
     private AudioSource _myMusicSource;
@@ -72,5 +73,10 @@ public class SoundController : MonoBehaviour
     public void PlayCall()
     {
         if (_soundOn) _myAudioSource.PlayOneShot(_callUnitClip);
+    }
+
+    public void PlayEndTurn()
+    {
+        if (_soundOn) _myAudioSource.PlayOneShot(_endTurnClip);
     }
 }
