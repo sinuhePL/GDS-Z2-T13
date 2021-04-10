@@ -1965,8 +1965,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -495, y: 27}
-  m_SizeDelta: {x: 600.994, y: 312.6521}
+  m_AnchoredPosition: {x: -487.55, y: 27}
+  m_SizeDelta: {x: 783.14197, y: 312.6521}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313908939
 MonoBehaviour:
@@ -2000,7 +2000,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Choose between doppelgangers and create a team to defeat opposite Superior.
+  m_Text: "Choose between doppelgangers and create a team to defeat opposite Superior.      
     Which side will You fight for? \nSuper Hot or Super Cold?"
 --- !u!222 &1313908940
 CanvasRenderer:
