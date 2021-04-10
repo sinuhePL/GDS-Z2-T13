@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: J
   m_EditorClassIdentifier: 
   unitName: Bodyguard
-  unitHealth: 10
+  unitHealth: 9
   moveRange: 2
   attackDamage: 2
   attackRange: 1
