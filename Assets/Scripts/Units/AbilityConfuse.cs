@@ -7,6 +7,7 @@ public class AbilityConfuse : MonoBehaviour, IAbility, IEndturnable
     [SerializeField] string _myButtonDescription;
     [SerializeField] string _myDescription;
     [SerializeField] string _myEffectDescription;
+    [SerializeField] private AudioClip _mySound;
     private UnitController _myUnit;
     private bool _isAvailableThisTurn;
 
@@ -59,6 +60,7 @@ public class AbilityConfuse : MonoBehaviour, IAbility, IEndturnable
         if (clickedUnit._isDeployed && clickedUnit.GetPlayerId() != _myUnit.GetPlayerId() && _isAvailableThisTurn)
         {
             _myUnit.StartAnimation("UseAbility");
+            _myUnit.PlaySound(_mySound);
             myEffectConfused = clickedUnit.gameObject.AddComponent<EffectConfused>();
             myEffectConfused.InitializeEffect(_myEffectDescription);
             _isAvailableThisTurn = false;

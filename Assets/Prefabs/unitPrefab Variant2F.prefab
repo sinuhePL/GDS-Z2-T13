@@ -15,6 +15,7 @@ MonoBehaviour:
   _myButtonDescription: Confuse enemy
   _myDescription: Confuser (Selected enemy have -1 Attack untill your next turn)
   _myEffectDescription: Confused (-1 Attack this turn)
+  _mySound: {fileID: 8300000, guid: 9c6e89e0b1c985e45a75ce0b15e479e9, type: 3}
 --- !u!1001 &8086132133589025259
 PrefabInstance:
   m_ObjectHideFlags: 0

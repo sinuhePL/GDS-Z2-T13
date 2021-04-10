@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
 {
-    [SerializeField] string _myButtonDescription;
-    [SerializeField] string _myDescription;
+    [SerializeField] private string _myButtonDescription;
+    [SerializeField] private string _myDescription;
+    [SerializeField] private AudioClip _mySound;
     private UnitController _myUnit;
     private UnitController _unitToTeleport;
     private bool _isAvailableThisTurn;
@@ -63,6 +64,7 @@ public class AbilityTeleport : MonoBehaviour, IAbility, IEndturnable
         else if(IsTileInTeleportZone(_unitToTeleport._myTile, clickedTile) && !clickedTile._isOccupied)
         {
             _myUnit.StartAnimation("UseAbility");
+            _myUnit.PlaySound(_mySound);
             unitTile = _unitToTeleport._myTile;
             _unitToTeleport.DeployUnit(clickedTile);
             unitTile._isOccupied = false;

@@ -96,7 +96,7 @@ public class UIController : MonoBehaviour
             _abilityButton.transform.Translate(new Vector3(1092.0f, 0.0f, 0.0f));
         }
         _winnerImage.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.0f), 0.5f);
-
+        SoundController._instance.PlayEndTurn();
     }
 
     public void SelectUnit(UnitController unit)
