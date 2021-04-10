@@ -12110,8 +12110,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18, y: -448.5}
-  m_SizeDelta: {x: 858.08026, y: 95.31691}
+  m_AnchoredPosition: {x: -120, y: -448.5}
+  m_SizeDelta: {x: 1054.2173, y: 95.31691}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2109146430
 MonoBehaviour:
@@ -12145,8 +12145,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Super Hot: Choose doppelganger. By choosing one, you also make a choice
-    for your enemy.'
+  m_Text: 'Super Hot: Choose doppelganger.                                     By
+    choosing one, you also make a choice for your enemy.'
 --- !u!222 &2109146431
 CanvasRenderer:
   m_ObjectHideFlags: 0
