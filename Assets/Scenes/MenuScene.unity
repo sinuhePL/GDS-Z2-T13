@@ -758,8 +758,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -519.8, y: 75.3}
-  m_SizeDelta: {x: 280.18573, y: 40.421143}
+  m_AnchoredPosition: {x: -530.81, y: 99.3}
+  m_SizeDelta: {x: 340.92688, y: 49.18399}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &872781086
 GameObject:
@@ -805,7 +805,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 872781086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -957,12 +957,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1044,8 +1044,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -578.6, y: 24}
-  m_SizeDelta: {x: 179, y: 44}
+  m_AnchoredPosition: {x: -602.36, y: 36.88}
+  m_SizeDelta: {x: 217.8052, y: 53.53871}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &974221274
 MonoBehaviour:
@@ -1641,8 +1641,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -612, y: 126}
-  m_SizeDelta: {x: 179, y: 44}
+  m_AnchoredPosition: {x: -643, y: 160.99}
+  m_SizeDelta: {x: 217.8052, y: 53.53871}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1183974432
 MonoBehaviour:
@@ -2196,10 +2196,10 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
+  m_TargetEye: 0
   m_HDR: 0
   m_AllowMSAA: 0
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -2785,8 +2785,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -618.2, y: -82}
-  m_SizeDelta: {x: 179, y: 44}
+  m_AnchoredPosition: {x: -650.55, y: -92.1}
+  m_SizeDelta: {x: 217.8052, y: 53.53871}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2008043452
 MonoBehaviour:
@@ -2958,8 +2958,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -578.6, y: -29}
-  m_SizeDelta: {x: 179, y: 44}
+  m_AnchoredPosition: {x: -602.36, y: -27.61}
+  m_SizeDelta: {x: 217.8052, y: 53.53871}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2075686395
 MonoBehaviour:
